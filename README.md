@@ -8,7 +8,7 @@ Christian Batista
 Thomas Lambert
 
 ## Description 
-> Allows landlords to provide renters with maintenance how-to's and the ability to request maintenance.
+> Allows landlords to provide renters with maintenance how-tos and the ability to request maintenance.
 > The app will allow communication between the renters and landlords regarding maintenance.
 > Provide guides on basic maintenance.
 ## App Functions
