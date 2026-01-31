@@ -13,8 +13,16 @@ Thomas Lambert
 > Provide guides on basic maintenance.
 ## App Functions
 1. Renter:
-    1. Create/modify customer profile - Register as a renter.
-    2. Create tickets for maintenance - Request maintenance
-    3. View maintenance tutorials - Guide on how to fix common maintenance problems.
-    4. Submit messages for inquiry - Text box that allows communication.
-
+    1. Edit profile information
+        edit name and profile picture
+    2. Create tickets for maintenance 
+        request maintenance
+            preset maintenance options
+            can write what the issue is
+            set availability for maintenance to schedule a visit
+    3. View maintenance tutorials
+        view how-tos
+            photos, videos, and/or text guides
+    4. Access to messages with maintenance        
+        send photos, videos, and text
+        set availability for maintenance to schedule a visit
