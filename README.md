@@ -3,7 +3,7 @@
 ## Title
 HelpRent - Where landlord specials go to die.
 
-# sp26-team8
+## Team Members
 Christian Batista
 
 Thomas Lambert
@@ -15,7 +15,20 @@ Thomas Lambert
 > Allows for scheduling of maintenance and repair between renter and maintenance staff.
 
 ## App Functions
-
+1. Renter:
+    1. Edit profile information
+        - edit name and profile picture
+    2. Create tickets for maintenance 
+        - request maintenance
+            - preset maintenance options
+            - can write what the issue is
+            - set availability for maintenance to schedule a visit
+    3. View maintenance tutorials
+        - view how-tos
+            - photos, videos, and/or text guides
+    4. Access to messages with maintenance        
+        - send photos, videos, and text
+        - set availability for maintenance to schedule a visit
 2. Landlord (Provider):
     1. Create/Modify/Remove renter profile 
         - create renter profiles for new renters
