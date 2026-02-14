@@ -13,13 +13,15 @@
 **Vision.** One or two sentences: HelpRent is a web-based app that facilitates maintenance manegement for landlords, and allows easy requests and provaides maintenance guides for renters who need any repairs. It also provides seemless integration for any standardized units, helping landlords with easier setups for the properties they manage.
 
 **Glossary** Terms used in the project
-- **Term 1:** description.
-- **Term 2:** description
+- **Tenant/Renter:** person that is renting a unit from the landlord.
+- **Help Guide:** Management/landlord provided guides for any maintenance that the renter can do themselves for any minor issues that don't require any maintenance staff on-site
+- **Ticket:** maintenance request with details relevant to the unit and fixtures 
+- **Fixtures:** Appliances and Furniture provided by the landlord to units
 
 **Primary Users / Roles.**
-- **Customer (e.g., Student/Patient/Pet Owner/etc. )** — 1 line goal statement.
-- **Provider (e.g., Teacher/Doctor/Pet Sitter/etc. )** — 1 line goal statement.
-- **SysAdmin (optional)** — 1 line goal statement.
+- **Renter (e.g., Student/Patient/Pet Owner/etc. )** — Edit renter profiles; create  tikets; view relevant help guides; message assigned maintenance personel.
+- **Landlord/Management (e.g., Teacher/Doctor/Pet Sitter/etc. )** — Create/Modify renter and maintenance profiles; set up and manage units; upload Help Guides; communicate with renters.
+- **Maintenance** — access and manage  tickets; communitcate with renters; schedule maintenance visits.
 
 **Scope (this semester).**
 - <capability 1>
@@ -37,81 +39,106 @@
 ## 2. Functional Requirements (User Stories)
 Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`.** Each story includes at least one **Given/When/Then** scenario.
 
-### 2.1 Customer Stories
-- **US‑CUST‑001 — <short title>**  
-  _Story:_ As a customer, I want … so that …  
+
+
+
+### 2.2 Provider (Landlord) Stories
+- **US‑PROV‑001 — <Create and Update Managed Units>>**  
+  _Story:_ As a landlord, I want to edit a recently renovated set of units within my managed units on HelpRent   
   _Acceptance:_
   ```gherkin
-  Scenario: <happy path>
-    Given <preconditions>
-    When  <action>
-    Then  <observable outcome>
+  Scenario: Add and manage Units
+    Given I would like to edit a unit 
+    When  I change and update unit details
+    Then  The tenant sees the updated set of fixtures, as well as any updated Help Guides
   ```
 
-- **US‑CUST‑002 — <short title>**  
-  _Story:_ As a customer, I want … so that …  
+- **US‑PROV‑002 — <Uploading Help Guides>**  
+  _Story:_ As a landlord, I want to upload a help guide for a common set of dishwashers in a set of units  
   _Acceptance:_
   ```gherkin
-  Scenario: <happy path>
-    Given <preconditions>
-    When  <action>
-    Then  <observable outcome>
+  Scenario: Upload Help Guides
+    Given I have a pdf or image or text file of some kind with the information that makes up a help guide
+    When  I upload the file and link it to existing units
+    Then  any tenant residing in the linked units will be able to view the Help Guide
   ```
-
-### 2.2 Provider Stories
-- **US‑PROV‑001 — <short title>**  
-  _Story:_ As a provider, I want … so that …  
+- **US‑PROV‑003 — <Maintenance Statistics>**  
+  _Story:_ As a landlord, I want to view past tickets so that I can gage the state of a unit's fixtures 
   _Acceptance:_
   ```gherkin
-  Scenario: <happy path>
-    Given <preconditions>
-    When  <action>
-    Then  <observable outcome>
+  Scenario: View Maintenance Statistics
+    Given there are tickets (open or closed)
+    When  I access the maintenance records
+    Then  I can view individual unit's history, if a fixutre is standard then i can view it's history too
   ```
-
-- **US‑PROV‑002 — <short title>**  
-  _Story:_ As a provider, I want … so that …  
+- **US‑PROV‑004 — <Access Messages>**  
+  _Story:_ As a landlord, I want to send a message to a renter who has opened a ticket 
   _Acceptance:_
   ```gherkin
-  Scenario: <happy path>
-    Given <preconditions>
-    When  <action>
-    Then  <observable outcome>
+  Scenario: View and Send Messages
+    Given A tenant has opened a ticket
+    Then  I can send a message to the renter informing them of any updates, or give them any needed information
   ```
-
+- **US‑PROV‑005 — <Renter Profile Management>**  
+  _Story:_ As a landlord, I want to create and edit a tenant's renter profile to assign them their units and set up their account
+  _Acceptance:_
+  ```gherkin
+  Scenario: Renter Profile creation and editing
+    Given A new tenant has moved into a unit
+    When  I create anew renter profile for the tenant
+    Then  the unit they reside in is linked in their profile
+  ```
 ### 2.3 SysAdmin Stories
-- **US‑ADMIN‑001 — <short title>**  
-  _Story:_ As a sysadmin, I want … so that …  
+- **US‑ADMIN‑001 — <Managing Tickets>**  
+  _Story:_ As maintenance personel, I want acess tickets so that I can update them, view the unit assigned to the ticket, the unit's ticket or the fixture's ticket history, and view the tenant profile to send and recieve messages from the tenant   
   _Acceptance:_
   ```gherkin
-  Scenario: <happy path>
-    Given <preconditions>
-    When  <action>
-    Then  <observable outcome>
+  Scenario: New ticket
+    Given I recieved a notification that a ticket has been assigned to me
+    When  I view my assigned tickets
+    Then  I can view all the details of the ticket, and close it once it has beed resolved
   ```
 
-- **US‑ADMIN‑002 — <short title>**  
-  _Story:_ As a sysadmin, I want … so that …  
+- **US‑ADMIN‑002 — <Maintenance Scheduling>**  
+  _Story:_ As maintenance personel, I want to communicate with the tenant so that I can schedule a maintenance visit  
   _Acceptance:_
   ```gherkin
-  Scenario: <happy path>
-    Given <preconditions>
-    When  <action>
-    Then  <observable outcome>
+  Scenario: Tenant requires on-site assistance 
+    Given a tenant needs help with a fixture in their unit
+    When  I access the open ticket
+    Then  I can offer the tenant time windows where I am available to go to their unit, or view time windows that the tenant themselves has provided
   ```
-
+- **US‑ADMIN‑003 — <Accessing Maintenance Statistics>**  
+  _Story:_ As maintenance personel, I want view maintenance history so that I can view common issues with particular fixtures or units  
+  _Acceptance:_
+  ```gherkin
+  Scenario: 
+    Given a ticket history with the unit or fixture
+    When  I view ticket history
+    Then  I can find any relevant past tickets
+  ```
+  - **US‑ADMIN‑004 — <Access Messages>**  
+  _Story:_ As maintenance personel, I want send messages to a tenant so that they know I am on my way to their unit  
+  _Acceptance:_
+  ```gherkin
+  Scenario: on-site maintenance required
+    Given a time window for on-site maintenace was agreed upon
+    When  I view the ticket
+    Then  I can send messages directly to the tenant
+  ```
 ---
 
 ## 3. Non‑Functional Requirements (make them measurable)
-- **Performance:** description 
-- **Availability/Reliability:** description
-- **Security/Privacy:** description
-- **Usability:** description
+- **Performance:** messages delivered in <5 sec; help guides load <2 sec 
+- **Availability/Reliability:** 95% uptime; maintenance should still allow for tenants to access help guides
+- **Security/Privacy:** secured sign in info for all roles and users;role based access checks;tenants cannot view other tenant info
+- **Usability:** new users can complete profile and verify info in <5 minutes
 
 ---
 
 ## 4. Assumptions, Constraints, and Policies
-- list any rules, policies, assumptions, etc.
+- Modern Browsers; android and ios web browser support
+- Course Timeline constraints
 
 ---
 
