@@ -39,9 +39,98 @@
 ## 2. Functional Requirements (User Stories)
 Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`.** Each story includes at least one **Given/When/Then** scenario.
 
+### 2.1 Tenant Stories
+- **US‑TENA‑001 — <Set Maintenance Priority>**  
+  _Story:_ As a tenant, I want to indicate urgency of a maintenance request, so that critical issues are addressed quickly.
+  _Acceptance:_
+  ```gherkin
+  Scenario: Tenant selects request priority
+    Given the tenant is creating a maintenace request
+    When  the tenant selects a priority level 
+      And submits the request
+    Then  the system records the selected priority 
+      And displays it with the request details
+  ```
 
+- **US‑TENA‑002 — <Receive Status Notifications>**  
+  _Story:_ As a tenant, I want to receive notifications when my manitenance request status changes, so that I stay informed without constantly checking the system.
+  _Acceptance:_
+  ```gherkin
+  Scenario: Tenant receives status update notification
+    Given the tenant has submitted a maintenance request
+    When  the status of the request changes
+    Then  then the system notifies the tenant
+  ```
 
+- **US‑TENA‑003 — <Cancel or Modify Request>**  
+  _Story:_ As a tenant, I want to cancel or update a maintenance request, so that I can correct mistakes or report resolved issues.  
+  _Acceptance:_
+  ```gherkin
+  Scenario: Tenant updates maintenance request
+    Given the tenant has submitted a maintenance request
+    When  the tenant edits or cancels the request
+    Then  the system updates the request information 
+      And reflects new status
+  ```
 
+- **US‑TENA‑004 — <Confirm Completion of Repair>**  
+  _Story:_ As a tenant, I want to confirm that a repair has been completed, so that maintenance requests are properly closed.  
+  _Acceptance:_
+  ```gherkin
+  Scenario: Tenant confirms repair completion
+    Given a maintenance request is marked as completed
+    When  the tenant confirms the repair is satisfactory
+    Then  the system marks the request as closed
+  ```
+
+- **US‑TENA‑005 — <Emergency Request Option>**  
+  _Story:_ As a tenant, I want to flag emergency maintenance issues, so that urgent problems are notified.  
+  _Acceptance:_
+  ```gherkin
+  Scenario: Tenant flags emergency issue
+    Given the tenant is creating a maintenance request
+    When  the tenant marks the issue as emergency
+    Then  the system records the request as high urgency 
+      And highlights it appropriately
+  ```
+
+- **US‑TENA-006 — <Search Maintenance Guides>**  
+  _Story:_ As a tenant, I want to search maintenance guides, so that I can quickly find relevant information. 
+  _Acceptance:_
+  ```gherkin
+  Scenario: Tenant searches for maintenance guides
+    Given the tenant is viewing maintenance guides
+    When  the tenant enters a search term
+    Then  the system displays matching guides
+  ```
+
+- **US‑TENA-007 — <View Frequently Asked Questions>**  
+  _Story:_ As a tenant, I want to view frequently asked maintenace questions, so that I can resolve minor issues independently.
+  _Acceptance:_
+  ```gherkin
+  Scenario: Tentant views FAQ section
+    Given the tenant is authenticated
+    When  the tenant accesses the FAQ section
+    Then  the system displays maintenance-related questions and answers
+  ```
+- **US‑TENA-008 — <Log Into Account>**  
+  _Story:_ As a tenant, I want to log into my account, so that I can access maintenance features.  
+  _Acceptance:_
+  ```gherkin
+  Scenario: Tenant logs in successfully
+    Given the tenant has a registered accont
+    When  the tenant enters valid credentials
+    Then  the system grants access to the tenant dashboard
+  ```
+- **US‑TENA-009 — <View Dashboard>**  
+  _Story:_ As a tenant, I want to view my dashboard, so that I can see my maintenance activity in one place.  
+  _Acceptance:_
+  ```gherkin
+  Scenario: Tenant view dashboard
+    Given the tenant is logged into the system
+    When  the tenant accesses the dashboard
+    Then  the system displays the tenant's maintenance information
+  ```
 ### 2.2 Provider (Landlord) Stories
 - **US‑PROV‑001 — <Create and Update Managed Units>>**  
   _Story:_ As a landlord, I want to edit a recently renovated set of units within my managed units on HelpRent   
