@@ -6,7 +6,7 @@
 **Course:** CSC 340\
 **Version:** 1.0\
 **Date:** 2026-02-13
-**Purpose:** This SRS document defines the scope and functional requirements of HelpRent
+**Purpose:** This SRS document defines the scope and functional requirements of HelpRent. It outline user stories and system behavior for tenants, management, and landlords.
 
 ---
 
