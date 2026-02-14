@@ -2,10 +2,11 @@
 # Requirements – Starter Template
 
 **Project Name:** HelpRent \
-**Team:** Christian Batista Thomas Lambert \
+**Team:** Christian Batista, Thomas Lambert \
 **Course:** CSC 340\
 **Version:** 1.0\
 **Date:** 2026-02-13
+**Purpose:** This SRS document defines the scope and functional requirements of HelpRent
 
 ---
 
@@ -24,20 +25,21 @@
 - **Maintenance** — access and manage  tickets; communitcate with renters; schedule maintenance visits.
 
 **Scope (this semester).**
-- <capability 1>
-- <capability 2>
-- <capability 3>
+- Tenant, landlord, and maintenance account login and logout.
+- Submit view, edit, and cancel maintenance requests.
+- In-app messaging.
+- Basic user account management.
 
 **Out of scope (deferred).**
-- <deferred 1>
-- <deferred 2>
+- Online rent payment processing.
+- Lease agreement and legal document management.
+- SMS or email notification delivery system.
 
-> This document is **requirements‑level** and solution‑neutral; design decisions (UI layouts, API endpoints, schemas) are documented separately.
+
 
 ---
 
 ## 2. Functional Requirements (User Stories)
-Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`.** Each story includes at least one **Given/When/Then** scenario.
 
 ### 2.1 Tenant Stories
 - **US‑TENA‑001 — Set Maintenance Priority**  
@@ -131,6 +133,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
     When  the tenant accesses the dashboard
     Then  the system displays the tenant's maintenance information
   ```
+  
 ### 2.2 Provider (Landlord) Stories
 - **US‑PROV‑001 — Create and Update Managed Units**  
   _Story:_ As a landlord, I want to edit a recently renovated set of units within my managed units on HelpRent   
