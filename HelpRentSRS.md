@@ -10,9 +10,9 @@
 ---
 
 ## 1. Overview
-**Vision.** One or two sentences: HelpRent is a web-based app that facilitates maintenance manegement for landlords, and allows easy requests and provaides maintenance guides for renters who need any repairs. It also provides seemless integration for any standardized units, helping landlords with easier setups for the properties they manage.
+**Vision.** HelpRent is a web-based app that facilitates maintenance manegement for landlords, and allows easy requests and provaides maintenance guides for renters who need any repairs. It also provides seemless integration for any standardized units, helping landlords with easier setups for the properties they manage.
 
-**Glossary** Terms used in the project
+**Glossary**
 - **Tenant/Renter:** person that is renting a unit from the landlord.
 - **Help Guide:** Management/landlord provided guides for any maintenance that the renter can do themselves for any minor issues that don't require any maintenance staff on-site
 - **Ticket:** maintenance request with details relevant to the unit and fixtures 
@@ -40,7 +40,7 @@
 Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`.** Each story includes at least one **Given/When/Then** scenario.
 
 ### 2.1 Tenant Stories
-- **US‑TENA‑001 — <Set Maintenance Priority>**  
+- **US‑TENA‑001 — Set Maintenance Priority**  
   _Story:_ As a tenant, I want to indicate urgency of a maintenance request, so that critical issues are addressed quickly.
   _Acceptance:_
   ```gherkin
@@ -52,7 +52,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
       And displays it with the request details
   ```
 
-- **US‑TENA‑002 — <Receive Status Notifications>**  
+- **US‑TENA‑002 — Receive Status Notifications**  
   _Story:_ As a tenant, I want to receive notifications when my manitenance request status changes, so that I stay informed without constantly checking the system.
   _Acceptance:_
   ```gherkin
@@ -62,7 +62,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
     Then  then the system notifies the tenant
   ```
 
-- **US‑TENA‑003 — <Cancel or Modify Request>**  
+- **US‑TENA‑003 — Cancel or Modify Request**  
   _Story:_ As a tenant, I want to cancel or update a maintenance request, so that I can correct mistakes or report resolved issues.  
   _Acceptance:_
   ```gherkin
@@ -73,7 +73,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
       And reflects new status
   ```
 
-- **US‑TENA‑004 — <Confirm Completion of Repair>**  
+- **US‑TENA‑004 — Confirm Completion of Repair**  
   _Story:_ As a tenant, I want to confirm that a repair has been completed, so that maintenance requests are properly closed.  
   _Acceptance:_
   ```gherkin
@@ -83,7 +83,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
     Then  the system marks the request as closed
   ```
 
-- **US‑TENA‑005 — <Emergency Request Option>**  
+- **US‑TENA‑005 — Emergency Request Option**  
   _Story:_ As a tenant, I want to flag emergency maintenance issues, so that urgent problems are notified.  
   _Acceptance:_
   ```gherkin
@@ -94,7 +94,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
       And highlights it appropriately
   ```
 
-- **US‑TENA-006 — <Search Maintenance Guides>**  
+- **US‑TENA-006 — Search Maintenance Guides**  
   _Story:_ As a tenant, I want to search maintenance guides, so that I can quickly find relevant information. 
   _Acceptance:_
   ```gherkin
@@ -104,7 +104,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
     Then  the system displays matching guides
   ```
 
-- **US‑TENA-007 — <View Frequently Asked Questions>**  
+- **US‑TENA-007 — View Frequently Asked Questions**  
   _Story:_ As a tenant, I want to view frequently asked maintenace questions, so that I can resolve minor issues independently.
   _Acceptance:_
   ```gherkin
@@ -113,7 +113,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
     When  the tenant accesses the FAQ section
     Then  the system displays maintenance-related questions and answers
   ```
-- **US‑TENA-008 — <Log Into Account>**  
+- **US‑TENA-008 — Log Into Account**  
   _Story:_ As a tenant, I want to log into my account, so that I can access maintenance features.  
   _Acceptance:_
   ```gherkin
@@ -122,7 +122,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
     When  the tenant enters valid credentials
     Then  the system grants access to the tenant dashboard
   ```
-- **US‑TENA-009 — <View Dashboard>**  
+- **US‑TENA-009 — View Dashboard**  
   _Story:_ As a tenant, I want to view my dashboard, so that I can see my maintenance activity in one place.  
   _Acceptance:_
   ```gherkin
@@ -132,7 +132,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
     Then  the system displays the tenant's maintenance information
   ```
 ### 2.2 Provider (Landlord) Stories
-- **US‑PROV‑001 — <Create and Update Managed Units>>**  
+- **US‑PROV‑001 — Create and Update Managed Units**  
   _Story:_ As a landlord, I want to edit a recently renovated set of units within my managed units on HelpRent   
   _Acceptance:_
   ```gherkin
@@ -142,7 +142,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
     Then  The tenant sees the updated set of fixtures, as well as any updated Help Guides
   ```
 
-- **US‑PROV‑002 — <Uploading Help Guides>**  
+- **US‑PROV‑002 — Uploading Help Guides**  
   _Story:_ As a landlord, I want to upload a help guide for a common set of dishwashers in a set of units  
   _Acceptance:_
   ```gherkin
@@ -151,7 +151,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
     When  I upload the file and link it to existing units
     Then  any tenant residing in the linked units will be able to view the Help Guide
   ```
-- **US‑PROV‑003 — <Maintenance Statistics>**  
+- **US‑PROV‑003 — Maintenance Statistics**  
   _Story:_ As a landlord, I want to view past tickets so that I can gage the state of a unit's fixtures 
   _Acceptance:_
   ```gherkin
@@ -160,7 +160,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
     When  I access the maintenance records
     Then  I can view individual unit's history, if a fixutre is standard then i can view it's history too
   ```
-- **US‑PROV‑004 — <Access Messages>**  
+- **US‑PROV‑004 — Access Messages**  
   _Story:_ As a landlord, I want to send a message to a renter who has opened a ticket 
   _Acceptance:_
   ```gherkin
@@ -168,7 +168,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
     Given A tenant has opened a ticket
     Then  I can send a message to the renter informing them of any updates, or give them any needed information
   ```
-- **US‑PROV‑005 — <Renter Profile Management>**  
+- **US‑PROV‑005 — Renter Profile Management**  
   _Story:_ As a landlord, I want to create and edit a tenant's renter profile to assign them their units and set up their account
   _Acceptance:_
   ```gherkin
@@ -178,7 +178,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
     Then  the unit they reside in is linked in their profile
   ```
 ### 2.3 SysAdmin Stories
-- **US‑ADMIN‑001 — <Managing Tickets>**  
+- **US‑ADMIN‑001 — Managing Tickets**  
   _Story:_ As maintenance personel, I want acess tickets so that I can update them, view the unit assigned to the ticket, the unit's ticket or the fixture's ticket history, and view the tenant profile to send and recieve messages from the tenant   
   _Acceptance:_
   ```gherkin
@@ -188,7 +188,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
     Then  I can view all the details of the ticket, and close it once it has beed resolved
   ```
 
-- **US‑ADMIN‑002 — <Maintenance Scheduling>**  
+- **US‑ADMIN‑002 — Maintenance Scheduling**  
   _Story:_ As maintenance personel, I want to communicate with the tenant so that I can schedule a maintenance visit  
   _Acceptance:_
   ```gherkin
@@ -197,7 +197,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
     When  I access the open ticket
     Then  I can offer the tenant time windows where I am available to go to their unit, or view time windows that the tenant themselves has provided
   ```
-- **US‑ADMIN‑003 — <Accessing Maintenance Statistics>**  
+- **US‑ADMIN‑003 — Accessing Maintenance Statistics**  
   _Story:_ As maintenance personel, I want view maintenance history so that I can view common issues with particular fixtures or units  
   _Acceptance:_
   ```gherkin
@@ -206,7 +206,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
     When  I view ticket history
     Then  I can find any relevant past tickets
   ```
-  - **US‑ADMIN‑004 — <Access Messages>**  
+  - **US‑ADMIN‑004 — Access Messages**  
   _Story:_ As maintenance personel, I want send messages to a tenant so that they know I am on my way to their unit  
   _Acceptance:_
   ```gherkin
@@ -217,7 +217,7 @@ Write each story as: **As a `<role>`, I want `<capability>`, so that `<benefit>`
   ```
 ---
 
-## 3. Non‑Functional Requirements (make them measurable)
+## 3. Non‑Functional Requirements
 - **Performance:** messages delivered in <5 sec; help guides load <2 sec 
 - **Availability/Reliability:** 95% uptime; maintenance should still allow for tenants to access help guides
 - **Security/Privacy:** secured sign in info for all roles and users;role based access checks;tenants cannot view other tenant info
