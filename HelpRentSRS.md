@@ -11,7 +11,7 @@
 ---
 
 ## 1. Overview
-**Vision.** HelpRent is a web-based app that facilitates maintenance manegement for landlords, and allows easy requests and provaides maintenance guides for renters who need any repairs. It also provides seemless integration for any standardized units, helping landlords with easier setups for the properties they manage.
+**Vision.** HelpRent: A web-based app that facilitates maintenance manegement for landlords, and allows easy requests and provaides maintenance guides for renters who need any repairs. It also provides seemless integration for any standardized units, helping landlords with easier setups for the properties they manage.
 
 **Glossary**
 - **Tenant/Renter:** person that is renting a unit from the landlord.
@@ -20,8 +20,8 @@
 - **Fixtures:** Appliances and Furniture provided by the landlord to units
 
 **Primary Users / Roles.**
-- **Renter (e.g., Student/Patient/Pet Owner/etc. )** — Edit renter profiles; create  tikets; view relevant help guides; message assigned maintenance personel.
-- **Landlord/Management (e.g., Teacher/Doctor/Pet Sitter/etc. )** — Create/Modify renter and maintenance profiles; set up and manage units; upload Help Guides; communicate with renters.
+- **Renter (Tenant)** — Edit renter profiles; create  tikets; view relevant help guides; message assigned maintenance personel.
+- **Landlord/Management (administrators)** — Create/Modify renter and maintenance profiles; set up and manage units; upload Help Guides; communicate with renters.
 - **Maintenance** — access and manage  tickets; communitcate with renters; schedule maintenance visits.
 
 **Scope (this semester).**
@@ -34,8 +34,6 @@
 - Online rent payment processing.
 - Lease agreement and legal document management.
 - SMS or email notification delivery system.
-
-
 
 ---
 
@@ -133,7 +131,7 @@
     When  the tenant accesses the dashboard
     Then  the system displays the tenant's maintenance information
   ```
-  
+
 ### 2.2 Provider (Landlord) Stories
 - **US‑PROV‑001 — Create and Update Managed Units**  
   _Story:_ As a landlord, I want to edit a recently renovated set of units within my managed units on HelpRent   
