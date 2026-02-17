@@ -1,5 +1,5 @@
 
-# Requirements – Starter Template
+# Requirements
 
 **Project Name:** HelpRent \
 **Team:** Christian Batista, Thomas Lambert \
