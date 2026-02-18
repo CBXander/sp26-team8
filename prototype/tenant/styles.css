@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f5f7;
+}
+
+header {
+    background: #1f2933;
+    color: white;
+    padding: 20px;
+}
+
+nav {
+    background: #e4e7eb;
+    padding: 10px;
+}
+
+nav a {
+    margin-right: 15px;
+    text-decoration: none;
+    color: #333;
+}
+
+section {
+    padding: 20px;
+}
+
+.request-card {
+    background: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+}
+
+.pending {
+    border-left: 6px solid orange;
+}
+
+.progress {
+    border-left: 6px solid blue;
+}
+
+.completed {
+    border-left: 6px solid green;
+}
+
+.actions button {
+    margin-right: 10px;
+    padding: 10px 15px;
+}
