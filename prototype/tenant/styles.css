@@ -48,3 +48,26 @@ section {
     margin-right: 10px;
     padding: 10px 15px;
 }
+
+
+
+.dropdown-btn {
+    width: 100%;
+    padding: 12px;
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    margin-top: 10px;
+}
+
+.dropdown-content.active {
+    display: block;
+}
