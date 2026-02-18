@@ -71,3 +71,53 @@ section {
 .dropdown-content.active {
     display: block;
 }
+
+
+
+/** Request Form */
+.request-form {
+    max-width: 500px;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.request-form label {
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.request-form input,
+.request-form select,
+.request-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.submit-btn {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #1f2933;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #3a4750;
+}
+
+.hidden {
+    display: none;
+}
+
+#successMessage {
+    text-align: center;
+    margin-top: 20px;
+    color: green;
+    font-weight: bold;
+}

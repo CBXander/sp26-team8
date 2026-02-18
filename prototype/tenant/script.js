@@ -10,3 +10,15 @@ dropdownBtn.addEventListener("click", function () {
         dropdownBtn.innerHTML = "Your Active Requests ▼";
     }
 });
+
+
+const form = document.getElementById("maintenanceForm");
+const successMessage = document.getElementById("successMessage");
+
+if (form) {
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        form.reset();
+        successMessage.classList.remove("hidden");
+    });
+}
