@@ -9,15 +9,69 @@
 
     <body>
         <header>
-            <h1>Welcome, User</h1>
+            <h1>Welcome, Ava</h1>
+            <p>Apartment 2C - Green Terrace</p>
         </header>
+        <nav>
+            <a href="cust-home.html">Dashboard</a>
+            <a href="cust-request.html">Request Maintenance</a>
+            <a href="cust-chat.html">Chat</a>
+            <a href="cust-guides.html">Guides</a>
+        </nav>
+
 
         <main>
-            <h1>Dashboard</h1>
-            <h2>View Guides</h2>
-            <h2>Request Maintenancce</h2>
-            <h2>Talk with an expert</h2>
-            
+            <!-- Active Requests -->
+            <section>
+            <h2>Your Active Requests</h2>
+            <!-- requests here -->
+            <div class="request-card pending">
+                <h3>Leaking Kitchen Sink</h3>
+                <p>Status: Pending</p>
+                <p>Submitted: Nov 15</p>
+            </div>
+
+            <div class="request-card progress">
+                <h3>AC Not Cooling</h3>
+                <p>Status: In Progress</p>
+                <p>Technician scheduled: Tomorrow 10AM</p>
+            </div>
+
+            <div class="request-card completed">
+                <h3>Bathroom Light Replacement</h3>
+                <p>Status: Completed</p>
+                <p>Completed: Nov 10</p>
+            </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section>
+                <h2>Quick Actions</2> 
+                <div class="actions">
+                    <button onclick="location.href='cust-request.html'">
+                        New Maintenance Request
+                    </button>
+
+                    <button onclick="location.href='cust-chat.html'">
+                        Talk to Maintenance
+                    </button>
+
+                    <button onclick="location.href='cust-guides.html'">
+                        View DIY Guides
+                    </button>
+                </div>
+            </section>
+
+
+             <!-- Notifications -->
+            <section>
+                <h2>Recent Updates</h2>
+                <ul>
+                    <li>Your AC request has been scheduled.</li>
+                    <li>Maintenance replied to your sink request.</li>
+                </ul>
+            </section>
+
 
         </main>
 
