@@ -121,3 +121,61 @@ section {
     color: green;
     font-weight: bold;
 }
+
+
+/** Chat Containter */
+
+.chat-container {
+    max-width: 600px;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-window {
+    background: white;
+    padding: 15px;
+    height: 400px;
+    overflow-y: auto;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    max-width: 75%;
+}
+
+.tenant {
+    background-color: #dbeafe;
+    align-self: flex-end;
+    text-align: right;
+}
+
+.maintenance {
+    background-color: #f3f4f6;
+    align-self: flex-start;
+}
+
+.chat-input {
+    display: flex;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 4px 0 0 4px;
+    border: 1px solid #ccc;
+}
+
+.chat-input button {
+    padding: 8px 15px;
+    border: none;
+    background-color: #1f2933;
+    color: white;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}

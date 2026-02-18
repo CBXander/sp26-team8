@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Maintenance Chat</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Chat with Maintenance</h1>
+</header>
+
+<nav>
+    <a href="cust-home.html">Dashboard</a>
+    <a href="cust-request.html">Request Maintenance</a>
+    <a href="cust-chat.html">Chat</a>
+    <a href="cust-guides.html">Guides</a>
+</nav>
+
+<main>
+
+    <div class="chat-container">
+
+        <div class="chat-window" id="chatWindow">
+            <div class="message maintenance">
+                Hello! How can we help you today?
+            </div>
+
+            <div class="message tenant">
+                My AC still isn’t cooling properly.
+            </div>
+
+            <div class="message maintenance">
+                Thanks for letting us know. A technician is scheduled for tomorrow at 10AM.
+            </div>
+        </div>
+
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Type your message...">
+            <button id="sendBtn">Send</button>
+        </div>
+
+    </div>
+
+</main>
+
+<script src="script.js"></script>
+
+</body>
+</html>
