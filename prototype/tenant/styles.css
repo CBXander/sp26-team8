@@ -179,3 +179,59 @@ section {
     border-radius: 0 4px 4px 0;
     cursor: pointer;
 }
+
+/** DIY Section */
+.guides-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 30px;
+}
+
+.guide-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+}
+
+.guide-card:hover {
+    transform: translateY(-5px);
+}
+
+.guide-card h3 {
+    margin-top: 10px;
+}
+
+.guide-card p {
+    font-size: 14px;
+    margin: 10px 0 15px 0;
+}
+
+.guide-card button {
+    padding: 8px 12px;
+    background-color: #1f2933;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.guide-card button:hover {
+    background-color: #3a4750;
+}
+
+/* Category Tags */
+.tag {
+    display: inline-block;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 20px;
+    color: white;
+}
+
+.plumbing { background-color: #3b82f6; }
+.electrical { background-color: #f59e0b; }
+.hvac { background-color: #10b981; }
+.general { background-color: #6b7280; }
