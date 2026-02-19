@@ -251,3 +251,103 @@ section {
 .logout-btn:hover {
     background-color: #b91c1c;
 }
+
+/* Guides */
+
+.guide-wrapper {
+    background-color: #f4f6f9;
+    padding: 40px 20px;
+}
+
+.guide-card-main {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+.guide-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.guide-top h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.guide-subtitle {
+    margin-top: 8px;
+    color: #6b7280;
+}
+
+.guide-badge {
+    background-color: #e5e7eb;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.guide-tools h2,
+.guide-steps h2 {
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.tools-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tools-grid span {
+    background: #eef2ff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+/* Step layout */
+.step-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.step-number {
+    width: 35px;
+    height: 35px;
+    min-width: 35px;
+    background-color: #1f2933;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.step-row h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.step-row p {
+    margin-top: 6px;
+    color: #4b5563;
+}
+
+/* Warning */
+.guide-warning {
+    margin-top: 40px;
+    padding: 15px;
+    background-color: #fff7ed;
+    border-left: 4px solid #f97316;
+    border-radius: 6px;
+    font-size: 14px;
+}
