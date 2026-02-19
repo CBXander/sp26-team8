@@ -3,7 +3,7 @@ if (!window.location.pathname.includes("login.html")) {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
 
     if (isLoggedIn !== "true") {
-        window.location.href = "login.html";
+        window.location.href = "../common/login.html";
     }
 }
 
