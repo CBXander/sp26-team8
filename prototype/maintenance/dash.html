@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard</title>
+    <link rel="stylesheet" href="../maintenance/common.css">
+    <link rel="stylesheet" href="../provider/provider-style.css">
+    <link rel="stylesheet" href="maintenance-style.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome <span id="username"></span></h1>
+        <p><span id="ticketCount"></span> assigned tickets.</p>
+    </header>
+
+    <div id="actions">
+        <h2>Quick Actions</h2>
+
+        <div class="action-block">
+            <a href="../maintenance/tickets.html">View Tickets</a>
+            <a href="schedule.html">Schedule Visits</a>
+        </div>
+    </div>
+
+    <div class="overview">
+        <h2>Your Assigned Tickets</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ticket / Unit</th>
+                    <th>Status</th>
+                    <th>Scheduled</th>
+                    <th>Time Open</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Broken window latch - Unit 310</td>
+                    <td><span class="status pending">Pending</span></td>
+                    <td>—</td>
+                    <td>1 day</td>
+                </tr>
+                <tr>
+                    <td>Sink leaking under cabinet - Unit 204</td>
+                    <td><span class="status in-progress">In Progress</span></td>
+                    <td><span class="scheduled-tag">Feb 18, 2PM</span></td>
+                    <td>2 days</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="../maintenance/navbar.js"></script>
+    <script>
+        document.getElementById("username").textContent = localStorage.getItem("userName");
+        const count = document.querySelectorAll(".overview tbody tr").length;
+        document.getElementById("ticketCount").textContent = count;
+    </script>
+</body>
+</html>

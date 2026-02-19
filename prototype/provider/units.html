@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Units</title>
+    <link rel="stylesheet" href="../provider/common.css">
+    <link rel="stylesheet" href="provider-style.css">
+</head>
+<body>
+    <header>
+        <h1>Manage Units</h1>
+    </header>
+
+    <div id="units-page">
+        <div class="units-controls">
+            <div class="filters">
+                <select id="filter-building">
+                    <option value="">Building</option>
+                    <option value="a">Building A</option>
+                    <option value="b">Building B</option>
+                    <option value="c">Building C</option>
+                </select>
+
+                <select id="filter-type">
+                    <option value="">Unit Type</option>
+                    <option value="studio">Studio</option>
+                    <option value="1br">1 Bedroom</option>
+                    <option value="2br">2 Bedroom</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="overview">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Unit #</th>
+                        <th>Tenant</th>
+                        <th>Building</th>
+                        <th>Unit Type</th>
+                        <th>Tickets</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>101</td>
+                        <td>
+                            <span class="tenant-name">John Martinez</span>
+                            <button class="edit-btn" onclick="editTenant(this)">Edit</button>
+                        </td>
+                        <td>Building A</td>
+                        <td>Studio</td>
+                        <td><a href="#" class="view-tickets-btn">View All Tickets</a></td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>
+                            <span class="tenant-name">Lisa Chen</span>
+                            <button class="edit-btn" onclick="editTenant(this)">Edit</button>
+                        </td>
+                        <td>Building A</td>
+                        <td>1 Bedroom</td>
+                        <td><a href="#" class="view-tickets-btn">View All Tickets</a></td>
+                    </tr>
+                    <tr>
+                        <td>107</td>
+                        <td>
+                            <span class="tenant-name">Karen Davis</span>
+                            <button class="edit-btn" onclick="editTenant(this)">Edit</button>
+                        </td>
+                        <td>Building A</td>
+                        <td>2 Bedroom</td>
+                        <td><a href="#" class="view-tickets-btn">View All Tickets</a></td>
+                    </tr>
+                    <tr>
+                        <td>118</td>
+                        <td>
+                            <span class="tenant-name">Marcus Bell</span>
+                            <button class="edit-btn" onclick="editTenant(this)">Edit</button>
+                        </td>
+                        <td>Building A</td>
+                        <td>1 Bedroom</td>
+                        <td><a href="#" class="view-tickets-btn">View All Tickets</a></td>
+                    </tr>
+                    <tr>
+                        <td>204</td>
+                        <td>
+                            <span class="tenant-name">Amy Nguyen</span>
+                            <button class="edit-btn" onclick="editTenant(this)">Edit</button>
+                        </td>
+                        <td>Building B</td>
+                        <td>Studio</td>
+                        <td><a href="#" class="view-tickets-btn">View All Tickets</a></td>
+                    </tr>
+                    <tr>
+                        <td>215</td>
+                        <td>
+                            <span class="tenant-name">Derek Howard</span>
+                            <button class="edit-btn" onclick="editTenant(this)">Edit</button>
+                        </td>
+                        <td>Building B</td>
+                        <td>2 Bedroom</td>
+                        <td><a href="#" class="view-tickets-btn">View All Tickets</a></td>
+                    </tr>
+                    <tr>
+                        <td>310</td>
+                        <td>
+                            <span class="tenant-name">Rachel Kim</span>
+                            <button class="edit-btn" onclick="editTenant(this)">Edit</button>
+                        </td>
+                        <td>Building C</td>
+                        <td>1 Bedroom</td>
+                        <td><a href="#" class="view-tickets-btn">View All Tickets</a></td>
+                    </tr>
+                    <tr>
+                        <td>312</td>
+                        <td>
+                            <span class="tenant-name vacant">Vacant</span>
+                            <button class="edit-btn" onclick="editTenant(this)">Edit</button>
+                        </td>
+                        <td>Building C</td>
+                        <td>Studio</td>
+                        <td><a href="#" class="view-tickets-btn">View All Tickets</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="../provider/navbar.js"></script>
+</body>
+</html>
