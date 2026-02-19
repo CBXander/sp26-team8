@@ -21,6 +21,17 @@ nav a {
     color: #333;
 }
 
+.logout-btn {
+    float: right;
+    padding: 5px 12px;
+    background-color: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
 section {
     padding: 20px;
 }
@@ -123,7 +134,7 @@ section {
 }
 
 
-/** Chat Containter */
+/* Chat Containter */
 
 .chat-container {
     max-width: 600px;
@@ -180,7 +191,7 @@ section {
     cursor: pointer;
 }
 
-/** DIY Section */
+/* DIY Section */
 .guides-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -235,54 +246,3 @@ section {
 .electrical { background-color: #f59e0b; }
 .hvac { background-color: #10b981; }
 .general { background-color: #6b7280; }
-
-/*navbar addon*/
-.nav-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.nav-menu {
-    position: relative;
-}
-
-.nav-menu-btn {
-    background: none;
-    border: 1px solid #999;
-    border-radius: 4px;
-    padding: 4px 10px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.nav-dropdown {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 100%;
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    min-width: 150px;
-    z-index: 100;
-}
-
-.nav-dropdown.active {
-    display: block;
-}
-
-.nav-dropdown a {
-    display: block;
-    padding: 10px 15px;
-    border-bottom: 1px solid #eee;
-}
-
-.nav-dropdown a:last-child {
-    border-bottom: none;
-}
-
-.nav-dropdown a:hover {
-    background: #f4f5f7;
-}

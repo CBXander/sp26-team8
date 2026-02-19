@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../common/common.css">
-    <link rel="stylesheet" href="provider-style.css">
+    <link rel="stylesheet" href="../provider/common.css">
+    <link rel="stylesheet" href="../provider/provider-style.css">
 </head>
 <body>
     <header>
         <h1>Welcome <span id="username"></span></h1>
-    <p><span id="ticketCount"></span> open tickets.</p>
+    <p><span id="ticketCount"></span>5 open tickets.</p>
     </header>
     
     <div id="actions">
         <h2>Quick Actions</h2>
 
         <div class="action-block">
-            <a href="../common/tickets.html">View Tickets</a>
+            <a href="../provider/tickets.html">View Tickets</a>
             <a href="units.html">Manage Units</a>
             <a href="guides.html">Manage HelpGuides</a>
         </div>
@@ -63,11 +63,11 @@
     </table>
 </div>
 
-    <script src="../common/navbar.js"></script>
+    <script src="../provider/navbar.js"></script>
     <script>
-        document.getElementById("username").textContent = localStorage.getItem("userName");
-        const count = document.querySelectorAll(".overview tbody tr").length;
-        document.getElementById("ticketCount").textContent = count;
+
+        
+
     </script>
 </body>
 </html>
