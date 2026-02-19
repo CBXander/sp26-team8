@@ -1,3 +1,14 @@
+// Protect pages (except login)
+if (!window.location.pathname.includes("login.html")) {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+    if (isLoggedIn !== "true") {
+        window.location.href = "login.html";
+    }
+}
+
+
+
 const dropdownBtn = document.querySelector(".dropdown-btn");
 const dropdownContent = document.querySelector(".dropdown-content");
 
@@ -14,7 +25,7 @@ if (dropdownBtn && dropdownContent) {
 }
 
 
-//* This only simulates for request.html//
+//* This only simulates for request.html //
 const form = document.getElementById("maintenanceForm");
 const successMessage = document.getElementById("successMessage");
 
@@ -44,5 +55,15 @@ if (sendBtn) {
             chatInput.value = "";
             chatWindow.scrollTop = chatWindow.scrollHeight;
         }
+    });
+}
+
+//* Logout //
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", function () {
+        localStorage.removeItem("isLoggedIn");
+        window.location.href = "../common/login.html";
     });
 }
