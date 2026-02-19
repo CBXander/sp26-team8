@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Request Maintenance</title>
+    <link rel="stylesheet" href="../tenant/styles.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Request Maintenance</h1>
+</header>
+
+<nav>
+    <a href="../tenant/cust-home.html">Dashboard</a>
+    <a href="../tenant/cust-request.html">Request Maintenance</a>
+    <a href="../tenant/cust-chat.html">Chat</a>
+    <a href="../tenant/cust-guides.html">Guides</a>
+    <button id="logoutBtn" class="logout-btn">Log Out</button>
+</nav>
+
+<main>
+
+    <form id="maintenanceForm" class="request-form">
+
+        <label>
+            Issue Title
+            <input type="text" required placeholder="e.g. Sink leaking under cabinet">
+        </label>
+
+        <label>
+            Category
+            <select required>
+                <option value="">Select category</option>
+                <option>Plumbing</option>
+                <option>Electrical</option>
+                <option>HVAC</option>
+                <option>Appliances</option>
+                <option>General Maintenance</option>
+            </select>
+        </label>
+
+        <label>
+            Urgency
+            <select required>
+                <option value="">Select urgency</option>
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+                <option>Emergency</option>
+            </select>
+        </label>
+
+        <label>
+            Description
+            <textarea rows="5" required placeholder="Describe the issue in detail..."></textarea>
+        </label>
+
+        <label>
+            Upload Photo (Optional)
+            <input type="file">
+        </label>
+
+        <button type="submit" class="submit-btn">
+            Submit Request
+        </button>
+
+    </form>
+
+    <div id="successMessage" class="hidden">
+        Request submitted
+    </div>
+
+</main>
+
+<script src="/tenant/script.js"></script>
+<script src="../common/auth.js"></script>
+</body>
+</html>
