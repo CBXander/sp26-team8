@@ -57,13 +57,3 @@ if (sendBtn) {
         }
     });
 }
-
-//* Logout //
-const logoutBtn = document.getElementById("logoutBtn");
-
-if (logoutBtn) {
-    logoutBtn.addEventListener("click", function () {
-        localStorage.removeItem("isLoggedIn");
-        window.location.href = "../common/login.html";
-    });
-}

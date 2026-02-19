@@ -1,5 +1,12 @@
+if (!window.location.pathname.includes("login.html")) {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+    if (isLoggedIn !== "true") {
+        window.location.href = "../common/login.html";
+    }
+}
+
 const loginForm = document.getElementById("loginForm");
-/** Authorization and Redirect */
 if (loginForm) {
     loginForm.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -23,5 +30,14 @@ if (loginForm) {
         else {
             errorMessage.classList.remove("hidden");
         }
+    });
+}
+/** Logout */
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", function () {
+        localStorage.removeItem("isLoggedIn");
+        window.location.href = "../common/login.html";
     });
 }
