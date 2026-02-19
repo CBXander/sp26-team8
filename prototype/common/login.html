@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HelpRent - Sign In</title>
+    <link rel="stylesheet" href="../common/common.css">
+    <link rel="stylesheet" href="../provider/provider-style.css">
+    <style>
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+        }
+
+        .login-div {
+            background: white;
+            padding: 40px;
+            border-radius: 6px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .login-div h2 {
+            margin-bottom: 20px;
+        }
+
+        .login-div label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .login-div input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .login-div button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1f2933;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .login-div button:hover {
+            background-color: #3a4750;
+        }
+
+        #error {
+            color: #e53e3e;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to HelpRent</h1>
+    </header>
+
+    <div class="login-container">
+        <div class="login-div">
+            <h2>Sign In</h2>
+            <form onsubmit="userLogin(event)">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter username">
+
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter password">
+
+                <p id="error" hidden>Invalid username or password</p>
+
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        function userLogin(e) {
+            e.preventDefault();
+
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (!login(username, password) && username !== "" && password !== "") {
+                document.getElementById("error").hidden = false;
+            }
+        }
+    </script>
+</body>
+</html>

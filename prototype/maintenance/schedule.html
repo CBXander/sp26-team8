@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Visits</title>
+    <link rel="stylesheet" href="../common/common.css">
+    <link rel="stylesheet" href="../provider/provider-style.css">
+    <link rel="stylesheet" href="maintenance-style.css">
+</head>
+<body>
+    <header>
+        <h1>Schedule Visits</h1>
+    </header>
+
+    <div id="ticket-page">
+        <div class="tab-bar">
+            <button class="tab active" onclick="switchTab('current')">Current Tickets</button>
+            <button class="tab" onclick="switchTab('all')">All Tickets</button>
+        </div>
+
+        <div class="ticket-controls">
+            <div class="filters">
+                <select id="filter-staff">
+                    <option value="">Assigned Staff</option>
+                    <option value="mike">Mike R.</option>
+                    <option value="sarah">Sarah T.</option>
+                    <option value="james">James P.</option>
+                    <option value="unassigned">Unassigned</option>
+                </select>
+
+                <select id="filter-unit">
+                    <option value="">Unit</option>
+                    <option value="107">Unit 107</option>
+                    <option value="118">Unit 118</option>
+                    <option value="204">Unit 204</option>
+                    <option value="310">Unit 310</option>
+                    <option value="common">Common Area</option>
+                </select>
+
+                <select id="filter-date">
+                    <option value="">Date Opened</option>
+                    <option value="today">Today</option>
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Current Tickets Tab -->
+        <div id="current" class="tab-content active">
+            <div class="overview">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Assigned Staff</th>
+                            <th>Ticket / Unit</th>
+                            <th>Status</th>
+                            <th>Schedule</th>
+                            <th>Time Open</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Unassigned</td>
+                            <td>Water heater making noise - Unit 107</td>
+                            <td><span class="status pending">Pending</span></td>
+                            <td><button class="schedule-btn">Schedule</button></td>
+                            <td>30 min</td>
+                        </tr>
+                        <tr>
+                            <td>Sarah T.</td>
+                            <td>AC not cooling - Unit 118</td>
+                            <td><span class="status in-progress">In Progress</span></td>
+                            <td><span class="scheduled-tag">Feb 19, 10AM</span></td>
+                            <td>5 hours</td>
+                        </tr>
+                        <tr>
+                            <td>Mike R.</td>
+                            <td>Broken window latch - Unit 310</td>
+                            <td><span class="status pending">Pending</span></td>
+                            <td><button class="schedule-btn">Schedule</button></td>
+                            <td>1 day</td>
+                        </tr>
+                        <tr>
+                            <td>Mike R.</td>
+                            <td>Sink leaking under cabinet - Unit 204</td>
+                            <td><span class="status in-progress">In Progress</span></td>
+                            <td><span class="scheduled-tag">Feb 18, 2PM</span></td>
+                            <td>2 days</td>
+                        </tr>
+                        <tr>
+                            <td>James P.</td>
+                            <td>Hallway light out - Common Area 2F</td>
+                            <td><span class="status pending">Pending</span></td>
+                            <td><button class="schedule-btn">Schedule</button></td>
+                            <td>3 days</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- All Tickets Tab -->
+        <div id="all" class="tab-content">
+            <div class="overview">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Assigned Staff</th>
+                            <th>Ticket / Unit</th>
+                            <th>Status</th>
+                            <th>Schedule</th>
+                            <th>Time Open</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Unassigned</td>
+                            <td>Water heater making noise - Unit 107</td>
+                            <td><span class="status pending">Pending</span></td>
+                            <td><button class="schedule-btn">Schedule</button></td>
+                            <td>30 min</td>
+                        </tr>
+                        <tr>
+                            <td>Sarah T.</td>
+                            <td>AC not cooling - Unit 118</td>
+                            <td><span class="status in-progress">In Progress</span></td>
+                            <td><span class="scheduled-tag">Feb 19, 10AM</span></td>
+                            <td>5 hours</td>
+                        </tr>
+                        <tr>
+                            <td>Mike R.</td>
+                            <td>Broken window latch - Unit 310</td>
+                            <td><span class="status pending">Pending</span></td>
+                            <td><button class="schedule-btn">Schedule</button></td>
+                            <td>1 day</td>
+                        </tr>
+                        <tr>
+                            <td>Mike R.</td>
+                            <td>Sink leaking under cabinet - Unit 204</td>
+                            <td><span class="status in-progress">In Progress</span></td>
+                            <td><span class="scheduled-tag">Feb 18, 2PM</span></td>
+                            <td>2 days</td>
+                        </tr>
+                        <tr>
+                            <td>James P.</td>
+                            <td>Hallway light out - Common Area 2F</td>
+                            <td><span class="status pending">Pending</span></td>
+                            <td><button class="schedule-btn">Schedule</button></td>
+                            <td>3 days</td>
+                        </tr>
+                        <tr>
+                            <td>Sarah T.</td>
+                            <td>Garbage disposal jammed - Unit 215</td>
+                            <td><span class="status resolved">Resolved</span></td>
+                            <td><span class="scheduled-tag">Feb 13</span></td>
+                            <td>5 days</td>
+                        </tr>
+                        <tr>
+                            <td>Mike R.</td>
+                            <td>Toilet running constantly - Unit 102</td>
+                            <td><span class="status resolved">Resolved</span></td>
+                            <td><span class="scheduled-tag">Feb 11</span></td>
+                            <td>7 days</td>
+                        </tr>
+                        <tr>
+                            <td>James P.</td>
+                            <td>Parking lot light flickering - Lot B</td>
+                            <td><span class="status resolved">Resolved</span></td>
+                            <td><span class="scheduled-tag">Feb 8</span></td>
+                            <td>10 days</td>
+                        </tr>
+                        <tr>
+                            <td>Sarah T.</td>
+                            <td>Dryer not heating - Unit 310</td>
+                            <td><span class="status resolved">Resolved</span></td>
+                            <td><span class="scheduled-tag">Feb 4</span></td>
+                            <td>14 days</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="../common/navbar.js"></script>
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll(".tab-content").forEach(el => {
+                el.classList.remove("active");
+            });
+            document.querySelectorAll(".tab").forEach(el => {
+                el.classList.remove("active");
+            });
+
+            document.getElementById(tab).classList.add("active");
+
+            if (tab === "current") {
+                document.querySelectorAll(".tab")[0].classList.add("active");
+            } else {
+                document.querySelectorAll(".tab")[1].classList.add("active");
+            }
+        }
+    </script>
+</body>
+</html>
