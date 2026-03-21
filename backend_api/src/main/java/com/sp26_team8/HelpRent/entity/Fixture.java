@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "fixtures")
 public class Fixture{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
