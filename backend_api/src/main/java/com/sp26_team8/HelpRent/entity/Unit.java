@@ -12,11 +12,12 @@ public class Unit{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long unitId;
 
-    //NEED TO ASK ABOUT THE JPA TAGS
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(name="property_id", nullable = false)
     private Property property;
 
-    @Column
+    @OneToOne
+    @JoinColumn(name = "tenant_id")
     private User tenant;
 
     @Enumerated(EnumType.STRING)
@@ -27,11 +28,17 @@ public class Unit{
     private String unitAddress;
     
     @Column
-    private String unitNum;
+    private String unitNumber;
     
-    //NEED TO ASK ABOUT THE JPA TAGS
-    //ASK ABOUT MAKING THIS A SUBTABLE OR SOMETHING LIKE THAT
+    @ManyToMany
+    @JoinTable(
+        name = "unit_fixtures",
+        joinColumns = @JoinColumn(name="unit_id"),
+        inverseJoinColumns = @JoinColumn(name="fixture_id")
+    )
     private List<Fixture> fixtures = new ArrayList<>();
+
+    @OneToMany(mappedBy = "unit")
     private List<Ticket> tickets = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
@@ -67,8 +74,8 @@ public class Unit{
         this.unitAddress = unitAddress;
     }
 
-    public void setUnitNum(String unitNum){
-        this.unitNum = unitNum;
+    public void setUnitNum(String unitNumber){
+        this.unitNumber = unitNumber;
     }
 
     public void setFixtures(List<Fixture> fixtures) {
@@ -106,7 +113,7 @@ public class Unit{
     }
 
     public String getUnitNum(){
-        return this.unitNum;
+        return this.unitNumber;
     }
 
     public List<Fixture> getFixtures(){

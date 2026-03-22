@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface FixtureRepository extends JpaRepository<Property, Long>{
-    List<Fixture> findByCategoryContainingIgnoreCase(String name);
-    List<Fixture> findByDateCreated(LocalDateTime createdAt);
-    List<Fixture> findByDateUpdated(LocalDateTime updatedAt);
+public interface FixtureRepository extends JpaRepository<Fixture, Long>{
+    List<Fixture> findByTitleContainingIgnoreCase(String name);
+    List<Fixture> findByCreatedAt(LocalDateTime createdAt);
+    List<Fixture> findByUpdatedAt(LocalDateTime updatedAt);
 }

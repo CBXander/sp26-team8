@@ -14,11 +14,14 @@ public class HelpGuide{
     @Column(nullable=false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
+    @Column
     private String category;
 
+    @ManyToOne
+    @JoinColumn(name = "fixture_id", nullable = false)
     private Fixture fixture;
 
 

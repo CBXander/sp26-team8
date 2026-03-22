@@ -10,14 +10,14 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
-
+    User findByEmailIgnoreCase(String email);
+    
     List<User> findByFirstNameContainingIgnoreCase(String first);
     List<User> findByLastNameContainingIgnoreCase(String last);
-    User findByEmaiIgnoreCase(String email);
-    
+
     List<User> findByRole(UserRole role);
     List<User> findByStatus(UserStatus status);
     
-    List<User> findByDateCreated(LocalDateTime createdAt);
-    List<User> findByDateUpdated(LocalDateTime updatedAt);
+    List<User> findByCreatedAt(LocalDateTime createdAt);
+    List<User> findByUpdatedAt(LocalDateTime updatedAt);
 }

@@ -10,14 +10,16 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UnitRepository extends JpaRepository<Unit, Long>{
     Unit findByTenant(User tenant);
-    Unit findByDateCreated(LocalDateTime createdAt);
-    Unit findByDateUpdated(LocalDateTime updatedAt);
 
     List<Unit> findByProperty(Property property);
-    List<Unit> findByAddressIgnoreCase(String address);
-    List<Unit> findByNumberIgnoreCase(String unitNum);
-    List<Unit> findByAdressAndNumberIgnoreCase(String unitAddress, String unitNum);
+    List<Unit> findByUnitAddressIgnoreCase(String address);
+    List<Unit> findByUnitNumberIgnoreCase(String unitNumber);
+    List<Unit> findByUnitAddressAndUnitNumberAllIgnoreCase(String unitAddress, String unitNum);
 
-    List<Unit> findByFixture(Fixture fixture);
-    List<Unit> findByStatus(UnitStatus status);
+    List<Unit> findByFixtures_FixtureId(Long fixtureId);
+
+    List<Unit> findByStatus(UnitStatus unitStatus);
+
+    List<Unit> findByCreatedAt(LocalDateTime createdAt);
+    List<Unit> findByUpdatedAt(LocalDateTime updatedAt);
 } 

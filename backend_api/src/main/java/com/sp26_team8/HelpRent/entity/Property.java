@@ -12,7 +12,8 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long propertyId;
 
-    
+    @ManyToOne
+    @JoinColumn(name="landlord_id", nullable = false)
     private User landlord;
 
     @Column(nullable = false)
@@ -21,8 +22,16 @@ public class Property {
     @Column(nullable = false, unique = true)
     private String address;
 
+    @OneToMany(mappedBy = "property")
     private List<Unit> units = new ArrayList<>();
-
+    
+    @ManyToMany
+    @JoinTable(
+        name = "property_staff",
+        joinColumns = @JoinColumn(name="property_id"),
+        //staff_id is actually a user_id just changed the name to differentiate between user roles since this would only have staff
+        inverseJoinColumns = @JoinColumn(name="staff_id") 
+    )
     private List<User> staff = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)

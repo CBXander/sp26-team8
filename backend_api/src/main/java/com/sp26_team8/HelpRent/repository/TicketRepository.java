@@ -7,10 +7,11 @@ import com.sp26_team8.HelpRent.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 @Repository
-public interface TicketRepository extends JpaRepository<Unit, Long>{
-    List<Ticket> findByCategoryContainingIgnoreCase(String title);
+public interface TicketRepository extends JpaRepository<Ticket, Long>{
+    List<Ticket> findByTitleContainingIgnoreCase(String title);
+    List<Ticket> findByCategoryContainingIgnoreCase(String category);
     List<Ticket> findByUnit(Unit unit);
     List<Ticket> findByStatus(TicketStatus status);
-    List<Ticket> findByUser(User submittedBy);
-    List<Ticket> findByDateCreated(LocalDateTime createdAt);
+    List<Ticket> findBySubmittedBy(User submittedBy);
+    List<Ticket> findByCreatedAt(LocalDateTime createdAt);
 }

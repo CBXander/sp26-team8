@@ -11,10 +11,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long>{
     
-    Property findByAdress(String address);
+    Property findByAddress(String address);
 
-    List<Property> findByLandlord(User landlord); 
-    List<Property> findByCategoryContainingIgnoreCase(String name);
-    List<Property> findByDateCreated(LocalDateTime createdAt);
-    List<Property> findByDateUpdated(LocalDateTime updatedAt);
+    List<Property> findByLandlord(User landlord);
+
+    List<Property> findByStaff_UserId(Long userId);
+
+    List<Property> findByNameContainingIgnoreCase(String name);
+    List<Property> findByCreatedAt(LocalDateTime createdAt);
+    List<Property> findByUpdatedAt(LocalDateTime updatedAt);
 }
