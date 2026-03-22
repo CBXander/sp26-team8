@@ -23,6 +23,10 @@ public class Unit{
     @Column(nullable = false)
     private UnitStatus status;
 
+    @Column
+    private String unitAddress;
+    
+    @Column
     private String unitNum;
     
     //NEED TO ASK ABOUT THE JPA TAGS
@@ -59,6 +63,10 @@ public class Unit{
         this.status = status;
     }
 
+    public void setUnitAdress(String unitAddress){
+        this.unitAddress = unitAddress;
+    }
+
     public void setUnitNum(String unitNum){
         this.unitNum = unitNum;
     }
@@ -86,6 +94,15 @@ public class Unit{
 
     public UnitStatus getUnitStatus(){
         return this.status;
+    }
+
+    public String getUnitAdress(){
+        //if a unit does not have its own address, then it uses its property address
+        if (this.unitAddress != null && !this.unitAddress.isEmpty()){
+            return this.unitAddress;
+        } else {
+            return this.property.getAddress();
+        }
     }
 
     public String getUnitNum(){

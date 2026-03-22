@@ -1,7 +1,6 @@
 package com.sp26_team8.HelpRent.entity;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +12,13 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long propertyId;
 
+    
     private User landlord;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String address;
 
     private List<Unit> units = new ArrayList<>();
