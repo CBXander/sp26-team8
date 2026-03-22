@@ -13,5 +13,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>{
     List<Ticket> findByUnit(Unit unit);
     List<Ticket> findByStatus(TicketStatus status);
     List<Ticket> findBySubmittedBy(User submittedBy);
-    List<Ticket> findByCreatedAt(LocalDateTime createdAt);
+    List<Ticket> findByAssignedTo(User assignedTo);
+    
+    List<Ticket> findByCreatedAt(LocalDateTime createdAt);   
+    List<Ticket> findByUpdatedAt(LocalDateTime upatedAt);
 }

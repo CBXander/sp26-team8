@@ -2,26 +2,30 @@ package com.sp26_team8.HelpRent.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 import com.sp26_team8.HelpRent.repository.UserRepository;
-import com.sp26_team8.HelpRent.entity.User;
-import com.sp26_team8.HelpRent.entity.UserStatus;
-import com.sp26_team8.HelpRent.entity.UserRole;
+import com.sp26_team8.HelpRent.entity.*;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
-
+    
     public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
     }
 
+    // CRUD REQUIRED 
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
 
     //create
     public User createUser(User user){
+        if (userRepository.findByEmailIgnoreCase(user.getEmail()) != null){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "A user with this email already exists.");
+        }
         return userRepository.save(user);
     }
 
@@ -35,19 +39,24 @@ public class UserService {
             user.setRole(updatedUser.getRole());
 
             return userRepository.save(user);
-        }).orElse(null);
+        }).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
+        
     }
 
     //read
     public User getUserById(Long id){
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
     }
 
     //delete
     public void deleteUser(Long id){
+        if(!userRepository.existsById(id)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+        }
         userRepository.deleteById(id);
     }
 
+    //User Services
     
 
 }

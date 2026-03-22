@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "units")
+@Table(name = "units", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"unit_address","unit_number"})
+})
 public class Unit{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

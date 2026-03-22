@@ -24,17 +24,30 @@ public class Ticket {
     private TicketStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "unit_id")
+    @JoinColumn(name = "unit_id", updatable = false)
     private Unit unit;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User submittedBy;
 
-    private LocalDateTime createdAt;
+    @ManyToOne
+    @JoinColumn(name = "user_id",updatable = false)
+    private User assignedTo;
 
-    public Ticket() {
+    private LocalDateTime createdAt;
+    
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
         this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 
     // Getters and Setters
@@ -50,7 +63,6 @@ public class Ticket {
     public String getCategory() { return this.category; }
     public void setCategory(String category) {this.category = category;}
 
-
     public TicketStatus getStatus() { return status; }
     public void setStatus(TicketStatus status) { this.status = status; }
 
@@ -60,6 +72,10 @@ public class Ticket {
     public User getSubmittedBy() { return submittedBy; }
     public void setSubmittedBy(User user) { this.submittedBy = user; }
 
+    public User getAssignedTo(){ return assignedTo;}
+    public void setAssignedTo(User user){ this.assignedTo = user;}
+
     public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    
+    public LocalDateTime getUpdatedAt(){ return this.updatedAt;} 
 }
