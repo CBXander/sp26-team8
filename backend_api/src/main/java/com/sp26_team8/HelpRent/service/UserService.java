@@ -56,7 +56,18 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    //User Services
+    //-------------------------User Services-----------------------------------------//
+    
+    //USER ROLE VALIDATION
+    public User validateUserRole(Long id, UserRole requiredRole){
+        User user = userRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
+
+        if(user.getRole() != requiredRole){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User done not have required role.");
+        }
+        return user;
+    }
+
     
 
 }

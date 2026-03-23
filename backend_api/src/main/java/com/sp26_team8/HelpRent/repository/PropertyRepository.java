@@ -14,7 +14,7 @@ public interface PropertyRepository extends JpaRepository<Property, Long>{
     Property findByAddress(String address);
 
     List<Property> findByLandlord(User landlord);
-
+    
     List<Property> findByStaff_UserId(Long userId);
 
     List<Property> findByNameContainingIgnoreCase(String name);

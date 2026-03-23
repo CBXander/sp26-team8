@@ -17,7 +17,7 @@ public class HelpGuide{
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String category;
 
     @ManyToOne

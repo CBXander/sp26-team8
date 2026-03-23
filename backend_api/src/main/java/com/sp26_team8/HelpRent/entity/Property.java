@@ -93,6 +93,7 @@ public class Property {
         return this.units;
     }
 
+
     public List<User> getStaff(){
         return this.staff;
     }

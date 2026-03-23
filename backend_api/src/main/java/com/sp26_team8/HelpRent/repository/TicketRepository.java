@@ -10,8 +10,13 @@ import org.springframework.stereotype.Repository;
 public interface TicketRepository extends JpaRepository<Ticket, Long>{
     List<Ticket> findByTitleContainingIgnoreCase(String title);
     List<Ticket> findByCategoryContainingIgnoreCase(String category);
+    
     List<Ticket> findByUnit(Unit unit);
+    List<Ticket> findByFixture(Fixture fixture);
+
     List<Ticket> findByStatus(TicketStatus status);
+    List<Ticket> findByPriority(TicketPriority priority);
+    
     List<Ticket> findBySubmittedBy(User submittedBy);
     List<Ticket> findByAssignedTo(User assignedTo);
     

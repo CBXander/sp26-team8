@@ -21,11 +21,18 @@ public class Ticket {
     private String category;
 
     @Enumerated(EnumType.STRING)
+    private TicketPriority priority;
+
+    @Enumerated(EnumType.STRING)
     private TicketStatus status;
 
     @ManyToOne
     @JoinColumn(name = "unit_id", updatable = false)
     private Unit unit;
+
+    @ManyToOne
+    @JoinColumn(name = "fixture_id", updatable = false)
+    private Fixture fixture;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -63,11 +70,17 @@ public class Ticket {
     public String getCategory() { return this.category; }
     public void setCategory(String category) {this.category = category;}
 
+    public TicketPriority getPriority(){ return priority; }
+    public void setPriority(TicketPriority priority){ this.priority = priority; }
+
     public TicketStatus getStatus() { return status; }
     public void setStatus(TicketStatus status) { this.status = status; }
 
     public Unit getUnit() { return unit; }
     public void setUnit(Unit unit) { this.unit = unit; }
+
+    public Fixture getFixture(){ return fixture; }
+    public void setFixture(Fixture fixture){ this.fixture = fixture; }
 
     public User getSubmittedBy() { return submittedBy; }
     public void setSubmittedBy(User user) { this.submittedBy = user; }
