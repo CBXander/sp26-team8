@@ -18,7 +18,7 @@ public class UnitController {
     }
 
     // POST /api/units?userId=1&propertyId=1
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<Unit> createUnit(@RequestBody Unit unit, @RequestParam Long userId, @RequestParam Long propertyId) {
         return new ResponseEntity<>(unitService.createUnit(unit, userId, propertyId), HttpStatus.CREATED);
     }
