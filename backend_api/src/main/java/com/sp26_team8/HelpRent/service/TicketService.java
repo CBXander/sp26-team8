@@ -60,6 +60,7 @@ public class TicketService {
             unit = unitService.verifyLandlordUnitOwnership(userId,unitId);
         }else if (user.getRole().equals(UserRole.TENANT)){
             unit = unitService.getUnitByTenant(userId);
+            
         } else {
             unit = unitService.getUnitById(unitId); //will never happen since validateUserRole() will throw the error before it gets here
         }

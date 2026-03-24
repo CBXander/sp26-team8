@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
-import com.sp26_team8.HelpRent.repository.FixtureRepository;
-import com.sp26_team8.HelpRent.repository.PropertyRepository;
 import com.sp26_team8.HelpRent.repository.UnitRepository;
 import com.sp26_team8.HelpRent.entity.*;
 

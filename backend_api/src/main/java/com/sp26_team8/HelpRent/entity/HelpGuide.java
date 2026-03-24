@@ -21,7 +21,7 @@ public class HelpGuide{
     private String category;
 
     @ManyToOne
-    @JoinColumn(name = "fixture_id", nullable = false)
+    @JoinColumn(name = "fixture_id", nullable = true)   //general helpguides will have no fixtureId as they are not associated with a fixture 
     private Fixture fixture;
 
 

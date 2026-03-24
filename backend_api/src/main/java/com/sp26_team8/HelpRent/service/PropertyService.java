@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 
 import com.sp26_team8.HelpRent.repository.*;
 
-import tools.jackson.databind.annotation.JsonAppend.Prop;
-
 import com.sp26_team8.HelpRent.entity.*;
 
 @Service

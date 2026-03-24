@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface HelpGuideRepository extends JpaRepository<HelpGuide, Long>{
-    List<HelpGuide> findByTitle(String title);
+    List<HelpGuide> findByTitleContainingIgnoreCase(String title);
     List<HelpGuide> findByCategoryContainingIgnoreCase(String category);
     List<HelpGuide> findByFixture(Fixture fixture);
     List<HelpGuide> findByCreatedAt(LocalDateTime createdAt);

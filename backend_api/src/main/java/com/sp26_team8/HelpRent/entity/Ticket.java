@@ -35,13 +35,14 @@ public class Ticket {
     private Fixture fixture;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", updatable = false)
+    @JoinColumn(name = "submitted_by_id", updatable = false)
     private User submittedBy;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "assigned_to_id")
     private User assignedTo;
-
+    
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
     
     @Column(nullable = false)
