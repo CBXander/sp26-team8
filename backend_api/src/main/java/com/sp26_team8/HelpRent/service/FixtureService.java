@@ -1,5 +1,4 @@
 package com.sp26_team8.HelpRent.service;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -32,9 +31,9 @@ public class FixtureService {
 
 //------------------------------------- PUT METHODS -------------------------------------//
     //UPDATE ###FOR LANDLORDS###
-    public Fixture updateFixture(Long id, Fixture updatedFixture, Long userId){
+    public Fixture updateFixture(Long fixtureId, Fixture updatedFixture, Long userId){
         userService.validateUserRole(userId, UserRole.LANDLORD);
-        return fixtureRepository.findById(id).map(fixture->{
+        return fixtureRepository.findById(fixtureId).map(fixture->{
             fixture.setTitle(updatedFixture.getTitle());
             fixture.setDescription(updatedFixture.getDescription());
             
@@ -46,8 +45,8 @@ public class FixtureService {
 
 //------------------------------------- GET METHODS -------------------------------------//
     //READ
-    public Fixture getFixtureById(Long id){
-        return fixtureRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Fixture not found."));
+    public Fixture getFixtureById(Long fixtureId){
+        return fixtureRepository.findById(fixtureId).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Fixture not found."));
     }
 
     //default get all 

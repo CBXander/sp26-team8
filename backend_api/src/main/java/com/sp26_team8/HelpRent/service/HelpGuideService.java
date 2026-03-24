@@ -27,9 +27,11 @@ public class HelpGuideService {
     //CREATE
     public HelpGuide createHelpGuide(HelpGuide helpGuide, Long fixtureId, Long userId){
         userService.validateUserRole(userId, UserRole.LANDLORD);
-        
-        helpGuide.setFixture(fixtureService.getFixtureById(fixtureId));
-
+        if(fixtureId != null){
+            helpGuide.setFixture(fixtureService.getFixtureById(fixtureId));
+        } else {
+            helpGuide.setFixture(null); //make sure if theres no fixtureId then its null so it counts as a general fixture
+        }
         return helpGuideRepository.save(helpGuide);
     }
 
@@ -51,8 +53,11 @@ public class HelpGuideService {
     public HelpGuide changeHelpGuideFixture(Long helpGuideId, Long fixtureId, Long userId){
         userService.validateUserRole(userId, UserRole.LANDLORD);
         HelpGuide guide = getHelpGuideById(helpGuideId);
-        guide.setFixture(fixtureService.getFixtureById(fixtureId));
-
+        if(fixtureId != null){
+            guide.setFixture(fixtureService.getFixtureById(fixtureId)); 
+        } else {
+            guide.setFixture(null);
+        }
         return helpGuideRepository.save(guide);
     }
 
