@@ -6,28 +6,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "units")
+@Table(name = "units", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"unit_address","unit_number"})
+})
 public class Unit{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long unitId;
 
-    //NEED TO ASK ABOUT THE JPA TAGS
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(name="property_id", nullable = false)
     private Property property;
 
-    @Column
+    @OneToOne
+    @JoinColumn(name = "tenant_id")
     private User tenant;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UnitStatus status;
 
-    private String unitNum;
+    @Column
+    private String unitAddress;
     
-    //NEED TO ASK ABOUT THE JPA TAGS
-    //ASK ABOUT MAKING THIS A SUBTABLE OR SOMETHING LIKE THAT
+    @Column
+    private String unitNumber;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "unit_fixtures",
+        joinColumns = @JoinColumn(name="unit_id"),
+        inverseJoinColumns = @JoinColumn(name="fixture_id")
+    )
     private List<Fixture> fixtures = new ArrayList<>();
+
+    @OneToMany(mappedBy = "unit")
     private List<Ticket> tickets = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
@@ -59,8 +72,12 @@ public class Unit{
         this.status = status;
     }
 
-    public void setUnitNum(String unitNum){
-        this.unitNum = unitNum;
+    public void setUnitAddress(String unitAddress){
+        this.unitAddress = unitAddress;
+    }
+
+    public void setUnitNum(String unitNumber){
+        this.unitNumber = unitNumber;
     }
 
     public void setFixtures(List<Fixture> fixtures) {
@@ -88,8 +105,17 @@ public class Unit{
         return this.status;
     }
 
+    public String getUnitAddress(){
+        //if a unit does not have its own address, then it uses its property address
+        if (this.unitAddress != null && !this.unitAddress.isEmpty()){
+            return this.unitAddress;
+        } else {
+            return this.property.getAddress();
+        }
+    }
+
     public String getUnitNum(){
-        return this.unitNum;
+        return this.unitNumber;
     }
 
     public List<Fixture> getFixtures(){
@@ -107,5 +133,17 @@ public class Unit{
     public LocalDateTime getUpdatedAt(){
         return this.updatedAt;
     }
+    
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Unit unit = (Unit) o;
+        return this.unitId != null && this.unitId.equals(unit.getUnitId());
+    }
 
+    @Override
+    public int hashCode(){
+        return this.unitId != null ? this.unitId.hashCode() : 0;
+    }
 }

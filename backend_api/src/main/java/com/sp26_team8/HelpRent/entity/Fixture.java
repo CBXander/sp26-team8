@@ -16,9 +16,10 @@ public class Fixture{
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
+    @OneToMany(mappedBy = "fixture")
     private List<HelpGuide> helpGuides = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
@@ -75,4 +76,16 @@ public class Fixture{
         this.helpGuides = guides;
     }
     
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Fixture fixture = (Fixture) o;
+        return this.fixtureId != null && this.fixtureId.equals(fixture.getFixtureId());
+    }
+
+    @Override
+    public int hashCode(){
+        return this.fixtureId != null ? this.fixtureId.hashCode() : 0;
+    }
 }

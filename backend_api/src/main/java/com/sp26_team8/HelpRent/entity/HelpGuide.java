@@ -14,11 +14,14 @@ public class HelpGuide{
     @Column(nullable=false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
+    @Column(columnDefinition = "TEXT")
     private String category;
 
+    @ManyToOne
+    @JoinColumn(name = "fixture_id", nullable = true)   //general helpguides will have no fixtureId as they are not associated with a fixture 
     private Fixture fixture;
 
 
@@ -82,5 +85,18 @@ public class HelpGuide{
 
     public LocalDateTime getUpdatedAt(){
         return this.updatedAt;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        HelpGuide guide = (HelpGuide) o;
+        return this.guideId != null && this.guideId.equals(guide.getGuideId());
+    }
+
+    @Override
+    public int hashCode(){
+        return this.guideId != null ? this.guideId.hashCode() : 0;
     }
 }

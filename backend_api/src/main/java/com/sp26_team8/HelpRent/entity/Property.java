@@ -1,7 +1,6 @@
 package com.sp26_team8.HelpRent.entity;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,16 +12,26 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long propertyId;
 
+    @ManyToOne
+    @JoinColumn(name="landlord_id", nullable = false)
     private User landlord;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String address;
 
+    @OneToMany(mappedBy = "property")
     private List<Unit> units = new ArrayList<>();
-
+    
+    @ManyToMany
+    @JoinTable(
+        name = "property_staff",
+        joinColumns = @JoinColumn(name="property_id"),
+        //staff_id is actually a user_id just changed the name to differentiate between user roles since this would only have staff
+        inverseJoinColumns = @JoinColumn(name="staff_id") 
+    )
     private List<User> staff = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
@@ -84,6 +93,7 @@ public class Property {
         return this.units;
     }
 
+
     public List<User> getStaff(){
         return this.staff;
     }
@@ -96,4 +106,16 @@ public class Property {
         return this.updatedAt;
     }
     
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Property property = (Property) o;
+        return this.propertyId != null && this.propertyId.equals(property.getPropertyId());
+    }
+
+    @Override
+    public int hashCode(){
+        return this.propertyId != null ? this.propertyId.hashCode() : 0;
+    }
 }
