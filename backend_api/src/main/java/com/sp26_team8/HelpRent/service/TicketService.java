@@ -47,7 +47,7 @@ public class TicketService {
                 }
                 break;
             default:
-                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "No user role status found.");
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "No user role found.");
         }
         return ticket;
     }
@@ -233,6 +233,7 @@ public class TicketService {
         Fixture fixture = fixtureService.getFixtureById(fixtureId);
         return ticketRepository.findByFixture(fixture);
     }
+    
 //------------------------------------- DELETE METHODS -------------------------------------//
     //DELETE
     //deleting a closed ticket reduces usefullness of maintenance history!
