@@ -51,7 +51,9 @@ public class User {
     public void setEmail(String email){
         this.email = email;
     }
-
+    public void setPasswordHash(String passwordHash){
+        this.passwordHash = passwordHash;
+    }
     // password stuff that will be covered in next class
     
     public void setFirstName(String firstName){
