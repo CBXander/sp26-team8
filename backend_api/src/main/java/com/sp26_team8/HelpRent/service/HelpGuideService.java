@@ -15,16 +15,13 @@ public class HelpGuideService {
         this.helpGuideRepository = helpGuideRepository;
     }
 
-    //CRUD REQUIRED
-    public List<HelpGuide> getAllHelpGuides(){
-        return helpGuideRepository.findAll();
-    }
-
+//------------------------------------- POST METHODS -------------------------------------//
     //CREATE
     public HelpGuide createHelpGuide(HelpGuide helpGuide){
         return helpGuideRepository.save(helpGuide);
     }
 
+//------------------------------------- PUT METHODS -------------------------------------//
     //UPDATE
     public HelpGuide updateHelpGuide(Long id, HelpGuide updatedHelpGuide){
         return helpGuideRepository.findById(id).map(helpGuide->{
@@ -36,11 +33,18 @@ public class HelpGuideService {
             return helpGuideRepository.save(helpGuide);
         }).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "HelpGuide not found."));
     }
-    
+
+//------------------------------------- GET METHODS -------------------------------------//
     //READ
     public HelpGuide getHelpGuideById(Long id){
         return helpGuideRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "HelpGuide not found."));
     }
+
+    public List<HelpGuide> getAllHelpGuides(){
+        return helpGuideRepository.findAll();
+    }
+
+//------------------------------------- DELETE METHODS -------------------------------------//
     //DELETE
     public void deleteHelpGuide(Long id){
         if(!helpGuideRepository.existsById(id)){
@@ -48,6 +52,4 @@ public class HelpGuideService {
         }
         helpGuideRepository.deleteById(id);
     }
-
-    //HELPGUIDE SERVICES
 }

@@ -15,16 +15,14 @@ public class FixtureService {
         this.fixtureRepository = fixtureRepository;
     }
 
-    //CRUD REQUIRED
-    public List<Fixture> getAllFixtures(){
-        return fixtureRepository.findAll();
-    }
+    
 
-    //CREATE
+//------------------------------------- POST METHODS -------------------------------------//
     public Fixture createFixture(Fixture fixture){
         return fixtureRepository.save(fixture);
     }
 
+//------------------------------------- PUT METHODS -------------------------------------//
     //UPDATE
     public Fixture updateFixture(Long id, Fixture updatedFixture){
         return fixtureRepository.findById(id).map(fixture->{
@@ -35,11 +33,20 @@ public class FixtureService {
         }).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Fixture not found."));
     }
 
+
+
+//------------------------------------- GET METHODS -------------------------------------//
     //READ
     public Fixture getFixtureById(Long id){
         return fixtureRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Fixture not found."));
     }
 
+    //default get all 
+    public List<Fixture> getAllFixtures(){
+        return fixtureRepository.findAll();
+    }
+
+//------------------------------------- DELETE METHODS -------------------------------------//   
     //DELETE
     public void deleteFixture(Long id){
         if (!fixtureRepository.existsById(id)){

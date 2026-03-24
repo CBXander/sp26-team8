@@ -16,10 +16,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    // CRUD REQUIRED 
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
-    }
+//------------------------------------- POST METHODS -------------------------------------//
+   
 
     //create
     public User createUser(User user){
@@ -29,6 +27,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+//------------------------------------- PUT METHODS -------------------------------------//
     //update
     public User updateUser(Long id, User updatedUser){
         return userRepository.findById(id).map(user->{
@@ -43,9 +42,13 @@ public class UserService {
         
     }
 
+//------------------------------------- GET METHODS -------------------------------------//
     //read
     public User getUserById(Long id){
         return userRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
+    }
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
     }
 
     //delete
@@ -56,17 +59,17 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    //-------------------------User Services-----------------------------------------//
+//------------------------------------- DELETE METHODS -------------------------------------//
     
     //USER ROLE VALIDATION
-    public User validateUserRole(Long id, UserRole requiredRole){
-        User user = userRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
-
-        if(user.getRole() != requiredRole){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User done not have required role.");
-        }
-        return user;
+    public User validateUserRole(Long userId, UserRole... allowedRoles){
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
+    for(UserRole role : allowedRoles){
+        if(user.getRole() == role) return user;
     }
+    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User does not have the required role.");
+}
 
     
 

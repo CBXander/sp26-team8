@@ -106,4 +106,16 @@ public class Property {
         return this.updatedAt;
     }
     
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Property property = (Property) o;
+        return this.propertyId != null && this.propertyId.equals(property.getPropertyId());
+    }
+
+    @Override
+    public int hashCode(){
+        return this.propertyId != null ? this.propertyId.hashCode() : 0;
+    }
 }

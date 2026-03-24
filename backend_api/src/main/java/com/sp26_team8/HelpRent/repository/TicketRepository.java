@@ -12,6 +12,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>{
     List<Ticket> findByCategoryContainingIgnoreCase(String category);
     
     List<Ticket> findByUnit(Unit unit);
+    List<Ticket> findByUnit_Property(Property property);
+    
     List<Ticket> findByFixture(Fixture fixture);
 
     List<Ticket> findByStatus(TicketStatus status);

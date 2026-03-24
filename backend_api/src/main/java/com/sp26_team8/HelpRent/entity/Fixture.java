@@ -76,4 +76,16 @@ public class Fixture{
         this.helpGuides = guides;
     }
     
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Fixture fixture = (Fixture) o;
+        return this.fixtureId != null && this.fixtureId.equals(fixture.getFixtureId());
+    }
+
+    @Override
+    public int hashCode(){
+        return this.fixtureId != null ? this.fixtureId.hashCode() : 0;
+    }
 }

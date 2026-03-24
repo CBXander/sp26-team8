@@ -106,5 +106,16 @@ public class User {
     public LocalDateTime getUpdatedAt(){
         return this.updatedAt;
     }
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return this.userId != null && this.userId.equals(user.getUserId());
+    }
 
+    @Override
+    public int hashCode(){
+        return this.userId != null ? this.userId.hashCode() : 0;
+    }
 }

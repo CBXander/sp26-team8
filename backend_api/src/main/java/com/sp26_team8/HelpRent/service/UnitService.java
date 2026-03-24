@@ -26,7 +26,7 @@ public class UnitService {
     }
 
 
-    private Unit verifyLandlordUnitOwnership(Long userId, Long unitId){
+    public Unit verifyLandlordUnitOwnership(Long userId, Long unitId){
         Unit unit = unitRepository.findById(unitId).orElseThrow(
             ()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unit not found.")
         );
@@ -165,7 +165,7 @@ public class UnitService {
         User user = userService.validateUserRole(userId, UserRole.TENANT);
         Unit unit = unitRepository.findByTenant(user);
         if (unit == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No unit assigned to this user.")
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No unit assigned to this user.");
         }
 
         return unit;

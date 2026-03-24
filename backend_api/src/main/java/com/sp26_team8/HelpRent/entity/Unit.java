@@ -133,5 +133,17 @@ public class Unit{
     public LocalDateTime getUpdatedAt(){
         return this.updatedAt;
     }
+    
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Unit unit = (Unit) o;
+        return this.unitId != null && this.unitId.equals(unit.getUnitId());
+    }
 
+    @Override
+    public int hashCode(){
+        return this.unitId != null ? this.unitId.hashCode() : 0;
+    }
 }

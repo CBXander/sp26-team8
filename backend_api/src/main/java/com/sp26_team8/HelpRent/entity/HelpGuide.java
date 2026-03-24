@@ -86,4 +86,17 @@ public class HelpGuide{
     public LocalDateTime getUpdatedAt(){
         return this.updatedAt;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        HelpGuide guide = (HelpGuide) o;
+        return this.guideId != null && this.guideId.equals(guide.getGuideId());
+    }
+
+    @Override
+    public int hashCode(){
+        return this.guideId != null ? this.guideId.hashCode() : 0;
+    }
 }

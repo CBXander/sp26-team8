@@ -35,11 +35,11 @@ public class Ticket {
     private Fixture fixture;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", updatable = false)
     private User submittedBy;
 
     @ManyToOne
-    @JoinColumn(name = "user_id",updatable = false)
+    @JoinColumn(name = "user_id")
     private User assignedTo;
 
     private LocalDateTime createdAt;
@@ -90,5 +90,18 @@ public class Ticket {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     
-    public LocalDateTime getUpdatedAt(){ return this.updatedAt;} 
+    public LocalDateTime getUpdatedAt(){ return this.updatedAt;}
+    
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return this.ticketId != null && this.ticketId.equals(ticket.getTicketId());
+    }
+
+    @Override
+    public int hashCode(){
+        return this.ticketId != null ? this.ticketId.hashCode() : 0;
+    }
 }
