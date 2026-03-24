@@ -6,7 +6,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
 import com.sp26_team8.HelpRent.repository.*;
-import com.sp26_team8.HelpRent.service.*;
 
 import tools.jackson.databind.annotation.JsonAppend.Prop;
 
@@ -22,7 +21,7 @@ public class PropertyService {
     }
 
     //VERIFY LANDLORD-PROPERTY OWNERSHIP 
-    private Property verifyLandlordOwnership(Long propertyId, Long userId){
+    public Property verifyLandlordOwnership(Long propertyId, Long userId){
         Property property = propertyRepository.findById(propertyId).orElseThrow(
             ()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Property not found.")
         );
@@ -33,7 +32,7 @@ public class PropertyService {
     }
 
 //------------------------------------- POST METHODS -------------------------------------//
-    //default property create
+    //default property create ###FOR LANDLORDS###
     public Property createProperty(Property property, Long userId){
         if (propertyRepository.findByAddress(property.getAddress()) != null){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "A property with this address already exists.");
@@ -46,7 +45,7 @@ public class PropertyService {
     }
 
 //------------------------------------- PUT METHODS -------------------------------------//
-    //default property update
+    //default property update ###FOR LANDLORDS###
     public Property updateProperty(Long propertyId, Property updatedProperty, Long userId){
         userService.validateUserRole(userId, UserRole.LANDLORD);    // verify user is a landlord
         Property property = verifyLandlordOwnership(propertyId, userId);    //verify property belongs to user
@@ -56,7 +55,7 @@ public class PropertyService {
         return propertyRepository.save(property);
     }
     
-    //transfer ownership of property
+    //transfer ownership of property ###FOR LANDLORDS###
     public Property transferPropertyOwnership(Long propertyId, Long userId, Long newLandlordId){
         userService.validateUserRole(userId, UserRole.LANDLORD);
         User newLandlord = userService.validateUserRole(newLandlordId, UserRole.LANDLORD);
@@ -66,7 +65,7 @@ public class PropertyService {
         return propertyRepository.save(property);
     }
 
-    //add new staff to property
+    //add new staff to property ###FOR LANDLORDS###
     public Property addStaffToProperty(Long propertyId, Long staffId, Long userId){
         userService.validateUserRole(userId, UserRole.LANDLORD);
         User newStaff = userService.validateUserRole(staffId, UserRole.MAINTENANCE);
@@ -79,7 +78,7 @@ public class PropertyService {
         return propertyRepository.save(property);
     }
 
-    //remove staff from property
+    //remove staff from property ###FOR LANDLORDS###
     public Property removeStaffFromProperty(Long propertyId, Long staffId, Long userId){
         userService.validateUserRole(userId, UserRole.LANDLORD);
         User staff = userService.validateUserRole(staffId, UserRole.MAINTENANCE);
@@ -102,7 +101,7 @@ public class PropertyService {
         return propertyRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Property not found."));
     }
 
-    //Get all properties belonging to a landlord
+    //Get all properties belonging to a landlord ###FOR LANDLORDS###
     public List<Property> getPropertiesByLandlord(Long userId){
         User landlord = userService.validateUserRole(userId, UserRole.LANDLORD);
         
@@ -110,11 +109,12 @@ public class PropertyService {
     }
 
 //------------------------------------- DELETE METHODS -------------------------------------//
+    //delete property ###FOR LANDLORDS###
     public void deleteProperty(Long propertyId, Long userId){
         userService.validateUserRole(userId, UserRole.LANDLORD);
         Property property = verifyLandlordOwnership(propertyId, userId);
         
-        //TODO: handle floating links to units amd staff
+        //TODO: handle floating links to units and staff
         propertyRepository.delete(property);
     }
 

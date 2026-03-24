@@ -72,7 +72,7 @@ public class Unit{
         this.status = status;
     }
 
-    public void setUnitAdress(String unitAddress){
+    public void setUnitAddress(String unitAddress){
         this.unitAddress = unitAddress;
     }
 
@@ -105,7 +105,7 @@ public class Unit{
         return this.status;
     }
 
-    public String getUnitAdress(){
+    public String getUnitAddress(){
         //if a unit does not have its own address, then it uses its property address
         if (this.unitAddress != null && !this.unitAddress.isEmpty()){
             return this.unitAddress;
