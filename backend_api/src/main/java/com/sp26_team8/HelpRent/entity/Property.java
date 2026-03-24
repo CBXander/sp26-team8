@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "properties")
 public class Property {
@@ -23,6 +25,7 @@ public class Property {
     private String address;
 
     @OneToMany(mappedBy = "property")
+    @JsonManagedReference
     private List<Unit> units = new ArrayList<>();
     
     @ManyToMany

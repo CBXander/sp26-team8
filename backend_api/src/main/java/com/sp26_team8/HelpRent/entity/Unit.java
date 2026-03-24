@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "units", uniqueConstraints = {
@@ -16,6 +17,7 @@ public class Unit{
 
     @ManyToOne
     @JoinColumn(name="property_id", nullable = false)
+    @JsonBackReference
     private Property property;
 
     @OneToOne
@@ -88,6 +90,10 @@ public class Unit{
         this.tickets = tickets;
     }
 
+    public void setStatus(UnitStatus status){
+        this.status = status;
+    }
+
     //getters
     public Long getUnitId(){
         return unitId;
@@ -147,3 +153,4 @@ public class Unit{
         return this.unitId != null ? this.unitId.hashCode() : 0;
     }
 }
+
