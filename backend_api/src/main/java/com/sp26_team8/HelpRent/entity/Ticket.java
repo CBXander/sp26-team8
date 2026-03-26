@@ -44,7 +44,9 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "unit_id", updatable = false)
     @JsonIgnoreProperties({"tickets", "property"})
+    @JsonBackReference("unit-tickets")
     private Unit unit;
+
     @ManyToOne
     @JoinColumn(name = "fixture_id", updatable = false)
     @JsonBackReference("fixture-tickets")
