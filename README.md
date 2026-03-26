@@ -65,6 +65,7 @@ Thomas Lambert
     ---
 
     ### Create User
+    ```http
     POST /api/users
 
     Body:
@@ -76,7 +77,7 @@ Thomas Lambert
     "status": "ACTIVE",
     "role": "TENANT"
     }
-
+    ```
     Use Case: Create a new user  
     Response: 201 Created
 
