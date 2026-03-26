@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.sp26_team8.HelpRent.entity.Unit;
+import com.sp26_team8.HelpRent.entity.UnitStatus;
 import com.sp26_team8.HelpRent.service.UnitService;
 
 @RestController
@@ -72,6 +73,12 @@ public class UnitController {
         return ResponseEntity.ok(unitService.getUnitByTenant(userId));
     }
 
+    @GetMapping("/status")
+    public ResponseEntity<List<Unit>> getUnitsByStatus(@RequestParam String status) {
+        return ResponseEntity.ok(
+            unitService.getUnitsByStatus(UnitStatus.valueOf(status.toUpperCase()))
+        );
+    }
     @DeleteMapping("/{unitId}")
     public ResponseEntity<Void> deleteUnit(@PathVariable Long unitId, @RequestParam Long userId) {
         unitService.deleteUnit(unitId, userId);

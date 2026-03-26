@@ -164,6 +164,11 @@ public class UnitService {
         return unitRepository.findByProperty(property);
     }
 
+    //get unnits by status
+    public List<Unit> getUnitsByStatus(UnitStatus status){
+        return unitRepository.findByStatus(status);
+    }
+
     //get tenant's unit ###FOR TENANTS###
     public Unit getUnitByTenant(Long userId){
         User user = userService.validateUserRole(userId, UserRole.TENANT);
