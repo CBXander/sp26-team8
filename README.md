@@ -57,3 +57,118 @@ Thomas Lambert
     4. Access to messages sent by renters
         - view messages related to assigned tickets
         - send messages to renter through assigned tickets
+
+    ## API Documentation
+
+    This system allows tenants, landlords, and maintenance staff to manage rental maintenance.
+
+    ---
+
+    ### Create User
+    POST /api/users
+
+    Body:
+    {
+    "email": "tenant@example.com",
+    "passwordHash": "123456",
+    "firstName": "John",
+    "lastName": "Doe",
+    "status": "ACTIVE",
+    "role": "TENANT"
+    }
+
+    Use Case: Create a new user  
+    Response: 201 Created
+
+    ---
+
+    ### Get All Users
+    GET /api/users
+
+    Use Case: View all users  
+    Response: 200 OK
+
+    ---
+
+    ### Create Property
+    POST /api/properties?userId=2
+
+    Body:
+    {
+    "name": "Test Property",
+    "address": "123 Main St"
+    }
+
+    Use Case: Landlord creates a property  
+    Response: 201 Created
+
+    ---
+
+    ### Create Unit
+    POST /api/units?userId=2&propertyId=1
+
+    Body:
+    {
+    "unitAddress": "123 Main St",
+    "unitNumber": "A1",
+    "status": "VACANT"
+    }
+
+    Use Case: Landlord adds a unit  
+    Response: 201 Created
+
+    ---
+
+    ### Assign Tenant to Unit
+    PUT /api/units/1/tenant/1?userId=2
+
+    Use Case: Assign tenant to a unit  
+    Response: 200 OK
+
+    ---
+
+    ### Create Ticket
+    POST /api/tickets?unitId=1&userId=1
+
+    Body:
+    {
+    "title": "AC Not Cooling",
+    "description": "Air conditioner is not working",
+    "category": "HVAC",
+    "priority": "HIGH"
+    }
+
+    Use Case: Tenant creates maintenance request  
+    Response: 201 Created
+
+    ---
+
+    ### Get Tickets by Tenant
+    GET /api/tickets/tenant?userId=1
+
+    Use Case: Tenant views their tickets  
+    Response: 200 OK
+
+    ---
+
+    ### Assign Ticket
+    PUT /api/tickets/1/assign/3?userId=2
+
+    Use Case: Landlord assigns ticket to maintenance staff  
+    Response: 200 OK
+
+    ---
+
+    ### Update Ticket Status
+    PUT /api/tickets/1/status?userId=3
+
+    Use Case: Maintenance updates ticket status  
+    Response: 200 OK
+
+    ---
+
+    ### Delete Property
+    DELETE /api/properties/1?userId=2
+
+    Use Case: Landlord deletes a property  
+    Response: 204 No Content
