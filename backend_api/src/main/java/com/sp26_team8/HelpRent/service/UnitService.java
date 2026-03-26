@@ -1,12 +1,17 @@
 package com.sp26_team8.HelpRent.service;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.http.HttpStatus;
 
+import com.sp26_team8.HelpRent.entity.Fixture;
+import com.sp26_team8.HelpRent.entity.Property;
+import com.sp26_team8.HelpRent.entity.Unit;
+import com.sp26_team8.HelpRent.entity.UnitStatus;
+import com.sp26_team8.HelpRent.entity.User;
+import com.sp26_team8.HelpRent.entity.UserRole;
 import com.sp26_team8.HelpRent.repository.UnitRepository;
-import com.sp26_team8.HelpRent.entity.*;
 
 @Service
 public class UnitService {
@@ -45,7 +50,8 @@ public class UnitService {
         userService.validateUserRole(userId, UserRole.LANDLORD);
         
         Property property = propertyService.verifyLandlordOwnership(propertyId, userId);
-        
+        unit.setProperty(property); //make sure the property is correct 
+        unit.setUnitStatus(UnitStatus.VACANT);
         if(unit.getUnitNum() == null){
             // non-appartments have no unit number, SINGLE represents detached housing like this
             unit.setUnitNum("SINGLE");
@@ -60,7 +66,7 @@ public class UnitService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "A unit with this address and unit number already exists.");
         }
         
-        unit.setProperty(property); //make sure the property is correct 
+        
 
         return unitRepository.save(unit);
     }

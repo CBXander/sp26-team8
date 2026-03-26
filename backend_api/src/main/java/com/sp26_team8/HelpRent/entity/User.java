@@ -1,7 +1,17 @@
 package com.sp26_team8.HelpRent.entity;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
@@ -52,7 +62,9 @@ public class User {
         this.email = email;
     }
 
-    // password stuff that will be covered in next class
+    public void setPasswordHash(String passwordHash){
+        this.passwordHash = passwordHash;
+    }
     
     public void setFirstName(String firstName){
         this.firstName = firstName;
@@ -77,6 +89,10 @@ public class User {
 
     public String getEmail(){
         return this.email;
+    }
+
+    public String getPasswordHash(){
+        return this.passwordHash;
     }
 
     public String getFirstName(){

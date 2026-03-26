@@ -1,7 +1,21 @@
 package com.sp26_team8.HelpRent.entity;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tickets")
@@ -28,18 +42,22 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name = "unit_id", updatable = false)
+    @JsonBackReference("unit-tickets")
     private Unit unit;
 
     @ManyToOne
     @JoinColumn(name = "fixture_id", updatable = false)
+    @JsonBackReference("fixture-tickets")
     private Fixture fixture;
 
     @ManyToOne
     @JoinColumn(name = "submitted_by_id", updatable = false)
+    @JsonBackReference("submittedBy-tickets")
     private User submittedBy;
 
     @ManyToOne
     @JoinColumn(name = "assigned_to_id")
+    @JsonBackReference("assignedTo-tickets")
     private User assignedTo;
     
     @Column(nullable = false, updatable = false)

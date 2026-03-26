@@ -1,9 +1,30 @@
 package com.sp26_team8.HelpRent.entity;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "units", uniqueConstraints = {
@@ -16,6 +37,7 @@ public class Unit{
 
     @ManyToOne
     @JoinColumn(name="property_id", nullable = false)
+    @JsonBackReference("property-units")
     private Property property;
 
     @OneToOne
@@ -38,9 +60,11 @@ public class Unit{
         joinColumns = @JoinColumn(name="unit_id"),
         inverseJoinColumns = @JoinColumn(name="fixture_id")
     )
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","helpGuides"})
     private List<Fixture> fixtures = new ArrayList<>();
 
     @OneToMany(mappedBy = "unit")
+    @JsonManagedReference("unit-tickets")
     private List<Ticket> tickets = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
@@ -73,6 +97,7 @@ public class Unit{
     }
 
     public void setUnitAddress(String unitAddress){
+        
         this.unitAddress = unitAddress;
     }
 
@@ -109,8 +134,10 @@ public class Unit{
         //if a unit does not have its own address, then it uses its property address
         if (this.unitAddress != null && !this.unitAddress.isEmpty()){
             return this.unitAddress;
-        } else {
+        } else if(this.property != null){
             return this.property.getAddress();
+        } else {
+            return null;
         }
     }
 

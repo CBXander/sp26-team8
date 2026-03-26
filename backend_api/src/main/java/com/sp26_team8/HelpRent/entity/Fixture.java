@@ -1,10 +1,20 @@
 package com.sp26_team8.HelpRent.entity;
 
-import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "fixtures")
@@ -20,6 +30,7 @@ public class Fixture{
     private String description;
 
     @OneToMany(mappedBy = "fixture")
+    @JsonManagedReference("fixture-helpGuides")
     private List<HelpGuide> helpGuides = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
