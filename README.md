@@ -152,10 +152,9 @@ Thomas Lambert
     ### Get Tickets by Tenant
     ```http
     GET /api/tickets/tenant?userId=1
-
+    ```
     Use Case: Tenant views their tickets  
     Response: 200 OK
-    ```
     ---
 
     ### Assign Ticket
