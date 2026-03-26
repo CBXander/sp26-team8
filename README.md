@@ -84,14 +84,16 @@ Thomas Lambert
     ---
 
     ### Get All Users
+    ```http
     GET /api/users
-
+    ```
     Use Case: View all users  
     Response: 200 OK
 
     ---
 
     ### Create Property
+    ```http
     POST /api/properties?userId=2
 
     Body:
@@ -99,13 +101,14 @@ Thomas Lambert
     "name": "Test Property",
     "address": "123 Main St"
     }
-
+    ```
     Use Case: Landlord creates a property  
     Response: 201 Created
 
     ---
 
     ### Create Unit
+    ```http
     POST /api/units?userId=2&propertyId=1
 
     Body:
@@ -114,21 +117,23 @@ Thomas Lambert
     "unitNumber": "A1",
     "status": "VACANT"
     }
-
+    ```
     Use Case: Landlord adds a unit  
     Response: 201 Created
 
     ---
 
     ### Assign Tenant to Unit
+    ```http
     PUT /api/units/1/tenant/1?userId=2
-
+    ```
     Use Case: Assign tenant to a unit  
     Response: 200 OK
 
     ---
 
     ### Create Ticket
+    ```http
     POST /api/tickets?unitId=1&userId=1
 
     Body:
@@ -138,38 +143,42 @@ Thomas Lambert
     "category": "HVAC",
     "priority": "HIGH"
     }
-
+    ```
     Use Case: Tenant creates maintenance request  
     Response: 201 Created
 
     ---
 
     ### Get Tickets by Tenant
+    ```http
     GET /api/tickets/tenant?userId=1
 
     Use Case: Tenant views their tickets  
     Response: 200 OK
-
+    ```
     ---
 
     ### Assign Ticket
+    ```http
     PUT /api/tickets/1/assign/3?userId=2
-
+    ```
     Use Case: Landlord assigns ticket to maintenance staff  
     Response: 200 OK
 
     ---
 
     ### Update Ticket Status
+    ```http
     PUT /api/tickets/1/status?userId=3
-
+    ```
     Use Case: Maintenance updates ticket status  
     Response: 200 OK
 
     ---
 
     ### Delete Property
+    ```http
     DELETE /api/properties/1?userId=2
-
+    ```
     Use Case: Landlord deletes a property  
     Response: 204 No Content
