@@ -52,7 +52,9 @@ public class User {
         this.email = email;
     }
 
-    // password stuff that will be covered in next class
+    public void setPasswordHash(String password){
+        this.passwordHash = password;
+    }
     
     public void setFirstName(String firstName){
         this.firstName = firstName;
@@ -77,6 +79,10 @@ public class User {
 
     public String getEmail(){
         return this.email;
+    }
+
+    public String getPasswordHash(){
+        return this.passwordHash;
     }
 
     public String getFirstName(){

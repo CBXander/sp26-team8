@@ -45,12 +45,13 @@ public class UnitService {
         userService.validateUserRole(userId, UserRole.LANDLORD);
         
         Property property = propertyService.verifyLandlordOwnership(propertyId, userId);
-        
-        if(unit.getUnitNum() == null){
+        unit.setProperty(property); //make sure the property is correct 
+
+        if(unit.getUnitNum() == null || unit.getUnitNum().isEmpty()){
             // non-appartments have no unit number, SINGLE represents detached housing like this
             unit.setUnitNum("SINGLE");
         }
-        if(unit.getUnitAddress()== null){
+        if(unit.getUnitAddress()== null || unit.getUnitAddress().isEmpty()){
             // unit address if null should be property addres (unit is in same building as property)
             unit.setUnitAddress(property.getAddress());
         }
@@ -60,7 +61,7 @@ public class UnitService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "A unit with this address and unit number already exists.");
         }
         
-        unit.setProperty(property); //make sure the property is correct 
+        
 
         return unitRepository.save(unit);
     }
@@ -83,6 +84,8 @@ public class UnitService {
 
         unit.setTenant(userService.validateUserRole(tenantId, UserRole.TENANT));
         unit.setUnitStatus(UnitStatus.LEASED);
+        userService.updateUserStatus(tenantId,UserStatus.ACTIVE);
+        
         return unitRepository.save(unit);
     }
 
@@ -93,6 +96,8 @@ public class UnitService {
         if(unit.getTenant() == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This unit is already vacant.");
         }
+
+        userService.updateUserStatus(unit.getTenant().getUserId(), UserStatus.INACTIVE);
 
         unit.setTenant(null);
         unit.setUnitStatus(UnitStatus.VACANT);

@@ -4,16 +4,22 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.sp26_team8.HelpRent.repository.UserRepository;
 import com.sp26_team8.HelpRent.entity.*;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService{
     private final UserRepository userRepository;
-    
-    public UserService(UserRepository userRepository){
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 //------------------------------------- POST METHODS -------------------------------------//
@@ -24,6 +30,7 @@ public class UserService {
         if (userRepository.findByEmailIgnoreCase(user.getEmail()) != null){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "A user with this email already exists.");
         }
+        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
         return userRepository.save(user);
     }
 
@@ -42,11 +49,28 @@ public class UserService {
         
     }
 
+    public User updateUserStatus(Long id, UserStatus status){
+        User user = userRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
+
+        user.setStatus(status);
+        userRepository.save(user);
+        return user;
+    }
 //------------------------------------- GET METHODS -------------------------------------//
     //read
     public User getUserById(Long id){
         return userRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
     }
+
+    public User getUserByEmail(String email){
+        User user = userRepository.findByEmailIgnoreCase(email);
+        if (user == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Email not found");
+        }
+
+        return user;
+    }
+
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
@@ -71,6 +95,27 @@ public class UserService {
     throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User does not have the required role.");
 }
 
-    
+//------------------------------------- User Details for Spring Security  -------------------------------------//
+ 
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        System.out.println("Login attempt for: " + email);
+        
+        User user = userRepository.findByEmailIgnoreCase(email);
+        if (user == null) {
+
+            System.out.println("User not found: " + email);
+
+            throw new UsernameNotFoundException("User not found");
+        }
+        
+        System.out.println("User found: " + user.getEmail() + " | Role: " + user.getRole());
+
+        return org.springframework.security.core.userdetails.User
+                .withUsername(user.getEmail())
+                .password(user.getPasswordHash())
+                .roles(user.getRole().name())
+                .build();
+    }
 
 }
