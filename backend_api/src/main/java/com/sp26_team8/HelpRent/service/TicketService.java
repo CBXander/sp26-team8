@@ -51,6 +51,32 @@ public class TicketService {
         }
         return ticket;
     }
+
+    // check permisions for ui implementation (same as view maintenance history method, but for viewing tickets)
+    public Ticket validateTicketView(Long ticketId, Long userId) {
+        Ticket ticket = getTicketById(ticketId);
+        User user = userService.getUserById(userId);
+
+        switch (user.getRole()) {
+            case LANDLORD:
+                if (!ticket.getUnit().getProperty().getLandlord().getUserId().equals(userId)) {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket belongs to a unit that does not belong to you.");
+                }
+                break;
+            case MAINTENANCE:
+                if (!ticket.getUnit().getProperty().getStaff().contains(user)) {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not assigned to this property.");
+                }
+                break;
+            case TENANT:
+                if (!ticket.getSubmittedBy().getUserId().equals(userId)) {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket belongs to a different tenant.");
+                }
+                break;
+        }
+        return ticket;
+    }
+
 //------------------------------------- POST METHODS -------------------------------------//
     //default property create ###FOR LANDLORDS### ###FOR TENANTS###
     public Ticket createTicket(Ticket ticket, Long unitId, Long fixtureId, Long userId){
@@ -229,6 +255,7 @@ public class TicketService {
             }
         return ticketRepository.findByUnit(unit);
     }
+
     //maintenance statistics: view by fixture (shared between properties if different properties have same fixture, it is fine to see that this fixture has issue x)
     public List<Ticket> getTicketsByFixture(Long fixtureId){
         Fixture fixture = fixtureService.getFixtureById(fixtureId);

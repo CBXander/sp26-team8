@@ -131,14 +131,7 @@ public class Unit{
     }
 
     public String getUnitAddress(){
-        //if a unit does not have its own address, then it uses its property address
-        if (this.unitAddress != null && !this.unitAddress.isEmpty()){
-            return this.unitAddress;
-        } else if(this.property != null){
-            return this.property.getAddress();
-        } else {
-            return null;
-        }
+        return this.unitAddress;
     }
 
     public String getUnitNum(){
