@@ -17,6 +17,7 @@ public class PropertyController {
         this.propertyService = propertyService;
     }
 
+    //
     
     @PostMapping
     public ResponseEntity<Property> createProperty(@RequestBody Property property, @RequestParam Long userId) {

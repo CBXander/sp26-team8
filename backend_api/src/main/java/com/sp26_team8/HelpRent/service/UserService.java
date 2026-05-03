@@ -71,6 +71,31 @@ public class UserService {
     throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User does not have the required role.");
 }
 
-    
+// Get by Email
+    public User getUserByEmail(String email) {
+        User user = userRepository.findByEmailIgnoreCase(email);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+        }
+        return user;
+    }
+        
 
+
+
+// This next part is for use for tenant log in testing. It can be removed later if we decide to implement a different log in system.
+// AUTHENTICATE USER (for login)
+   public User authenticate(String email, String password) {
+    User user = userRepository.findByEmailIgnoreCase(email);
+
+    if (user == null) {
+        return null;
+    }
+
+    if (user.getPasswordHash().trim().equals(password.trim())) {
+        return user;
+    }
+
+    return null;
+}
 }
