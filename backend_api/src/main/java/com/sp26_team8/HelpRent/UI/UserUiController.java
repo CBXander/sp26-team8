@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 
@@ -69,10 +71,21 @@ public class UserUiController {
         // switch case for user role!
         switch (user.getRole()) {
             case LANDLORD:
-                List<Property> properties = propertyService.getPropertiesByLandlord(user.getUserId());
+                Property property = propertyService.getPropertyByLandlord(user.getUserId());
+                if (property != null) {
+                    List<Ticket> unassignedTickets = ticketService.getUnassignedTickets(property.getPropertyId(),user.getUserId());
                 
-                model.addAttribute("properties", properties);
-                
+                    Map<String, Integer> staffTicketCounts = new HashMap<>();
+                    for (User staff : property.getStaff()) {
+                        List<Ticket> staffTickets = ticketService.getTicketByStaff(staff.getUserId());
+                        staffTicketCounts.put(staff.getUserId().toString(), staffTickets.size());
+                    }
+                    
+                    model.addAttribute("property", property);
+                    model.addAttribute("staffTicketCounts", staffTicketCounts);
+                    model.addAttribute("unassigned", unassignedTickets);
+                }
+
                 break;
 
             case MAINTENANCE:
@@ -103,11 +116,11 @@ public class UserUiController {
         switch (user.getRole()) {
             case LANDLORD:
                 List<Ticket> tickets = new ArrayList<>();
-                List<Property> properties = propertyService.getPropertiesByLandlord(user.getUserId());
-                for (Property property : properties) {
-                    tickets.addAll(ticketService.getTicketByProperty(property.getPropertyId(), user.getUserId()));
-                }
+                Property property = propertyService.getPropertyByLandlord(user.getUserId());
+                
+                tickets.addAll(ticketService.getTicketByProperty(property.getPropertyId(), user.getUserId()));
                 model.addAttribute("tickets", tickets);
+                
                 break;
             case MAINTENANCE:
                 List<Ticket> assignedTicket = ticketService.getTicketByStaff(user.getUserId());
@@ -116,6 +129,8 @@ public class UserUiController {
                 }
                 model.addAttribute("tickets", assignedTicket);
 
+                break;
+            case TENANT:
                 break;
         }
 

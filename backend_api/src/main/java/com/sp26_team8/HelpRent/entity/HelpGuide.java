@@ -1,9 +1,7 @@
 package com.sp26_team8.HelpRent.entity;
 
 import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +18,7 @@ import jakarta.persistence.Table;
 public class HelpGuide{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long guideId;
+    private Long helpGuideId;
     
     @Column(nullable=false)
     private String title;
@@ -71,8 +69,8 @@ public class HelpGuide{
     }
 
     //getters
-    public Long getGuideId(){
-        return this.guideId;
+    public Long getHelpGuideId(){
+        return this.helpGuideId;
     }
 
     public String getTitle(){
@@ -104,11 +102,11 @@ public class HelpGuide{
         if(this == o) return true;
         if(o == null || getClass() != o.getClass()) return false;
         HelpGuide guide = (HelpGuide) o;
-        return this.guideId != null && this.guideId.equals(guide.getGuideId());
+        return this.helpGuideId != null && this.helpGuideId.equals(guide.getHelpGuideId());
     }
 
     @Override
     public int hashCode(){
-        return this.guideId != null ? this.guideId.hashCode() : 0;
+        return this.helpGuideId != null ? this.helpGuideId.hashCode() : 0;
     }
 }

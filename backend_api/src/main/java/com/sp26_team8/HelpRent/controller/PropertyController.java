@@ -54,8 +54,8 @@ public class PropertyController {
     }
 
     @GetMapping("/landlord")
-    public ResponseEntity<List<Property>> getPropertiesByLandlord(@RequestParam Long userId) {
-        return ResponseEntity.ok(propertyService.getPropertiesByLandlord(userId));
+    public ResponseEntity<Property> getPropertiesByLandlord(@RequestParam Long userId) {
+        return ResponseEntity.ok(propertyService.getPropertyByLandlord(userId));
     }
 
     @DeleteMapping("/{propertyId}")

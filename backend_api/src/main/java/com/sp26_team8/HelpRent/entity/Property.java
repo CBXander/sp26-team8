@@ -30,7 +30,7 @@ public class Property {
     private Long propertyId;
 
     @ManyToOne
-    @JoinColumn(name="landlord_id", nullable = false)
+    @JoinColumn(name="landlord_id", nullable = false, unique = true)
     @JsonBackReference("landlord-properties")
     private User landlord;
 
@@ -44,6 +44,14 @@ public class Property {
     @JsonManagedReference("property-units")
     private List<Unit> units = new ArrayList<>();
     
+    @ManyToMany
+    @JoinTable(
+        name = "property_fixture",
+        joinColumns = @JoinColumn(name="property_id"),
+        inverseJoinColumns = @JoinColumn(name="fixture_id") 
+    )
+    private List<Fixture> fixtures = new ArrayList<>();
+
     @ManyToMany
     @JoinTable(
         name = "property_staff",
@@ -86,7 +94,9 @@ public class Property {
     public void setUnits(List<Unit> units){
         this.units = units;
     }
-
+    public void setFixtures(List<Fixture> fixtures){
+        this.fixtures = fixtures;
+    }
     public void setStaff(List<User> staff){
         this.staff = staff;
     }
@@ -113,6 +123,9 @@ public class Property {
         return this.units;
     }
 
+    public List<Fixture> getFixtures(){
+        return this.fixtures;
+    }
 
     public List<User> getStaff(){
         return this.staff;

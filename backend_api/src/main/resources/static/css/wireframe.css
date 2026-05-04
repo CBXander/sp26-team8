@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 10px;
+}
+
+div {
+    border: 2px solid blue;
+    padding: 10px;
+    margin: 5px;
+}
+
+table {
+    border: 2px solid red;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 5px;
+}
+
+th, td {
+    border: 1px solid pink;
+    padding: 8px;
+    text-align: left;
+}
+
+section {
+    border: 2px solid green;
+    padding: 10px;
+    margin: 5px;
+}
+
+nav {
+    border: 2px solid orange;
+    padding: 10px;
+    margin: 5px;
+}
+
+main {
+    border: 2px solid purple;
+    padding: 10px;
+    margin: 5px;
+}
+
+form {
+    border: 2px dashed gray;
+    padding: 5px;
+    margin: 5px;
+}
+
+a {
+    color: #3b82f6;
+}
+
+h1, h2, h3 {
+    border-bottom: 1px dotted #999;
+}

@@ -230,7 +230,14 @@ public class TicketService {
         Property property = propertyService.verifyLandlordOwnership(propertyId, userId);
         return ticketRepository.findByUnit_Property(property);
     }
-
+    
+    //landlord view of tickets (for dashboard)
+    public List<Ticket> getUnassignedTickets(Long propertyId, Long userId){
+        userService.validateUserRole(userId, UserRole.LANDLORD);
+        Property property = propertyService.verifyLandlordOwnership(propertyId, userId);
+        
+        return ticketRepository.findByUnit_PropertyAndAssignedToIsNull(property);
+    }
     //maintenance statistics view  ###FOR LANDLORD### ###FOR MAINTENANCE### ###FOR TENANTS###
     public List<Ticket> getTicketsByUnit(Long unitId, Long userId){
         User user = userService.validateUserRole(userId, UserRole.LANDLORD, UserRole.MAINTENANCE, UserRole.TENANT);

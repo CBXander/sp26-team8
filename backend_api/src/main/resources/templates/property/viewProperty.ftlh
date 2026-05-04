@@ -1,5 +1,4 @@
 <#import "/defaultlayout.ftlh" as layout>
-
 <@layout.page title="Property Overview">
     <div>
         <h1>${property.name}</h1>

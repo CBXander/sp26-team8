@@ -1,5 +1,4 @@
 <#import "/defaultlayout.ftlh" as layout>
-
 <@layout.page title="Tickets">
     <section>
         <h1>Tickets</h1>

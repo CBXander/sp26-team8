@@ -1,5 +1,4 @@
 <#import "/defaultlayout.ftlh" as layout>
-
 <@layout.page title="New Tenant">
     <h1>Create New Tenant</h1>
 

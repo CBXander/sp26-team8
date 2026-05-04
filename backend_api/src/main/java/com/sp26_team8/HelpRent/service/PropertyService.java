@@ -13,9 +13,12 @@ import com.sp26_team8.HelpRent.entity.*;
 public class PropertyService {
     private final PropertyRepository propertyRepository;
     private final UserService userService;
-    public PropertyService(PropertyRepository propertyRepository, UserService userService){
+    private final FixtureService fixtureService;
+
+    public PropertyService(PropertyRepository propertyRepository, UserService userService, FixtureService fixtureService){
         this.propertyRepository = propertyRepository;
         this.userService = userService;
+        this.fixtureService = fixtureService;
     }
 
     //VERIFY LANDLORD-PROPERTY OWNERSHIP 
@@ -89,6 +92,33 @@ public class PropertyService {
         return propertyRepository.save(property);
     }
 
+    // add and remove fixture from property
+    public Property addFixtureToProperty(Long propertyId, Long fixtureId, Long userId){
+        userService.validateUserRole(userId, UserRole.LANDLORD);
+        Fixture newFixture = fixtureService.getFixtureById(fixtureId);
+        Property property = verifyLandlordOwnership(propertyId, userId);
+
+        if(property.getFixtures().contains(newFixture)){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "This fixture is already in this property");
+        }
+        property.getFixtures().add(newFixture);
+
+        return propertyRepository.save(property);
+    }
+
+    public Property removeFixtureFromProperty(Long propertyId, Long fixtureId, Long userId){
+        userService.validateUserRole(userId, UserRole.LANDLORD);
+        Fixture newFixture = fixtureService.getFixtureById(fixtureId);
+        Property property = verifyLandlordOwnership(propertyId, userId);
+
+        if(!property.getFixtures().contains(newFixture)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The property does not have this fixture");
+        }
+        property.getFixtures().remove(newFixture);
+        
+        return propertyRepository.save(property);
+    }
+
 //------------------------------------- GET METHODS -------------------------------------//
     //default get (all)
     public List<Property> getAllProperties(){
@@ -100,7 +130,7 @@ public class PropertyService {
     }
 
     //Get all properties belonging to a landlord ###FOR LANDLORDS###
-    public List<Property> getPropertiesByLandlord(Long userId){
+    public Property getPropertyByLandlord(Long userId){
         User landlord = userService.validateUserRole(userId, UserRole.LANDLORD);
         
         return propertyRepository.findByLandlord(landlord);

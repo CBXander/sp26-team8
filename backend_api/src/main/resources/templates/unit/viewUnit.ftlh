@@ -1,5 +1,4 @@
 <#import "/defaultlayout.ftlh" as layout>
-
 <@layout.page title="Unit Details">
     <a href="/ui/properties/${unit.property.propertyId}">Back to Property</a>
     <div>

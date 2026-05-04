@@ -14,6 +14,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>{
     List<Ticket> findByUnit(Unit unit);
     List<Ticket> findByUnit_Property(Property property);
     
+
     List<Ticket> findByFixture(Fixture fixture);
 
     List<Ticket> findByStatus(TicketStatus status);
@@ -21,6 +22,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>{
     
     List<Ticket> findBySubmittedBy(User submittedBy);
     List<Ticket> findByAssignedTo(User assignedTo);
+    List<Ticket> findByUnit_PropertyAndAssignedToIsNull(Property property);
     
     List<Ticket> findByCreatedAt(LocalDateTime createdAt);   
     List<Ticket> findByUpdatedAt(LocalDateTime upatedAt);

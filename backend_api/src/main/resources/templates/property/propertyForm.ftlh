@@ -1,5 +1,4 @@
 <#import "/defaultlayout.ftlh" as layout>
-
 <@layout.page title="New Property">
     <h1>Create New Property</h1>
 
