@@ -101,59 +101,54 @@ public class TicketService {
             ticket.setFixture(fixtureService.getFixtureById(fixtureId));
         }
 
-        ticket.setSubmittedBy(user);
-        ticket.setUnit(unit);
-        ticket.setStatus(TicketStatus.OPEN);
+            ticket.setSubmittedBy(user);
+            ticket.setUnit(unit);
+            ticket.setStatus(TicketStatus.OPEN);
 
-        return ticketRepository.save(ticket);
-    }
-
-//------------------------------------- PUT METHODS -------------------------------------//
-    //default UPDATE ###FOR LANDLORDS### ###FOR TENANTS###
-    public Ticket updateTicket(Long ticketId, Ticket updatedTicket, Long userId){
-        userService.validateUserRole(userId, UserRole.LANDLORD, UserRole.TENANT);
-        Ticket ticket = validateTicketUsage(ticketId, userId);
-
-        
-        ticket.setTitle(updatedTicket.getTitle());
-        ticket.setDescription(updatedTicket.getDescription());
-        ticket.setCategory(updatedTicket.getCategory());
-
-        return ticketRepository.save(ticket);
-    }
-
-    //assign ticket to staff member ###FOR LANDLORDS###
-    public Ticket assignTicket(Long ticketId, Long staffId, Long userId){
-        //verify user is landlord
-        userService.validateUserRole(userId, UserRole.LANDLORD);
-        User staff = userService.validateUserRole(staffId,UserRole.MAINTENANCE);
-        //verify user is correct landlord
-        Ticket ticket = validateTicketUsage(ticketId, userId);
-        //verify that staff is in property's staff list
-        if(!ticket.getUnit().getProperty().getStaff().contains(staff)){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Staff member is not part of property's staff list.");
+            return ticketRepository.save(ticket);
         }
 
-        ticket.setAssignedTo(staff);
-        ticket.setStatus(TicketStatus.OPEN);
-        return ticketRepository.save(ticket);
-    }
+    //------------------------------------- PUT METHODS -------------------------------------//
+        //default UPDATE ###FOR LANDLORDS### ###FOR TENANTS###
+        public Ticket updateTicket(Long ticketId, Ticket updatedTicket, Long userId){
+            userService.validateUserRole(userId, UserRole.LANDLORD, UserRole.TENANT);
+            Ticket ticket = validateTicketUsage(ticketId, userId);
 
-    //set ticket priority ###FOR LANDLORDS### ###FOR MAINTENANCE###
-    public Ticket setTicketPriority(Long ticketId, TicketPriority priority, Long userId){
-        User user = userService.validateUserRole(userId, UserRole.TENANT,UserRole.LANDLORD, UserRole.MAINTENANCE);
-        Ticket ticket = validateTicketUsage(ticketId, userId);
-        if(ticket.getStatus().equals(TicketStatus.CANCELLED) || ticket.getStatus().equals(TicketStatus.CLOSED)){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket priority cannot be modified once closed or cancelled.");
-        }
-        if (!ticket.getStatus().equals(TicketStatus.OPEN) && user.getRole().equals(UserRole.TENANT)){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket priority cannot be modified by tenant once processed.");
+            
+            ticket.setTitle(updatedTicket.getTitle());
+            ticket.setDescription(updatedTicket.getDescription());
+            ticket.setCategory(updatedTicket.getCategory());
+
+            return ticketRepository.save(ticket);
         }
 
-        ticket.setPriority(priority);
+        //assign ticket to staff member ###FOR LANDLORDS###
+        public Ticket assignTicket(Long ticketId, Long staffId, Long userId){
+            //verify user is landlord
+            userService.validateUserRole(userId, UserRole.LANDLORD);
+            User staff = userService.validateUserRole(staffId,UserRole.MAINTENANCE);
+            //verify user is correct landlord
+            Ticket ticket = validateTicketUsage(ticketId, userId);
+            //verify that staff is in property's staff list
+            if(!ticket.getUnit().getProperty().getStaff().contains(staff)){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Staff member is not part of property's staff list.");
+            }
 
-        return ticketRepository.save(ticket);
-    }
+            ticket.setAssignedTo(staff);
+            ticket.setStatus(TicketStatus.OPEN);
+            return ticketRepository.save(ticket);
+        }
+
+        //set ticket priority ###FOR LANDLORDS### ###FOR MAINTENANCE###
+        public Ticket setTicketPriority(Long ticketId, TicketPriority priority, Long userId){
+            User user = userService.validateUserRole(userId, UserRole.TENANT,UserRole.LANDLORD, UserRole.MAINTENANCE);
+            Ticket ticket = validateTicketUsage(ticketId, userId);
+            if(ticket.getStatus().equals(TicketStatus.CANCELLED) || ticket.getStatus().equals(TicketStatus.CLOSED)){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket priority cannot be modified once closed or cancelled.");
+            }
+            if (!ticket.getStatus().equals(TicketStatus.OPEN) && user.getRole().equals(UserRole.TENANT)){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket priority cannot be modified by tenant once processed.");
+            }
 
     //set ticket status ###FOR LANDLORDS### ###FOR MAINTENANCE###
     public Ticket setTicketStatus(Long ticketId, Long userId){
@@ -168,56 +163,54 @@ public class TicketService {
             case CANCELLED -> throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket canceled.");
             default -> throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "No ticket status found.");
         }
-        return ticketRepository.save(ticket);
-    }
-    
-    //complete ticket  ###FOR LANDLORDS### ###FOR TENANTS###
-    public Ticket completeTicket(Long ticketId, Long userId){
-        userService.validateUserRole(userId, UserRole.LANDLORD, UserRole.TENANT);
-        Ticket ticket = validateTicketUsage(ticketId, userId);
+        
+        //complete ticket  ###FOR LANDLORDS### ###FOR TENANTS###
+        public Ticket completeTicket(Long ticketId, Long userId){
+            userService.validateUserRole(userId, UserRole.LANDLORD, UserRole.TENANT);
+            Ticket ticket = validateTicketUsage(ticketId, userId);
 
-        if (ticket.getStatus() != TicketStatus.COMPLETED){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket is not marked completed.");
+            if (ticket.getStatus() != TicketStatus.COMPLETED){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket is not marked completed.");
+            }
+            ticket.setStatus(TicketStatus.CLOSED);
+            return ticketRepository.save(ticket);
         }
-        ticket.setStatus(TicketStatus.CLOSED);
-        return ticketRepository.save(ticket);
-    }
-    //cancel ticket ###FOR LANDLORDS### ###FOR TENANTS###
-    public Ticket cancelTicket(Long ticketId, Long userId){
-        userService.validateUserRole(userId, UserRole.LANDLORD, UserRole.TENANT);
-        Ticket ticket = validateTicketUsage(ticketId, userId);
-        if(ticket.getStatus() == TicketStatus.CLOSED){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Cannot cancel a closed ticket.");
+        //cancel ticket ###FOR LANDLORDS### ###FOR TENANTS###
+        public Ticket cancelTicket(Long ticketId, Long userId){
+            userService.validateUserRole(userId, UserRole.LANDLORD, UserRole.TENANT);
+            Ticket ticket = validateTicketUsage(ticketId, userId);
+            if(ticket.getStatus() == TicketStatus.CLOSED){
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Cannot cancel a closed ticket.");
+            }
+            if(ticket.getStatus() == TicketStatus.CANCELLED){
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Ticket is already cancelled.");
+            }
+            ticket.setStatus(TicketStatus.CANCELLED);
+            return ticketRepository.save(ticket);
         }
-        if(ticket.getStatus() == TicketStatus.CANCELLED){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Ticket is already cancelled.");
+
+    //------------------------------------- GET METHODS -------------------------------------//    
+        //default get ticket by id
+        public Ticket getTicketById(Long id){
+            return ticketRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found."));
         }
-        ticket.setStatus(TicketStatus.CANCELLED);
-        return ticketRepository.save(ticket);
-    }
 
-//------------------------------------- GET METHODS -------------------------------------//    
-    //default get ticket by id
-    public Ticket getTicketById(Long id){
-        return ticketRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found."));
-    }
+        //default get all tickets
+        public List<Ticket> getAllTickets(){
+            return ticketRepository.findAll();
+        }
 
-    //default get all tickets
-    public List<Ticket> getAllTickets(){
-        return ticketRepository.findAll();
-    }
+        //tenant view of tickets ###FOR TENANTS###
+        public List<Ticket> getTicketByTenant(Long userId){
+            User user = userService.validateUserRole(userId, UserRole.TENANT);
+            return ticketRepository.findBySubmittedBy(user);
+        } 
 
-    //tenant view of tickets ###FOR TENANTS###
-    public List<Ticket> getTicketByTenant(Long userId){
-        User user = userService.validateUserRole(userId, UserRole.TENANT);
-        return ticketRepository.findBySubmittedBy(user);
-    } 
-
-    //maintenance view of tickets ###FOR MAINTENANCE###
-    public List<Ticket> getTicketByStaff(Long userId){
-        User user = userService.validateUserRole(userId, UserRole.MAINTENANCE);
-        return ticketRepository.findByAssignedTo(user);
-    }
+        //maintenance view of tickets ###FOR MAINTENANCE###
+        public List<Ticket> getTicketByStaff(Long userId){
+            User user = userService.validateUserRole(userId, UserRole.MAINTENANCE);
+            return ticketRepository.findByAssignedTo(user);
+        }
 
     //landlord viwe of tickets ###FOR LANDLORD###
     public List<Ticket> getTicketByProperty(Long propertyId, Long userId){
@@ -274,6 +267,13 @@ public class TicketService {
         userService.validateUserRole(userId, UserRole.LANDLORD);
         Ticket ticket = validateTicketUsage(ticketId, userId);
         
-        ticketRepository.delete(ticket);
+    //------------------------------------- DELETE METHODS -------------------------------------//
+        //DELETE
+        //deleting a closed ticket reduces usefullness of maintenance history!
+        public void deleteTicket(Long ticketId, Long userId){
+            userService.validateUserRole(userId, UserRole.LANDLORD);
+            Ticket ticket = validateTicketUsage(ticketId, userId);
+            
+            ticketRepository.delete(ticket);
+        }
     }
-}

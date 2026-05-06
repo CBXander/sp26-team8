@@ -14,6 +14,9 @@ import com.sp26_team8.HelpRent.service.TicketService;
 public class TicketController {
     private final TicketService ticketService;
 
+
+    // API endpoints for tickets
+
     public TicketController(TicketService ticketService) {
         this.ticketService = ticketService;
     }
@@ -22,17 +25,19 @@ public class TicketController {
     public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket, @RequestParam Long unitId, @RequestParam(required = false) Long fixtureId, @RequestParam Long userId) {
         return new ResponseEntity<>(ticketService.createTicket(ticket, unitId, fixtureId, userId), HttpStatus.CREATED);
     }
-
+    // Update, assign, set priority/status, complete, cancel
     @PutMapping("/{ticketId}")
     public ResponseEntity<Ticket> updateTicket(@PathVariable Long ticketId, @RequestBody Ticket updatedTicket, @RequestParam Long userId) {
         return ResponseEntity.ok(ticketService.updateTicket(ticketId, updatedTicket, userId));
     }
-
+    
+    // These endpoints can be used by staff to manage tickets, or by tenants to update/cancel their own tickets
     @PutMapping("/{ticketId}/assign/{staffId}")
     public ResponseEntity<Ticket> assignTicket(@PathVariable Long ticketId, @PathVariable Long staffId, @RequestParam Long userId) {
         return ResponseEntity.ok(ticketService.assignTicket(ticketId, staffId, userId));
     }
 
+    //
     @PutMapping("/{ticketId}/priority")
     public ResponseEntity<Ticket> setTicketPriority(@PathVariable Long ticketId, @RequestParam TicketPriority priority, @RequestParam Long userId) {
         return ResponseEntity.ok(ticketService.setTicketPriority(ticketId, priority, userId));
@@ -54,6 +59,8 @@ public class TicketController {
     }
 
     
+
+    // Getters
     @GetMapping("/{ticketId}")
     public ResponseEntity<Ticket> getTicketById(@PathVariable Long ticketId) {
         return ResponseEntity.ok(ticketService.getTicketById(ticketId));
@@ -89,6 +96,7 @@ public class TicketController {
         return ResponseEntity.ok(ticketService.getTicketsByFixture(fixtureId));
     }
     
+    // Delete ticket (for tenants to cancel their own tickets, or for staff to remove completed/cancelled tickets)
     @DeleteMapping("/{ticketId}")
     public ResponseEntity<Void> deleteTicket(@PathVariable Long ticketId, @RequestParam Long userId) {
         ticketService.deleteTicket(ticketId, userId);
