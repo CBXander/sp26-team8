@@ -1,73 +1,105 @@
-    package com.sp26_team8.HelpRent.service;
-    import java.util.List;
+package com.sp26_team8.HelpRent.service;
+import java.util.List;
 
-    import org.springframework.stereotype.Service;
-    import org.springframework.web.server.ResponseStatusException;
-    import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-    import com.sp26_team8.HelpRent.repository.TicketRepository;
-    import com.sp26_team8.HelpRent.entity.*;
+import com.sp26_team8.HelpRent.entity.Fixture;
+import com.sp26_team8.HelpRent.entity.Property;
+import com.sp26_team8.HelpRent.entity.Ticket;
+import com.sp26_team8.HelpRent.entity.TicketPriority;
+import com.sp26_team8.HelpRent.entity.TicketStatus;
+import com.sp26_team8.HelpRent.entity.Unit;
+import com.sp26_team8.HelpRent.entity.User;
+import com.sp26_team8.HelpRent.entity.UserRole;
+import com.sp26_team8.HelpRent.repository.TicketRepository;
 
-    @Service
-    public class TicketService {
-        private final TicketRepository ticketRepository;
-        private final UserService userService;
-        private final UnitService unitService;
-        private final FixtureService fixtureService;
-        private final PropertyService propertyService;
+@Service
+public class TicketService {
+    private final TicketRepository ticketRepository;
+    private final UserService userService;
+    private final UnitService unitService;
+    private final FixtureService fixtureService;
+    private final PropertyService propertyService;
 
-        public TicketService(TicketRepository ticketRepository, UserService userService, UnitService unitService, 
-                            FixtureService fixtureService, PropertyService propertyService){
-            this.ticketRepository = ticketRepository;
-            this.userService = userService;
-            this.unitService = unitService;
-            this.fixtureService = fixtureService;
-            this.propertyService = propertyService;
+    public TicketService(TicketRepository ticketRepository, UserService userService, UnitService unitService, 
+                        FixtureService fixtureService, PropertyService propertyService){
+        this.ticketRepository = ticketRepository;
+        this.userService = userService;
+        this.unitService = unitService;
+        this.fixtureService = fixtureService;
+        this.propertyService = propertyService;
+    }
+
+    //ASSUMES THAT USERROLE HAS ALREADY BEEN VERIFIED FOR USAGE
+    private Ticket validateTicketUsage(Long ticketId, Long userId){
+        Ticket ticket = getTicketById(ticketId);
+        User user = userService.getUserById(userId);
+        
+        switch (user.getRole()) {
+            case LANDLORD -> {
+                if(!ticket.getUnit().getProperty().getLandlord().getUserId().equals(userId)){
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket belongs to a unit that does not belong to you.");
+                }
+            }
+            case MAINTENANCE -> {
+                if (ticket.getAssignedTo() == null || !ticket.getAssignedTo().getUserId().equals(userId)){
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket not assigned to you.");
+                }
+            }
+            case TENANT -> {
+                if(!ticket.getSubmittedBy().getUserId().equals(userId)){
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket belongs to a different tenant.");
+                }
+            }
+            default -> throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "No user role found.");
         }
+        return ticket;
+    }
 
-        //ASSUMES THAT USERROLE HAS ALREADY BEEN VERIFIED FOR USAGE
-        private Ticket validateTicketUsage(Long ticketId, Long userId){
-            Ticket ticket = getTicketById(ticketId);
-            User user = userService.getUserById(userId);
-            
-            switch (user.getRole()) {
-                case LANDLORD:
-                    if(!ticket.getUnit().getProperty().getLandlord().getUserId().equals(userId)){
-                        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket belongs to a unit that does not belong to you.");
-                    }
-                    break;
-                case MAINTENANCE:
-                    if (ticket.getAssignedTo() == null || !ticket.getAssignedTo().getUserId().equals(userId)){
-                        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket not assigned to you.");
-                    }
-                    break;
-                case TENANT:
-                    if(!ticket.getSubmittedBy().getUserId().equals(userId)){
-                        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket belongs to a different tenant.");
-                    }
-                    break;
-                default:
-                    throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "No user role found.");
+    // check permisions for ui implementation (same as view maintenance history method, but for viewing tickets)
+    public Ticket validateTicketView(Long ticketId, Long userId) {
+        Ticket ticket = getTicketById(ticketId);
+        User user = userService.getUserById(userId);
+
+        switch (user.getRole()) {
+            case LANDLORD -> {
+                if (!ticket.getUnit().getProperty().getLandlord().getUserId().equals(userId)) {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket belongs to a unit that does not belong to you.");
+                }
             }
-            return ticket;
+            case MAINTENANCE -> {
+                if (!ticket.getUnit().getProperty().getStaff().contains(user)) {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not assigned to this property.");
+                }
+            }
+            case TENANT -> {
+                if (!ticket.getSubmittedBy().getUserId().equals(userId)) {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket belongs to a different tenant.");
+                }
+            }
+            default->{
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not signed in.");
+            }
         }
-    //------------------------------------- POST METHODS -------------------------------------//
-        //default property create ###FOR LANDLORDS### ###FOR TENANTS###
-        public Ticket createTicket(Ticket ticket, Long unitId, Long fixtureId, Long userId){
-            User user = userService.validateUserRole(userId, UserRole.LANDLORD, UserRole.TENANT);
-            Unit unit;   
-            if (user.getRole().equals(UserRole.LANDLORD)){
-                unit = unitService.verifyLandlordUnitOwnership(userId,unitId);
-            }else if (user.getRole().equals(UserRole.TENANT)){
-                unit = unitService.getUnitByTenant(userId);
-                
-            } else {
-                unit = unitService.getUnitById(unitId); //will never happen since validateUserRole() will throw the error before it gets here
-            }
+        return ticket;
+    }
 
-            if(fixtureId != null){
-                ticket.setFixture(fixtureService.getFixtureById(fixtureId));
-            }
+//------------------------------------- POST METHODS -------------------------------------//
+    //default property create ###FOR LANDLORDS### ###FOR TENANTS###
+    public Ticket createTicket(Ticket ticket, Long unitId, Long fixtureId, Long userId){
+        User user = userService.validateUserRole(userId, UserRole.LANDLORD, UserRole.TENANT);
+        Unit unit;   
+        unit = switch (user.getRole()) {
+            case LANDLORD -> unitService.verifyLandlordUnitOwnership(userId,unitId);
+            case TENANT -> unitService.getUnitByTenant(userId);
+            default -> unitService.getUnitById(unitId); //should never happen since validateUserRole() will throw the error before it gets here
+        }; 
+        
+        if(fixtureId != null){
+            ticket.setFixture(fixtureService.getFixtureById(fixtureId));
+        }
 
             ticket.setSubmittedBy(user);
             ticket.setUnit(unit);
@@ -118,36 +150,18 @@
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket priority cannot be modified by tenant once processed.");
             }
 
-            ticket.setPriority(priority);
-
-            return ticketRepository.save(ticket);
-        }
-
-        //set ticket status ###FOR LANDLORDS### ###FOR MAINTENANCE###
-        public Ticket setTicketStatus(Long ticketId, Long userId){
-            userService.validateUserRole(userId, UserRole.LANDLORD, UserRole.MAINTENANCE);
-            Ticket ticket = validateTicketUsage(ticketId, userId);
-            
-            switch (ticket.getStatus()) {
-                case OPEN:
-                    ticket.setStatus(TicketStatus.IN_PROGRESS);
-                    break;
-            
-                case IN_PROGRESS:
-                    ticket.setStatus(TicketStatus.COMPLETED);
-                    break;
-                case COMPLETED:
-                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket awaiting tenant confirmation.");
-                case CLOSED:
-                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket already closed.");
-
-                case CANCELLED:
-                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket canceled.");
-
-                default:
-                    throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "No ticket status found.");
-            }
-            return ticketRepository.save(ticket);
+    //set ticket status ###FOR LANDLORDS### ###FOR MAINTENANCE###
+    public Ticket setTicketStatus(Long ticketId, Long userId){
+        userService.validateUserRole(userId, UserRole.LANDLORD, UserRole.MAINTENANCE);
+        Ticket ticket = validateTicketUsage(ticketId, userId);
+        
+        switch (ticket.getStatus()) {
+            case OPEN -> ticket.setStatus(TicketStatus.IN_PROGRESS);
+            case IN_PROGRESS -> ticket.setStatus(TicketStatus.COMPLETED);
+            case COMPLETED -> throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket awaiting tenant confirmation.");
+            case CLOSED -> throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket already closed.");
+            case CANCELLED -> throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket canceled.");
+            default -> throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "No ticket status found.");
         }
         
         //complete ticket  ###FOR LANDLORDS### ###FOR TENANTS###
@@ -198,42 +212,60 @@
             return ticketRepository.findByAssignedTo(user);
         }
 
-        //landlord viwe of tickets ###FOR LANDLORD###
-        public List<Ticket> getTicketByProperty(Long propertyId, Long userId){
-            userService.validateUserRole(userId, UserRole.LANDLORD);
-            Property property = propertyService.verifyLandlordOwnership(propertyId, userId);
-            return ticketRepository.findByUnit_Property(property);
-        }
-
-        //maintenance statistics view  ###FOR LANDLORD### ###FOR MAINTENANCE### ###FOR TENANTS###
-        public List<Ticket> getTicketsByUnit(Long unitId, Long userId){
-            User user = userService.validateUserRole(userId, UserRole.LANDLORD, UserRole.MAINTENANCE, UserRole.TENANT);
-            Unit unit = unitService.getUnitById(unitId);
-            
-            switch(user.getRole()){
-                case LANDLORD:
-                    if(!unit.getProperty().getLandlord().getUserId().equals(userId)){
-                        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unit does not belong to you.");
-                    }
-                    break;
-                case MAINTENANCE:
-                    if(!unit.getProperty().getStaff().contains(user)){
-                        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not assigned to this property.");
-                    }
-                    break;
-                case TENANT:
-                    if(unit.getTenant() == null || !unit.getTenant().getUserId().equals(userId)){
-                        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "This is not your unit.");
-                    }
-                    break;
+    //landlord viwe of tickets ###FOR LANDLORD###
+    public List<Ticket> getTicketByProperty(Long propertyId, Long userId){
+        userService.validateUserRole(userId, UserRole.LANDLORD);
+        Property property = propertyService.verifyLandlordOwnership(propertyId, userId);
+        return ticketRepository.findByUnit_Property(property);
+    }
+    
+    //landlord view of tickets (for dashboard)
+    public List<Ticket> getUnassignedTickets(Long propertyId, Long userId){
+        userService.validateUserRole(userId, UserRole.LANDLORD);
+        Property property = propertyService.verifyLandlordOwnership(propertyId, userId);
+        
+        return ticketRepository.findByUnit_PropertyAndAssignedToIsNull(property);
+    }
+    //maintenance statistics view  ###FOR LANDLORD### ###FOR MAINTENANCE### ###FOR TENANTS###
+    public List<Ticket> getTicketsByUnit(Long unitId, Long userId){
+        User user = userService.validateUserRole(userId, UserRole.LANDLORD, UserRole.MAINTENANCE, UserRole.TENANT);
+        Unit unit = unitService.getUnitById(unitId);
+        
+        switch(user.getRole()){
+            case LANDLORD -> {
+                if(!unit.getProperty().getLandlord().getUserId().equals(userId)){
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unit does not belong to you.");
                 }
-            return ticketRepository.findByUnit(unit);
-        }
-        //maintenance statistics: view by fixture (shared between properties if different properties have same fixture, it is fine to see that this fixture has issue x)
-        public List<Ticket> getTicketsByFixture(Long fixtureId){
-            Fixture fixture = fixtureService.getFixtureById(fixtureId);
-            return ticketRepository.findByFixture(fixture);
-        }
+            }
+            case MAINTENANCE -> {
+                if(!unit.getProperty().getStaff().contains(user)){
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not assigned to this property.");
+                }
+            }
+            case TENANT -> {
+                if(unit.getTenant() == null || !unit.getTenant().getUserId().equals(userId)){
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "This is not your unit.");
+                }
+            }
+            default->{
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not signed in.");
+            }
+            }
+        return ticketRepository.findByUnit(unit);
+    }
+
+    //maintenance statistics: view by fixture (shared between properties if different properties have same fixture, it is fine to see that this fixture has issue x)
+    public List<Ticket> getTicketsByFixture(Long fixtureId){
+        Fixture fixture = fixtureService.getFixtureById(fixtureId);
+        return ticketRepository.findByFixture(fixture);
+    }
+    
+//------------------------------------- DELETE METHODS -------------------------------------//
+    //DELETE
+    //deleting a closed ticket reduces usefullness of maintenance history!
+    public void deleteTicket(Long ticketId, Long userId){
+        userService.validateUserRole(userId, UserRole.LANDLORD);
+        Ticket ticket = validateTicketUsage(ticketId, userId);
         
     //------------------------------------- DELETE METHODS -------------------------------------//
         //DELETE

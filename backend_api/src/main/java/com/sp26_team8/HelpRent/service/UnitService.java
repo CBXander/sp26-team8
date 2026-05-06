@@ -11,6 +11,7 @@ import com.sp26_team8.HelpRent.entity.Unit;
 import com.sp26_team8.HelpRent.entity.UnitStatus;
 import com.sp26_team8.HelpRent.entity.User;
 import com.sp26_team8.HelpRent.entity.UserRole;
+import com.sp26_team8.HelpRent.entity.UserStatus;
 import com.sp26_team8.HelpRent.repository.UnitRepository;
 
 @Service
@@ -52,11 +53,12 @@ public class UnitService {
         Property property = propertyService.verifyLandlordOwnership(propertyId, userId);
         unit.setProperty(property); //make sure the property is correct 
         unit.setUnitStatus(UnitStatus.VACANT);
-        if(unit.getUnitNum() == null){
+        
+        if(unit.getUnitNum() == null || unit.getUnitNum().isEmpty()){
             // non-appartments have no unit number, SINGLE represents detached housing like this
             unit.setUnitNum("SINGLE");
         }
-        if(unit.getUnitAddress()== null){
+        if(unit.getUnitAddress()== null || unit.getUnitAddress().isEmpty()){
             // unit address if null should be property addres (unit is in same building as property)
             unit.setUnitAddress(property.getAddress());
         }
@@ -89,6 +91,8 @@ public class UnitService {
 
         unit.setTenant(userService.validateUserRole(tenantId, UserRole.TENANT));
         unit.setUnitStatus(UnitStatus.LEASED);
+        userService.updateUserStatus(tenantId,UserStatus.ACTIVE);
+        
         return unitRepository.save(unit);
     }
 
@@ -99,6 +103,8 @@ public class UnitService {
         if(unit.getTenant() == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This unit is already vacant.");
         }
+
+        userService.updateUserStatus(unit.getTenant().getUserId(), UserStatus.INACTIVE);
 
         unit.setTenant(null);
         unit.setUnitStatus(UnitStatus.VACANT);

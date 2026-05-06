@@ -11,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -28,6 +30,10 @@ public class Fixture{
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "property_id")
+    private Property property;
 
     @OneToMany(mappedBy = "fixture")
     @JsonManagedReference("fixture-helpGuides")
@@ -62,7 +68,11 @@ public class Fixture{
         return this.description;
     }
 
-    public List<HelpGuide> getGuides(){
+    public Property getProperty(){
+        return this.property;
+    }
+
+    public List<HelpGuide> getHelpGuides(){
         return this.helpGuides;
     }
 
@@ -81,6 +91,10 @@ public class Fixture{
 
     public void setDescription(String description){
         this.description = description;
+    }
+
+    public void setProperty(Property property){
+        this.property = property;
     }
 
     public void setHelpGuides(List<HelpGuide> guides){

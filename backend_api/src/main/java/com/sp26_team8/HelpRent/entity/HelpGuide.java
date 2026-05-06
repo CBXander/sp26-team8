@@ -20,8 +20,12 @@ import jakarta.persistence.Table;
 public class HelpGuide{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long guideId;
+    private Long helpGuideId;
     
+    @ManyToOne
+    @JoinColumn(name = "property_id", nullable = false)
+    private Property property;
+
     @Column(nullable=false)
     private String title;
 
@@ -31,11 +35,13 @@ public class HelpGuide{
     @Column(columnDefinition = "TEXT")
     private String category;
 
+    @Column
+    private String filePath;
+
     @ManyToOne
     @JoinColumn(name = "fixture_id", nullable = true)   //general helpguides will have no fixtureId as they are not associated with a fixture 
     @JsonBackReference("fixture-helpGuides")
     private Fixture fixture;
-
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -53,13 +59,21 @@ public class HelpGuide{
         this.updatedAt = LocalDateTime.now();
     }
 
-    //setters
+    //=======================setters===========================//
+    public void setProperty(Property property){
+        this.property = property;
+    }
+
     public void setTitle(String title){
         this.title = title;
     }
 
     public void setDescription(String description){
         this.description = description;
+    }
+
+    public void setFilePath(String filePath){
+        this.filePath = filePath;
     }
 
     public void setCategory(String category){
@@ -70,9 +84,13 @@ public class HelpGuide{
         this.fixture = fixture;
     }
 
-    //getters
-    public Long getGuideId(){
-        return this.guideId;
+    //=========================getters=========================//
+    public Property getProperty(){
+        return this.property;
+    }
+
+    public Long getHelpGuideId(){
+        return this.helpGuideId;
     }
 
     public String getTitle(){
@@ -81,6 +99,10 @@ public class HelpGuide{
 
     public String getDescription(){
         return this.description;
+    }
+
+    public String getFilePath(){
+        return this.filePath;
     }
 
     public String getCategory(){
@@ -104,11 +126,11 @@ public class HelpGuide{
         if(this == o) return true;
         if(o == null || getClass() != o.getClass()) return false;
         HelpGuide guide = (HelpGuide) o;
-        return this.guideId != null && this.guideId.equals(guide.getGuideId());
+        return this.helpGuideId != null && this.helpGuideId.equals(guide.getHelpGuideId());
     }
 
     @Override
     public int hashCode(){
-        return this.guideId != null ? this.guideId.hashCode() : 0;
+        return this.helpGuideId != null ? this.helpGuideId.hashCode() : 0;
     }
 }

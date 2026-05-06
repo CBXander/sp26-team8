@@ -3,7 +3,15 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.sp26_team8.HelpRent.entity.Property;
 import com.sp26_team8.HelpRent.service.PropertyService;
@@ -55,8 +63,8 @@ public class PropertyController {
     }
 
     @GetMapping("/landlord")
-    public ResponseEntity<List<Property>> getPropertiesByLandlord(@RequestParam Long userId) {
-        return ResponseEntity.ok(propertyService.getPropertiesByLandlord(userId));
+    public ResponseEntity<Property> getPropertiesByLandlord(@RequestParam Long userId) {
+        return ResponseEntity.ok(propertyService.getPropertyByLandlord(userId));
     }
 
     @DeleteMapping("/{propertyId}")

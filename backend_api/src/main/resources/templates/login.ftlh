@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HelpRent | Login</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/wireframe.css">
+
 </head>
 
 <body class="login-page">
@@ -13,21 +14,27 @@
         <h1>HelpRent</h1>
         <p class="subtitle">Login Portal</p>
 
-        <form action="/login" method="post">
-
-            <label>Email</label>
-            <input type="email" name="username" required placeholder="user@email.com">
-
-            <label>Password</label>
-            <input type="password" name="password" required placeholder="Enter password">
-
-            <button type="submit">Log In</button>
-
-        </form>
-
-        <!-- Error message from backend -->
         <#if RequestParameters.error??>
-            <p class="error">
-                Invalid email or password.
-            </p>
+            <p id="loginError" class="error "> Invalid email or password </p>
         </#if>
+
+        <#if RequestParameters.logout??>
+            <p id="loginError" class="error ">You have been logged out </p>
+        </#if>
+
+        <form id="loginForm" action="/ui/login" method="post">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="username" required placeholder="your-email@email.com">
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required placeholder="your password">
+
+            <button type="submit" form="loginForm">Log In</button>
+        </form>
+        <p>Need a landlord account? <a href="/ui/signup">Register now!</a></p>
+    </div>
+    
+</body>
+</html>
