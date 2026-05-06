@@ -30,7 +30,6 @@
                                 <td>${ticket.status!"—"}</td>
                                 <td>${ticket.priority!"—"}</td>
                                 <td>${ticket.createdAt!"—"}</td>
-                                <td></td>
                             </tr>
                         </#list>
                     </tbody>
@@ -133,9 +132,8 @@
                 <tbody>
                     <#if tickets??>
                         <#list tickets as ticket>
-                        
                         <tr>
-                            <td><a href="/ui/tickets/${ticket.ticketId}">${ticket.title}</td>
+                            <td><a href="/ui/tickets/${ticket.ticketId}">${ticket.title}</a></td>
                             <td>${ticket.unit.unitAddress} ${ticket.unit.unitNum}</td>
                             <td><span class="status pending">${ticket.status}</span></td>
                             <td>...</td>

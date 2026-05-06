@@ -4,7 +4,7 @@
     <#if role == "LANDLORD">
         <a href="/ui/units/${ticket.unit.unitId}">Back to Unit</a>
     <#else>
-        <a href="/ui/dahsboard">back</a>
+        <a href="/ui/dashboard">back</a>
     </#if>
         <div class="request-card">
             <h1>${ticket.title}</h1>
@@ -102,6 +102,32 @@
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                     <button type="submit">Advance Status</button>
                 </form>
+            </#if>
+            <div>
+                <h3>History</h3>
+                <a href="/ui/tickets/unit/${ticket.unit.unitId}">View unit ticket history</a>
+                <#if ticket.fixture??>
+                    <a href="/ui/tickets/fixture/${ticket.fixture.fixtureId}">View fixture ticket history</a>
+                </#if>
+            </div>
+            <#if ticket.unit.tenant??>
+                <div>
+                    <h3>Tenant</h3>
+                    <p>${ticket.unit.tenant.firstName} ${ticket.unit.tenant.lastName}</p>
+                    <p>${ticket.unit.tenant.email}</p>
+                </div>
+            </#if>
+
+            <#if ticket.fixture??>
+                <div>
+                    <h3>Fixture Info</h3>
+                    <p>${ticket.fixture.title} - ${ticket.fixture.description}</p>
+                    <#if ticket.fixture.helpGuides??>
+                        <#list ticket.fixture.helpGuides as guide>
+                            <a href="/ui/helpguides/${guide.helpGuideId}">${guide.title}</a>
+                        </#list>
+                    </#if>
+                </div>
             </#if>
         </#if>
 

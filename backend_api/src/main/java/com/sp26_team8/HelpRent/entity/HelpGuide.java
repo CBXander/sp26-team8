@@ -22,6 +22,10 @@ public class HelpGuide{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long helpGuideId;
     
+    @ManyToOne
+    @JoinColumn(name = "property_id", nullable = false)
+    private Property property;
+
     @Column(nullable=false)
     private String title;
 
@@ -30,6 +34,9 @@ public class HelpGuide{
 
     @Column(columnDefinition = "TEXT")
     private String category;
+
+    @Column
+    private String filePath;
 
     @ManyToOne
     @JoinColumn(name = "fixture_id", nullable = true)   //general helpguides will have no fixtureId as they are not associated with a fixture 
@@ -52,13 +59,21 @@ public class HelpGuide{
         this.updatedAt = LocalDateTime.now();
     }
 
-    //setters
+    //=======================setters===========================//
+    public void setProperty(Property property){
+        this.property = property;
+    }
+
     public void setTitle(String title){
         this.title = title;
     }
 
     public void setDescription(String description){
         this.description = description;
+    }
+
+    public void setFilePath(String filePath){
+        this.filePath = filePath;
     }
 
     public void setCategory(String category){
@@ -69,7 +84,11 @@ public class HelpGuide{
         this.fixture = fixture;
     }
 
-    //getters
+    //=========================getters=========================//
+    public Property getProperty(){
+        return this.property;
+    }
+
     public Long getHelpGuideId(){
         return this.helpGuideId;
     }
@@ -80,6 +99,10 @@ public class HelpGuide{
 
     public String getDescription(){
         return this.description;
+    }
+
+    public String getFilePath(){
+        return this.filePath;
     }
 
     public String getCategory(){

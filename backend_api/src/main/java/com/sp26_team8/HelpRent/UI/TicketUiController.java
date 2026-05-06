@@ -109,4 +109,21 @@ public class TicketUiController {
         ticketService.cancelTicket(ticketId, user.getUserId());
         return "redirect:/ui/tickets/" + ticketId;
     }
+
+    //==================Filtered Ticket Views For Maintenance==================//
+    @GetMapping("/unit/{unitId}")
+    public String ticketsByUnit(Authentication auth, @PathVariable Long unitId, Model model) {
+        User user = userService.getUserByEmail(auth.getName());
+        model.addAttribute("role", user.getRole().name());
+        model.addAttribute("tickets", ticketService.getTicketsByUnit(unitId, user.getUserId()));
+        return "ticket/list";
+    }
+
+    @GetMapping("/fixture/{fixtureId}")
+    public String ticketsByFixture(Authentication auth, @PathVariable Long fixtureId, Model model) {
+        User user = userService.getUserByEmail(auth.getName());
+        model.addAttribute("role", user.getRole().name());
+        model.addAttribute("tickets", ticketService.getTicketsByFixture(fixtureId));
+        return "ticket/list";
+    }
 }

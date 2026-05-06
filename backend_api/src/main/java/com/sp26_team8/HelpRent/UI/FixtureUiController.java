@@ -72,13 +72,11 @@ public class FixtureUiController {
     @GetMapping("/{fixtureId}")
     public String viewFixture(Authentication auth, Model model, @PathVariable Long fixtureId){
         User user = userService.getUserByEmail(auth.getName());
-
         Fixture fixture = fixtureService.getFixtureById(fixtureId);
 
         model.addAttribute("role", user.getRole().name());
         model.addAttribute("fixture", fixture);
-
-        //note here to think about possible ease of use for attaching HelpGuides to fixtures from detail view of fixture?
+        
         return "fixture/view";
     }
 

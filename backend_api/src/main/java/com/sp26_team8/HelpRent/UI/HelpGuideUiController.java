@@ -1,20 +1,22 @@
 package com.sp26_team8.HelpRent.UI;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.sp26_team8.HelpRent.entity.HelpGuide;
-import com.sp26_team8.HelpRent.entity.Property;
-import com.sp26_team8.HelpRent.entity.User;
-import com.sp26_team8.HelpRent.service.FixtureService;
-import com.sp26_team8.HelpRent.service.HelpGuideService;
-import com.sp26_team8.HelpRent.service.PropertyService;
-import com.sp26_team8.HelpRent.service.UserService;
+import com.sp26_team8.HelpRent.entity.*;
+import com.sp26_team8.HelpRent.service.*;
 
 @Controller
 @RequestMapping("/ui/helpGuides")
@@ -32,7 +34,7 @@ public class HelpGuideUiController {
         this.propertyService=propertyService;
     }
 
-    //==================View All HelpGuides=====================//
+    //==================View HelpGuides=====================//
     @GetMapping("")
     public String viewAllHelpGuides(Authentication auth, Model model){
         User user = userService.getUserByEmail(auth.getName());
@@ -43,20 +45,35 @@ public class HelpGuideUiController {
         
         return "helpGuide/all";
     }
+
+    @GetMapping("/{helpGuideId}")
+    public String viewHelpGuide(Authentication auth, @PathVariable Long helpGuideId, Model model){
+        User user = userService.getUserByEmail(auth.getName());
+        HelpGuide guide = helpGuideService.getHelpGuideById(helpGuideId);
+
+        model.addAttribute("role", user.getRole().name());
+        model.addAttribute("guide", guide);
+
+        return "helpGuide/view";
+    }
+
     //==============New HelpGuide Form==================//
     @GetMapping("/new")
     public String newHelpGuideForm(Authentication auth, Model model){
         User user = userService.getUserByEmail(auth.getName());
+        Property property = propertyService.getPropertyByLandlord(user.getUserId());
         
         model.addAttribute("role", user.getRole().name());
-        
+        model.addAttribute("fixtures", property.getFixtures());
+
         return "helpGuide/form";
     }
-
+    
     @PostMapping("/new")
     public String createHelpGuide(Authentication auth, @RequestParam String title, 
-                                    @RequestParam String description, @RequestParam String category, 
-                                    @RequestParam Long fixtureId){
+                                    @RequestParam String description, @RequestParam(required = false) String category, 
+                                    @RequestParam(required = false) Long fixtureId, @RequestParam(required = false) MultipartFile file) 
+                                    throws IOException {
         User user = userService.getUserByEmail(auth.getName());
         Property property = propertyService.getPropertyByLandlord(user.getUserId());
 
@@ -64,12 +81,58 @@ public class HelpGuideUiController {
         newGuide.setTitle(title);
         newGuide.setDescription(description);
         newGuide.setCategory(category);
+        newGuide.setProperty(property);
 
+        if (file != null && !file.isEmpty()) {
+            String uploadDir = "uploads/helpGuides/";
+            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            Path path = Paths.get(uploadDir + fileName);
+            Files.createDirectories(path.getParent());
+            Files.write(path, file.getBytes());
+            newGuide.setFilePath(fileName);
+        }
+        
         HelpGuide saved = helpGuideService.createHelpGuide(newGuide, fixtureId, user.getUserId());
         
-        property.getHelpGuides().add(newGuide);
-        
-        return "redirect: /ui/helpGuides/" + saved.getHelpGuideId();
+        return "redirect:/ui/helpGuides/" + saved.getHelpGuideId();
     }
 
+    //====================Edit Existing HelpGuide=================//
+    @GetMapping("/{helpGuideId}/edit")
+    public String editHelpGuideForm(Authentication auth, @PathVariable Long helpGuideId, Model model){
+        User user = userService.getUserByEmail(auth.getName());
+        HelpGuide guide = helpGuideService.getHelpGuideById(helpGuideId);
+        Property property = propertyService.getPropertyByLandlord(user.getUserId());
+
+        model.addAttribute("role", user.getRole().name());
+        model.addAttribute("guide", guide);
+        model.addAttribute("fixtures", property.getFixtures());
+
+        return "helpGuide/form";
+    }
+
+    @PostMapping("/{helpGuideId}/edit")
+    public String editHelpGuide(Authentication auth, @PathVariable Long helpGuideId,
+                                @RequestParam String title, @RequestParam String description, @RequestParam String category,
+                                @RequestParam Long fixtureId){
+        User user = userService.getUserByEmail(auth.getName());
+        HelpGuide guide = helpGuideService.getHelpGuideById(helpGuideId);
+
+        guide.setTitle(title);
+        guide.setDescription(description);
+        guide.setCategory(category);
+
+        HelpGuide saved = helpGuideService.createHelpGuide(guide, fixtureId, user.getUserId());
+
+        return "redirect:/ui/helpGuides/" + saved.getHelpGuideId();
+    }
+
+    @PostMapping("/{helpGuideId}/delete")
+    public String deleteHelpGuide(Authentication auth, @PathVariable Long helpGuideId){
+        User user = userService.getUserByEmail(auth.getName());
+        helpGuideService.deleteHelpGuide(helpGuideId, user.getUserId());
+
+        return "redirect:/ui/helpGuides";
+    }
+    
 }

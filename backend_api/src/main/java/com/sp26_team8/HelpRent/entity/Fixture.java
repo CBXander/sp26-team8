@@ -72,7 +72,7 @@ public class Fixture{
         return this.property;
     }
 
-    public List<HelpGuide> getGuides(){
+    public List<HelpGuide> getHelpGuides(){
         return this.helpGuides;
     }
 
