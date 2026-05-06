@@ -13,8 +13,9 @@
                 <#if role == "LANDLORD"> 
                     <a href="/ui/dashboard">Dashboard</a>
                     <a href="/ui/tickets">Tickets</a>
+                    <a href="/ui/fixtures">Fixtures</a>
                     <!-- <a href="NEED TO ADD">Messages</a> -->
-                    <a href="NEED TO ADD">HelpGuides</a>
+                    <a href="/ui/helpGuides">HelpGuides</a>
 
                     <form action="/ui/logout" method="post" style="display:inline;">
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">

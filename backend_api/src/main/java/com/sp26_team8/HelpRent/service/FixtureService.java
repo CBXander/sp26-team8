@@ -1,13 +1,16 @@
 package com.sp26_team8.HelpRent.service;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.http.HttpStatus;
 
+import com.sp26_team8.HelpRent.entity.Fixture;
+import com.sp26_team8.HelpRent.entity.Unit;
+import com.sp26_team8.HelpRent.entity.User;
+import com.sp26_team8.HelpRent.entity.UserRole;
 import com.sp26_team8.HelpRent.repository.FixtureRepository;
 import com.sp26_team8.HelpRent.repository.UnitRepository;
-import com.sp26_team8.HelpRent.entity.*;
 
 @Service
 public class FixtureService {

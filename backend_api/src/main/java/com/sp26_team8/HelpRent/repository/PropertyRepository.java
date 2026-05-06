@@ -1,12 +1,13 @@
 package com.sp26_team8.HelpRent.repository;
 
-import java.util.List;
 import java.time.LocalDateTime;
-
-import com.sp26_team8.HelpRent.entity.*;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.sp26_team8.HelpRent.entity.Property;
+import com.sp26_team8.HelpRent.entity.User;
 
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long>{

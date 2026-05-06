@@ -1,24 +1,27 @@
 package com.sp26_team8.HelpRent.service;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.http.HttpStatus;
 
-import com.sp26_team8.HelpRent.repository.*;
+import com.sp26_team8.HelpRent.entity.Fixture;
+import com.sp26_team8.HelpRent.entity.HelpGuide;
+import com.sp26_team8.HelpRent.entity.Property;
+import com.sp26_team8.HelpRent.entity.User;
+import com.sp26_team8.HelpRent.entity.UserRole;
+import com.sp26_team8.HelpRent.repository.PropertyRepository;
 
-import com.sp26_team8.HelpRent.entity.*;
+import jakarta.transaction.Transactional;
 
 @Service
 public class PropertyService {
     private final PropertyRepository propertyRepository;
     private final UserService userService;
-    private final FixtureService fixtureService;
 
-    public PropertyService(PropertyRepository propertyRepository, UserService userService, FixtureService fixtureService){
+    public PropertyService(PropertyRepository propertyRepository, UserService userService){
         this.propertyRepository = propertyRepository;
         this.userService = userService;
-        this.fixtureService = fixtureService;
     }
 
     //VERIFY LANDLORD-PROPERTY OWNERSHIP 
@@ -71,6 +74,7 @@ public class PropertyService {
         userService.validateUserRole(userId, UserRole.LANDLORD);
         User newStaff = userService.validateUserRole(staffId, UserRole.MAINTENANCE);
         Property property = verifyLandlordOwnership(propertyId, userId);
+        
         if(property.getStaff().contains(newStaff)){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "This staff member is already assigned to this property");
         }
@@ -80,6 +84,7 @@ public class PropertyService {
     }
 
     //remove staff from property ###FOR LANDLORDS###
+    @Transactional
     public Property removeStaffFromProperty(Long propertyId, Long staffId, Long userId){
         userService.validateUserRole(userId, UserRole.LANDLORD);
         User staff = userService.validateUserRole(staffId, UserRole.MAINTENANCE);
@@ -93,9 +98,8 @@ public class PropertyService {
     }
 
     // add and remove fixture from property
-    public Property addFixtureToProperty(Long propertyId, Long fixtureId, Long userId){
+    public Property addFixtureToProperty(Long propertyId, Fixture newFixture, Long userId){
         userService.validateUserRole(userId, UserRole.LANDLORD);
-        Fixture newFixture = fixtureService.getFixtureById(fixtureId);
         Property property = verifyLandlordOwnership(propertyId, userId);
 
         if(property.getFixtures().contains(newFixture)){
@@ -106,15 +110,41 @@ public class PropertyService {
         return propertyRepository.save(property);
     }
 
-    public Property removeFixtureFromProperty(Long propertyId, Long fixtureId, Long userId){
+    @Transactional
+    public Property removeFixtureFromProperty(Long propertyId, Fixture newFixture, Long userId){
         userService.validateUserRole(userId, UserRole.LANDLORD);
-        Fixture newFixture = fixtureService.getFixtureById(fixtureId);
         Property property = verifyLandlordOwnership(propertyId, userId);
 
         if(!property.getFixtures().contains(newFixture)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The property does not have this fixture");
         }
         property.getFixtures().remove(newFixture);
+        
+        return propertyRepository.save(property);
+    }
+
+    // add and remove fixture from property
+    public Property addHelpGuideToProperty(Long propertyId, HelpGuide helpGuide, Long userId){
+        userService.validateUserRole(userId, UserRole.LANDLORD);
+        Property property = verifyLandlordOwnership(propertyId, userId);
+
+        if(property.getHelpGuides().contains(helpGuide)){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "This HelpGuide is already in this property");
+        }
+        property.getHelpGuides().add(helpGuide);
+
+        return propertyRepository.save(property);
+    }
+
+    @Transactional
+    public Property removeHelpGuideFromProperty(Long propertyId, HelpGuide helpGuide, Long userId){
+        userService.validateUserRole(userId, UserRole.LANDLORD);
+        Property property = verifyLandlordOwnership(propertyId, userId);
+
+        if(!property.getHelpGuides().contains(helpGuide)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The property does not have this fixture");
+        }
+        property.getHelpGuides().remove(helpGuide);
         
         return propertyRepository.save(property);
     }
@@ -141,8 +171,7 @@ public class PropertyService {
     public void deleteProperty(Long propertyId, Long userId){
         userService.validateUserRole(userId, UserRole.LANDLORD);
         Property property = verifyLandlordOwnership(propertyId, userId);
-        
-        //TODO: handle floating links to units and staff
+
         propertyRepository.delete(property);
     }
 

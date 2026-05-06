@@ -1,7 +1,9 @@
 package com.sp26_team8.HelpRent.entity;
 
 import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,7 +35,6 @@ public class HelpGuide{
     @JoinColumn(name = "fixture_id", nullable = true)   //general helpguides will have no fixtureId as they are not associated with a fixture 
     @JsonBackReference("fixture-helpGuides")
     private Fixture fixture;
-
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

@@ -1,5 +1,11 @@
 package com.sp26_team8.HelpRent.UI;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,15 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.security.core.Authentication;
-
-import com.sp26_team8.HelpRent.service.*;
-import com.sp26_team8.HelpRent.entity.*;;
+import com.sp26_team8.HelpRent.entity.Property;
+import com.sp26_team8.HelpRent.entity.Ticket;
+import com.sp26_team8.HelpRent.entity.User;
+import com.sp26_team8.HelpRent.entity.UserRole;
+import com.sp26_team8.HelpRent.entity.UserStatus;
+import com.sp26_team8.HelpRent.service.PropertyService;
+import com.sp26_team8.HelpRent.service.TicketService;
+import com.sp26_team8.HelpRent.service.UserService;
+;
 
 
 @Controller
@@ -68,39 +74,36 @@ public class UserUiController {
         model.addAttribute("user", user);
         model.addAttribute("role", user.getRole().name());
 
-        // switch case for user role!
+        
         switch (user.getRole()) {
-            case LANDLORD:
+            case LANDLORD -> {
                 Property property = propertyService.getPropertyByLandlord(user.getUserId());
                 if (property != null) {
                     List<Ticket> unassignedTickets = ticketService.getUnassignedTickets(property.getPropertyId(),user.getUserId());
-                
                     Map<String, Integer> staffTicketCounts = new HashMap<>();
                     for (User staff : property.getStaff()) {
                         List<Ticket> staffTickets = ticketService.getTicketByStaff(staff.getUserId());
                         staffTicketCounts.put(staff.getUserId().toString(), staffTickets.size());
                     }
-                    
+
                     model.addAttribute("property", property);
                     model.addAttribute("staffTicketCounts", staffTicketCounts);
                     model.addAttribute("unassigned", unassignedTickets);
                 }
+            }
 
-                break;
-
-            case MAINTENANCE:
+            case MAINTENANCE -> {
                 List<Ticket> tickets = ticketService.getTicketByStaff(user.getUserId());
                 for (Ticket ticket : tickets) {
                     ticket.getUnit().getUnitAddress();
                 }
                 model.addAttribute("tickets", tickets);
+            }
 
-                break;
-
-            case TENANT:
-                //ADD TENANT DASH ATTRIBUTES
-                break;
+            case TENANT -> {
+            }
         }
+        //ADD TENANT DASH ATTRIBUTES
 
         return "dashboard";
     }
@@ -114,24 +117,22 @@ public class UserUiController {
         model.addAttribute("role", user.getRole().name());
 
         switch (user.getRole()) {
-            case LANDLORD:
+            case LANDLORD -> {
                 List<Ticket> tickets = new ArrayList<>();
                 Property property = propertyService.getPropertyByLandlord(user.getUserId());
                 
                 tickets.addAll(ticketService.getTicketByProperty(property.getPropertyId(), user.getUserId()));
                 model.addAttribute("tickets", tickets);
-                
-                break;
-            case MAINTENANCE:
+            }
+            case MAINTENANCE -> {
                 List<Ticket> assignedTicket = ticketService.getTicketByStaff(user.getUserId());
                 for (Ticket ticket : assignedTicket) {
                     ticket.getUnit().getUnitAddress();
                 }
                 model.addAttribute("tickets", assignedTicket);
-
-                break;
-            case TENANT:
-                break;
+            }
+            case TENANT -> {
+            }
         }
 
         return "ticket/list";

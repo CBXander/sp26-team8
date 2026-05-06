@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,8 +17,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -29,7 +30,7 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long propertyId;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="landlord_id", nullable = false, unique = true)
     @JsonBackReference("landlord-properties")
     private User landlord;
@@ -40,24 +41,25 @@ public class Property {
     @Column(nullable = false, unique = true)
     private String address;
 
-    @OneToMany(mappedBy = "property")
+    @OneToMany(mappedBy = "property", 
+                cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonManagedReference("property-units")
     private List<Unit> units = new ArrayList<>();
     
-    @ManyToMany
-    @JoinTable(
-        name = "property_fixture",
-        joinColumns = @JoinColumn(name="property_id"),
-        inverseJoinColumns = @JoinColumn(name="fixture_id") 
-    )
+    @OneToMany(mappedBy = "property", 
+                cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Fixture> fixtures = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "property_id")
+    private List<HelpGuide> helpGuides;
 
     @ManyToMany
     @JoinTable(
         name = "property_staff",
         joinColumns = @JoinColumn(name="property_id"),
         //staff_id is actually a user_id just changed the name to differentiate between user roles since this would only have staff
-        inverseJoinColumns = @JoinColumn(name="staff_id") 
+        inverseJoinColumns = @JoinColumn(name="staff_id")
     )
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler",})
     private List<User> staff = new ArrayList<>();
@@ -97,6 +99,9 @@ public class Property {
     public void setFixtures(List<Fixture> fixtures){
         this.fixtures = fixtures;
     }
+    public void setHelpGuides(List<HelpGuide> helpGuides){
+        this.helpGuides=helpGuides;
+    }
     public void setStaff(List<User> staff){
         this.staff = staff;
     }
@@ -125,6 +130,10 @@ public class Property {
 
     public List<Fixture> getFixtures(){
         return this.fixtures;
+    }
+
+    public List<HelpGuide> getHelpGuides(){
+        return this.helpGuides;
     }
 
     public List<User> getStaff(){
