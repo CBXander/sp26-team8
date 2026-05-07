@@ -52,8 +52,7 @@
   Scenario: Tenant selects request priority
     Given the tenant is creating a maintenace request
     When  the tenant selects a priority level 
-      And submits the request
-    Then  the system records the selected priority 
+      And submits the request 
       And displays it with the request details
   ```
 
@@ -64,17 +63,17 @@
   Scenario: Tenant receives status update notification
     Given the tenant has submitted a maintenance request
     When  the status of the request changes
-    Then  then the system notifies the tenant
+    Then  the ticket moves to
   ```
 
-- **US‑TENA‑003 — Cancel or Modify Request**  
-  _Story:_ As a tenant, I want to cancel or update a maintenance request, so that I can correct mistakes or report resolved issues.  
+- **US‑TENA‑003 — Cancel Request**  
+  _Story:_ As a tenant, I want to cancel a maintenance request, so that if it was a false alarm I can notify maintenance.
   _Acceptance:_
   ```gherkin
   Scenario: Tenant updates maintenance request
     Given the tenant has submitted a maintenance request
-    When  the tenant edits or cancels the request
-    Then  the system updates the request information 
+    When  the tenant cancels the request
+    Then  the ticket gets canceled
       And reflects new status
   ```
 
@@ -84,7 +83,7 @@
   ```gherkin
   Scenario: Tenant confirms repair completion
     Given a maintenance request is marked as completed
-    When  the tenant confirms the repair is satisfactory
+    When  the tenant confirms the repair is satisfactory via messages
     Then  the system marks the request as closed
   ```
 
@@ -104,21 +103,11 @@
   _Acceptance:_
   ```gherkin
   Scenario: Tenant searches for maintenance guides
-    Given the tenant is viewing maintenance guides
+    Given the tenant is viewing maintenance guides on a fixture assigned to the tenant's unit.
     When  the tenant enters a search term
     Then  the system displays matching guides
   ```
-
-- **US‑TENA-007 — View Frequently Asked Questions**  
-  _Story:_ As a tenant, I want to view frequently asked maintenace questions, so that I can resolve minor issues independently.
-  _Acceptance:_
-  ```gherkin
-  Scenario: Tentant views FAQ section
-    Given the tenant is authenticated
-    When  the tenant accesses the FAQ section
-    Then  the system displays maintenance-related questions and answers
-  ```
-- **US‑TENA-008 — Log Into Account**  
+- **US‑TENA-007 — Log Into Account**  
   _Story:_ As a tenant, I want to log into my account, so that I can access maintenance features.  
   _Acceptance:_
   ```gherkin
@@ -127,7 +116,7 @@
     When  the tenant enters valid credentials
     Then  the system grants access to the tenant dashboard
   ```
-- **US‑TENA-009 — View Dashboard**  
+- **US‑TENA-008 — View Dashboard**  
   _Story:_ As a tenant, I want to view my dashboard, so that I can see my maintenance activity in one place.  
   _Acceptance:_
   ```gherkin
@@ -136,7 +125,15 @@
     When  the tenant accesses the dashboard
     Then  the system displays the tenant's maintenance information
   ```
-
+- **US‑TENA-008 — Communication with management**  
+  _Story:_ As a tenant, I want to chat with maintenance, so that I can communitcate issues. 
+  _Acceptance:_
+  ```gherkin
+  Scenario: Tenant access chat
+    Given the tenant is logged into the system
+    When  the tenant accesses a ticket
+    Then  the system displays the tenant's client of the chatbox linked to ticket.
+  ```
 ### 2.2 Provider (Landlord) Stories
 - **US‑PROV‑001 — Create and Manage Property**
   _Story:_ As a landlord, I want to create a property and manage its units, so that I can organize my rental portfolio.
