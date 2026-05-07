@@ -190,8 +190,6 @@ public class UnitService {
     //delete
     public void deleteUnit(Long unitId, Long userId){
         Unit unit = validateUnitLandlord(unitId, userId);
-        
-        //TODO: handle floating links to Tenant, Fixtures, and tickets
         unitRepository.delete(unit);
     }
 }

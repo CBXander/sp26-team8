@@ -3,7 +3,6 @@ package com.sp26_team8.HelpRent.UI;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -11,9 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.Files;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.sp26_team8.HelpRent.entity.*;
 import com.sp26_team8.HelpRent.service.*;
@@ -23,14 +19,12 @@ import com.sp26_team8.HelpRent.service.*;
 public class HelpGuideUiController {
     private final HelpGuideService helpGuideService;
     private final UserService userService;
-    private final FixtureService fixtureService;
     private final PropertyService propertyService;
     private final UnitService unitService;
     public HelpGuideUiController(HelpGuideService helpGuideService, UserService userService,
-                                FixtureService fixtureService, PropertyService propertyService, UnitService unitService){
+                                 PropertyService propertyService, UnitService unitService){
         this.helpGuideService=helpGuideService;
         this.userService=userService;
-        this.fixtureService=fixtureService;
         this.propertyService=propertyService;
         this.unitService=unitService;
     }

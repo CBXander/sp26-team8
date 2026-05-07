@@ -1,6 +1,5 @@
 package com.sp26_team8.HelpRent.UI;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sp26_team8.HelpRent.service.*;
@@ -25,14 +23,12 @@ public class TicketUiController {
     private final UserService userService;
     private final UnitService unitService;
     private final PropertyService propertyService;
-    private final MessageService messageService;
 
-    public TicketUiController(TicketService ticketService, UserService userService, UnitService unitService, PropertyService propertyService, MessageService messageService){
+    public TicketUiController(TicketService ticketService, UserService userService, UnitService unitService, PropertyService propertyService){
         this.ticketService = ticketService;
         this.userService = userService;
         this.unitService = unitService;
         this.propertyService = propertyService;
-        this.messageService = messageService;
     }
 
     //============ View ALL Tickets =========//

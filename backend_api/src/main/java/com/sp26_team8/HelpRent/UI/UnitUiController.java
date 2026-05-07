@@ -16,13 +16,9 @@ import com.sp26_team8.HelpRent.entity.*;
 public class UnitUiController {
     private final UnitService unitService;
     private final UserService userService;
-    private final PropertyService propertyService;
-    private final FixtureService fixtureService;
-    public UnitUiController(UnitService unitService, UserService userService, PropertyService propertyService, FixtureService fixtureService){
+    public UnitUiController(UnitService unitService, UserService userService){
         this.unitService = unitService;
         this.userService = userService;
-        this.propertyService = propertyService;
-        this.fixtureService = fixtureService;
     }
 
     //======= Unit Details =========//

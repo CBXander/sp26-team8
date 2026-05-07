@@ -12,7 +12,6 @@ import com.sp26_team8.HelpRent.entity.UserStatus;
 import com.sp26_team8.HelpRent.entity.Unit;
 import com.sp26_team8.HelpRent.service.UserService;
 import com.sp26_team8.HelpRent.service.UnitService;
-import com.sp26_team8.HelpRent.service.PropertyService;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;

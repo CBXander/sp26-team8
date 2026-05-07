@@ -44,7 +44,7 @@
             </#list>
         </#if>
         <#if allFixtures?? && (allFixtures?size > 0)>
-            <form action="/ui/units/${unit.unitId}/fixtures/add" method="post" style="display:inline;">
+            <form action="/units/${unit.unitId}/fixtures/add" method="post" style="display:inline;">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                 <select name="fixtureId" required>
                     <option value="">Select fixture</option>
