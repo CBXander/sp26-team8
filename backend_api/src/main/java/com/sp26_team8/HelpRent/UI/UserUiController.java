@@ -65,7 +65,7 @@ public class UserUiController {
 
         try {
             userService.createUser(user);
-            return "redirect:/ui/login";
+            return "redirect:/login";
         } catch (ResponseStatusException e){
             model.addAttribute("error", "An account with this email already exists.");
             return "signup";

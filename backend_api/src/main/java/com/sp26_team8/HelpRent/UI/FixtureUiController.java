@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp26_team8.HelpRent.entity.Fixture;
+import com.sp26_team8.HelpRent.entity.HelpGuide;
 import com.sp26_team8.HelpRent.entity.Property;
 import com.sp26_team8.HelpRent.entity.User;
 import com.sp26_team8.HelpRent.service.FixtureService;
@@ -127,11 +128,14 @@ public class FixtureUiController {
     }
 
     @PostMapping("/{fixtureId}/delete")
-    public String deleteString(Authentication auth, @PathVariable Long fixtureId){
+    public String deleteFixture(Authentication auth, @PathVariable Long fixtureId){
         User user = userService.getUserByEmail(auth.getName());
 
         Property property = propertyService.getPropertyByLandlord(user.getUserId());
         Fixture fixture = fixtureService.getFixtureById(fixtureId);
+        for (HelpGuide guide : fixture.getHelpGuides()) {
+            helpGuideService.changeHelpGuideFixture(guide.getHelpGuideId(), null, user.getUserId());
+        }
         propertyService.removeFixtureFromProperty(property.getPropertyId(), fixture, user.getUserId());
 
         return "redirect:/fixtures";

@@ -47,14 +47,14 @@ public class UnitUiController {
     public String addFixtureToUnit(Authentication auth, @PathVariable Long unitId, @RequestParam Long fixtureId) {
         User user = userService.getUserByEmail(auth.getName());
         unitService.addFixtureToUnit(unitId, fixtureId, user.getUserId());
-        return "redirect:/ui/units/" + unitId;
+        return "redirect:/units/" + unitId;
     }
 
     @PostMapping("/{unitId}/fixtures/{fixtureId}/remove")
     public String removeFixtureFromUnit(Authentication auth, @PathVariable Long unitId, @PathVariable Long fixtureId) {
         User user = userService.getUserByEmail(auth.getName());
         unitService.removeFixtureFromUnit(unitId, fixtureId, user.getUserId());
-        return "redirect:/ui/units/" + unitId;
+        return "redirect:/units/" + unitId;
     }
     //======= Tennant Handling ========//
     @GetMapping("/{unitId}/tenant/new")
