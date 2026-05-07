@@ -59,7 +59,7 @@
 
             <div id="activeTab" class="tab-content">
                 <#list tickets as ticket>
-                    <#if ticket.status != "COMPLETED" && ticket.status != "CANCELLED">
+                    <#if ticket.status != "COMPLETED" && ticket.status != "CANCELLED" && ticket.status != "CLOSED">
                         <div class="request-card">
                             <h3>${ticket.title}</h3>
                             <p><strong>Status:</strong> ${ticket.status}</p>
