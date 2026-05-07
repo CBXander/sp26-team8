@@ -54,6 +54,7 @@
                 <button onclick="showTab('active')">Active</button>
                 <button onclick="showTab('completed')">Completed</button>
                 <button onclick="showTab('cancelled')">Cancelled</button>
+                <button onclick="showTab('closed')">Closed</button>
             </div>
 
             <div id="activeTab" class="tab-content">
@@ -118,6 +119,21 @@
                 </#list>
             </div>
 
+            <div id="closedTab" class="tab-content" style="display:none;">
+                <#list tickets as ticket>
+                    <#if ticket.status == "CLOSED">
+                        <div class="request-card closed">
+                            <h3>${ticket.title}</h3>
+                            <p><strong>Status:</strong> ${ticket.status}</p>
+                            <p><strong>Created:</strong> ${ticket.createdAt?substring(0,10)?date("yyyy-MM-dd")?string("MMM dd, yyyy")}</p>
+                            <p><strong>Updated:</strong> ${ticket.updatedAt?substring(0,10)?date("yyyy-MM-dd")?string("MMM dd, yyyy")}</p>
+
+                            <a href="/tickets/${ticket.ticketId}/chat">Open Chat</a>
+                        </div>
+                    </#if>
+                </#list>
+            </div>
+
         </section>
     <#else>
         <p>No requests found.</p>
@@ -128,10 +144,12 @@
         document.getElementById("activeTab").style.display = "none";
         document.getElementById("completedTab").style.display = "none";
         document.getElementById("cancelledTab").style.display = "none";
+        document.getElementById("closedTab").style.display = "none";
 
         if (tab === "active") document.getElementById("activeTab").style.display = "block";
         if (tab === "completed") document.getElementById("completedTab").style.display = "block";
         if (tab === "cancelled") document.getElementById("cancelledTab").style.display = "block";
+        if (tab === "closed") document.getElementById("closedTab").style.display = "block";
     }
     </script>
 

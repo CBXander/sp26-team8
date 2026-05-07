@@ -149,7 +149,7 @@
     
     <#elseif role == "TENANT">
         <div>
-            <h1>Welcome, ${user.firstName}</h1>
+            
             <p>
                 <#if tenantUnit??>
                     Apartment ${tenantUnit.unitNum} (${tenantUnit.unitAddress})
