@@ -2,9 +2,9 @@
 
 <@layout.page title="Ticket Details">
     <#if role == "LANDLORD">
-        <a href="/ui/units/${ticket.unit.unitId}">Back to Unit</a>
+        <a href="/units/${ticket.unit.unitId}">Back to Unit</a>
     <#else>
-        <a href="/ui/dashboard">back</a>
+        <a href="/dashboard">back</a>
     </#if>
         <div class="request-card">
             <h1>${ticket.title}</h1>
@@ -31,7 +31,7 @@
 
         <#if role == "LANDLORD">
             <#if ticket.status == "OPEN" || ticket.status == "IN_PROGRESS">
-                <form action="/ui/tickets/${ticket.ticketId}/assign" method="post" style="display:inline;">
+                <form action="/tickets/${ticket.ticketId}/assign" method="post" style="display:inline;">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 
                     <select name="staffId" required>
@@ -47,7 +47,7 @@
             </#if>
 
             <#if ticket.status == "OPEN" || ticket.status == "IN_PROGRESS">
-                <form action="/ui/tickets/${ticket.ticketId}/priority" method="post" style="display:inline;">
+                <form action="/tickets/${ticket.ticketId}/priority" method="post" style="display:inline;">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 
                     <select name="priority" required>
@@ -61,7 +61,7 @@
             </#if>
 
             <#if ticket.status == "OPEN" || ticket.status == "IN_PROGRESS">
-                <form action="/ui/tickets/${ticket.ticketId}/status" method="post" style="display:inline;">
+                <form action="/tickets/${ticket.ticketId}/status" method="post" style="display:inline;">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 
                     <button type="submit">Advance Status</button>
@@ -69,14 +69,14 @@
             </#if>
 
             <#if ticket.status == "COMPLETED">
-                <form action="/ui/tickets/${ticket.ticketId}/complete" method="post" style="display:inline;">
+                <form action="/tickets/${ticket.ticketId}/complete" method="post" style="display:inline;">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                     <button type="submit">Close Ticket</button>
                 </form>
             </#if>
 
             <#if ticket.status != "CLOSED" && ticket.status != "CANCELLED">
-                <form action="/ui/tickets/${ticket.ticketId}/cancel" method="post" style="display:inline;">
+                <form action="/tickets/${ticket.ticketId}/cancel" method="post" style="display:inline;">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                     <button type="submit">Cancel Ticket</button>
                 </form>
@@ -85,7 +85,7 @@
 
         <#if role == "MAINTENANCE">
             <#if ticket.status == "OPEN" || ticket.status == "IN_PROGRESS">
-                <form action="/ui/tickets/${ticket.ticketId}/priority" method="post" style="display:inline;">
+                <form action="/tickets/${ticket.ticketId}/priority" method="post" style="display:inline;">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                     <select name="priority" required>
                         <option value="LOW">Low</option>
@@ -98,16 +98,16 @@
             </#if>
 
             <#if ticket.status == "OPEN" || ticket.status == "IN_PROGRESS">
-                <form action="/ui/tickets/${ticket.ticketId}/status" method="post" style="display:inline;">
+                <form action="/tickets/${ticket.ticketId}/status" method="post" style="display:inline;">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                     <button type="submit">Advance Status</button>
                 </form>
             </#if>
             <div>
                 <h3>History</h3>
-                <a href="/ui/tickets/unit/${ticket.unit.unitId}">View unit ticket history</a>
+                <a href="/tickets/unit/${ticket.unit.unitId}">View unit ticket history</a>
                 <#if ticket.fixture??>
-                    <a href="/ui/tickets/fixture/${ticket.fixture.fixtureId}">View fixture ticket history</a>
+                    <a href="/tickets/fixture/${ticket.fixture.fixtureId}">View fixture ticket history</a>
                 </#if>
             </div>
             <#if ticket.unit.tenant??>
@@ -124,16 +124,14 @@
                     <p>${ticket.fixture.title} - ${ticket.fixture.description}</p>
                     <#if ticket.fixture.helpGuides??>
                         <#list ticket.fixture.helpGuides as guide>
-                            <a href="/ui/helpguides/${guide.helpGuideId}">${guide.title}</a>
+                            <a href="/helpguides/${guide.helpGuideId}">${guide.title}</a>
                         </#list>
                     </#if>
                 </div>
             </#if>
         </#if>
 
-        <#if role == "TENANT">
-            <!-- tennant implementation -->
-        </#if>
+        <a href="/tickets/${ticket.ticketId}/chat">Open Chat</a>
     </div>
 
     

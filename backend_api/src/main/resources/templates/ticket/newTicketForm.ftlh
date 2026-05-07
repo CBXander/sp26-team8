@@ -4,7 +4,7 @@
     <h1>Create Ticket</h1>
     <p>Unit: ${unit.unitNum} - ${unit.unitAddress}</p>
 
-    <form action="/ui/tickets/new?unitId=${unit.unitId}" method="post">
+    <form action="/tickets/new?unitId=${unit.unitId}" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 
         <label for="title">Title</label>
@@ -29,5 +29,5 @@
         <button type="submit">Submit Ticket</button>
     </form>
 
-    <a href="/ui/units/${unit.unitId}">Back</a>
+    <a href="/units/${unit.unitId}">Back</a>
 </@layout.page>

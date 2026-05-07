@@ -9,7 +9,7 @@
             </#if>
         </section>
         <section>
-            <form action="${(fixture??)?then('/ui/fixtures/' + fixture.fixtureId + '/edit', '/ui/fixtures/new')}" method="post">
+            <form action="${(fixture??)?then('/fixtures/' + fixture.fixtureId + '/edit', '/fixtures/new')}" method="post">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 
                 <label for="title">Title</label>

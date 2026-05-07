@@ -2,7 +2,7 @@
 <@layout.page title="New Property">
     <h1>Create New Property</h1>
 
-    <form action="/ui/properties/new" method="post" class="request-form">
+    <form action="/properties/new" method="post" class="request-form">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 
         <label for="name">Property Name</label>
@@ -14,5 +14,5 @@
         <button type="submit" class="submit-btn">Create Property</button>
     </form>
 
-    <a href="/ui/dashboard">Cancel</a>
+    <a href="/dashboard">Cancel</a>
 </@layout.page>

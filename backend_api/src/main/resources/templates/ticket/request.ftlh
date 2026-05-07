@@ -1,30 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Request Maintenance</title>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
+<#import "/defaultlayout.ftlh" as layout>
+<@layout.page title="Request Maintenance">
 
-<body>
-
-<header>
     <h1>Request Maintenance</h1>
-</header>
 
-<nav>
-    <a href="/tenant/dashboard">Dashboard</a>
-    <a href="/tenant/request">Request Maintenance</a>
-    <a href="/tenant/guides">Guides</a>
+    <#if error??>
+        <div class="error-message">${error}</div>
+    </#if>
 
-    <form action="/logout" method="post" style="display:inline;">
-        <button id="logoutBtn" class="logout-btn" type="submit">Log Out</button>
-    </form>
-</nav>
-
-<main>
-
-    <form action="/tenant/request" method="post" class="request-form">
+    <form action="/tickets/request" method="post" class="request-form">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 
         <label>
             Issue Title
@@ -59,10 +43,7 @@
             <textarea name="description" rows="5" required placeholder="Describe the issue in detail..."></textarea>
         </label>
 
-        <button type="submit" class="submit-btn">
-            Submit Request
-        </button>
-
+        <button type="submit" class="submit-btn">Submit Request</button>
     </form>
 
     <#if tickets?has_content>
@@ -96,9 +77,10 @@
                                 <p>${ticket.description}</p>
                             </#if>
 
-                            <a href="/tenant/chat/${ticket.ticketId}">Open Chat</a>
+                            <a href="/tickets/${ticket.ticketId}/chat">Open Chat</a>
 
-                            <form action="/tenant/request/${ticket.ticketId}/cancel" method="post">
+                            <form action="/request/${ticket.ticketId}/cancel" method="post" style="display:inline;">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                                 <button type="submit">Cancel Request</button>
                             </form>
                         </div>
@@ -115,7 +97,7 @@
                             <p><strong>Created:</strong> ${ticket.createdAt?substring(0,10)?date("yyyy-MM-dd")?string("MMM dd, yyyy")}</p>
                             <p><strong>Updated:</strong> ${ticket.updatedAt?substring(0,10)?date("yyyy-MM-dd")?string("MMM dd, yyyy")}</p>
 
-                            <a href="/tenant/chat/${ticket.ticketId}">Open Chat</a>
+                            <a href="/tickets/${ticket.ticketId}/chat">Open Chat</a>
                         </div>
                     </#if>
                 </#list>
@@ -130,7 +112,7 @@
                             <p><strong>Created:</strong> ${ticket.createdAt?substring(0,10)?date("yyyy-MM-dd")?string("MMM dd, yyyy")}</p>
                             <p><strong>Updated:</strong> ${ticket.updatedAt?substring(0,10)?date("yyyy-MM-dd")?string("MMM dd, yyyy")}</p>
 
-                            <a href="/tenant/chat/${ticket.ticketId}">Open Chat</a>
+                            <a href="/tickets/${ticket.ticketId}/chat">Open Chat</a>
                         </div>
                     </#if>
                 </#list>
@@ -141,21 +123,16 @@
         <p>No requests found.</p>
     </#if>
 
-</main>
+    <script>
+    function showTab(tab) {
+        document.getElementById("activeTab").style.display = "none";
+        document.getElementById("completedTab").style.display = "none";
+        document.getElementById("cancelledTab").style.display = "none";
 
-<script>
-function showTab(tab) {
-    document.getElementById("activeTab").style.display = "none";
-    document.getElementById("completedTab").style.display = "none";
-    document.getElementById("cancelledTab").style.display = "none";
+        if (tab === "active") document.getElementById("activeTab").style.display = "block";
+        if (tab === "completed") document.getElementById("completedTab").style.display = "block";
+        if (tab === "cancelled") document.getElementById("cancelledTab").style.display = "block";
+    }
+    </script>
 
-    if (tab === "active") document.getElementById("activeTab").style.display = "block";
-    if (tab === "completed") document.getElementById("completedTab").style.display = "block";
-    if (tab === "cancelled") document.getElementById("cancelledTab").style.display = "block";
-}
-</script>
-
-<script src="/js/script.js"></script>
-
-</body>
-</html>
+</@layout.page>

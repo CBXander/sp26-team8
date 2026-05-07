@@ -3,10 +3,10 @@
     <section>
     <#if helpGuide??>
         <h1>Edit HelpGuide</h1>
-        <form action="/ui/helpGuides/{guide.helpGuideId}/edit" method="post" enctype="multipart/form-data">
+        <form action="/helpGuides/{guide.helpGuideId}/edit" method="post" enctype="multipart/form-data">
     <#else>
         <h1>Create HelpGuide</h1>
-        <form action="/ui/helpGuides/new" method="post" enctype="multipart/form-data">
+        <form action="/helpGuides/new" method="post" enctype="multipart/form-data">
     </#if>
 
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">

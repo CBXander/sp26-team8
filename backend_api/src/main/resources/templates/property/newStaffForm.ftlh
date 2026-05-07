@@ -2,7 +2,7 @@
 <@layout.page title="New Staff">
     <h1>Create New Staff</h1>
 
-    <form action="/ui/properties/${propertyId}/staff/new" method="post" class="request-form">
+    <form action="/properties/${propertyId}/staff/new" method="post" class="request-form">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 
         <label for="firstName">Staff Name</label>
@@ -18,5 +18,5 @@
         <button type="submit" class="submit-btn">Create Staff</button>
     </form>
 
-    <a href="/ui/properties/${propertyId}">Back</a>
+    <a href="/properties/${propertyId}">Back</a>
 </@layout.page>

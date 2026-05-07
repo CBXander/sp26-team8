@@ -12,16 +12,17 @@ import com.sp26_team8.HelpRent.service.*;
 import com.sp26_team8.HelpRent.entity.*;
 
 @Controller
-@RequestMapping("/ui/units")
+@RequestMapping("/units")
 public class UnitUiController {
     private final UnitService unitService;
     private final UserService userService;
     private final PropertyService propertyService;
-
-    public UnitUiController(UnitService unitService, UserService userService, PropertyService propertyService){
+    private final FixtureService fixtureService;
+    public UnitUiController(UnitService unitService, UserService userService, PropertyService propertyService, FixtureService fixtureService){
         this.unitService = unitService;
         this.userService = userService;
         this.propertyService = propertyService;
+        this.fixtureService = fixtureService;
     }
 
     //======= Unit Details =========//
@@ -32,6 +33,7 @@ public class UnitUiController {
 
         model.addAttribute("role", user.getRole().name());
         model.addAttribute("unit", unit);
+        model.addAttribute("allFixtures", unit.getProperty().getFixtures());
         
         return "unit/viewUnit";
     }
@@ -42,9 +44,22 @@ public class UnitUiController {
         unitService.verifyLandlordUnitOwnership(user.getUserId(), unitId);
         unitService.setUnitUnderMaintenace(unitId, user.getUserId());
 
+        return "redirect:/units/" + unitId;
+    }
+    //======= Fixture Handling ========//
+    @PostMapping("/{unitId}/fixtures/add")
+    public String addFixtureToUnit(Authentication auth, @PathVariable Long unitId, @RequestParam Long fixtureId) {
+        User user = userService.getUserByEmail(auth.getName());
+        unitService.addFixtureToUnit(unitId, fixtureId, user.getUserId());
         return "redirect:/ui/units/" + unitId;
     }
-    
+
+    @PostMapping("/{unitId}/fixtures/{fixtureId}/remove")
+    public String removeFixtureFromUnit(Authentication auth, @PathVariable Long unitId, @PathVariable Long fixtureId) {
+        User user = userService.getUserByEmail(auth.getName());
+        unitService.removeFixtureFromUnit(unitId, fixtureId, user.getUserId());
+        return "redirect:/ui/units/" + unitId;
+    }
     //======= Tennant Handling ========//
     @GetMapping("/{unitId}/tenant/new")
     public String newTenant(Authentication auth, @PathVariable Long unitId, Model model){
@@ -74,7 +89,7 @@ public class UnitUiController {
 
         unitService.addTenantToUnit(unitId, created.getUserId(), user.getUserId());
 
-        return "redirect:/ui/units/" + unitId;
+        return "redirect:/units/" + unitId;
     }
 
     @PostMapping("/{unitId}/tenant/remove")
@@ -84,7 +99,7 @@ public class UnitUiController {
 
         unitService.removeTenantFromUnit(unitId, user.getUserId());
 
-        return "redirect:/ui/units/" + unitId;
+        return "redirect:/units/" + unitId;
     }
 
 }

@@ -1,34 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Maintenance Chat</title>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-
-<body>
-
-<header>
+<#import "/defaultlayout.ftlh" as layout>
+<@layout.page title="Chat - ${ticket.title}">
+<section>
+    <a href="/tickets/${ticket.ticketId}">Back to Ticket</a>
     <h1>Chat for Ticket: ${ticket.title}</h1>
-</header>
 
-<nav>
-    <a href="/tenant/dashboard">Dashboard</a>
-    <a href="/tenant/request">Request Maintenance</a>
-    <a href="/tenant/guides">Guides</a>
-
-    <form action="/logout" method="post" style="display:inline;">
-        <button id="logoutBtn" class="logout-btn" type="submit">Log Out</button>
-    </form>
-</nav>
-
-<main>
     <div class="chat-container">
 
         <div class="chat-window" id="chatWindow">
             <#if messages?has_content>
                 <#list messages as message>
-                    <div class="message <#if message.sender.userId == tenant.userId>tenant<#else>maintenance</#if>">
+                    <div class="message <#if message.sender.userId == currentUser.userId>tenant<#else>maintenance</#if>">
                         <#if message.content?? && message.content?has_content>
                             <p>${message.content}</p>
                         </#if>
@@ -84,21 +65,22 @@
             </#if>
         </div>
 
-        <form action="/tenant/chat/${ticket.ticketId}" method="post" enctype="multipart/form-data" class="chat-input">
+        <form action="/tickets/${ticket.ticketId}/chat" method="post" enctype="multipart/form-data" class="chat-input">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             <input type="text" name="content" placeholder="Type your message...">
             <input type="file" name="file" accept="image/*,video/*">
             <button id="sendBtn" type="submit">Send</button>
         </form>
 
     </div>
-</main>
+</section>
 
-<div id="imageOverlay" class="image-overlay" onclick="closeImageOverlay()">
-    <div class="image-overlay-content" onclick="event.stopPropagation()">
-        <button type="button" class="image-overlay-close" onclick="closeImageOverlay()">✕</button>
-        <img id="overlayImage" src="" alt="Expanded image" class="image-overlay-img">
+    <div id="imageOverlay" class="image-overlay" onclick="closeImageOverlay()">
+        <div class="image-overlay-content" onclick="event.stopPropagation()">
+            <button type="button" class="image-overlay-close" onclick="closeImageOverlay()">✕</button>
+            <img id="overlayImage" src="" alt="Expanded image" class="image-overlay-img">
+        </div>
     </div>
-</div>
 
 <script>
 function openImageOverlay(imageSrc) {
@@ -114,5 +96,4 @@ function closeImageOverlay() {
 }
 </script>
 
-</body>
-</html>
+</@layout.page>

@@ -21,22 +21,29 @@ import com.sp26_team8.HelpRent.entity.UserRole;
 import com.sp26_team8.HelpRent.entity.UserStatus;
 import com.sp26_team8.HelpRent.service.PropertyService;
 import com.sp26_team8.HelpRent.service.TicketService;
+import com.sp26_team8.HelpRent.service.UnitService;
 import com.sp26_team8.HelpRent.service.UserService;
 ;
 
 
 @Controller
-@RequestMapping("/ui")
+@RequestMapping("")
 public class UserUiController {
     private final UserService userService;
     private final PropertyService propertyService;
     private final TicketService ticketService;
-
-    public UserUiController(UserService userService, PropertyService propertyService, TicketService ticketService){
+    private final UnitService unitService;
+    public UserUiController(UserService userService, PropertyService propertyService, TicketService ticketService, UnitService unitService){
         this.userService = userService;
         this.propertyService = propertyService;
         this.ticketService = ticketService;
+        this.unitService = unitService;
+    }
 
+    //======== Login Methods ===========//
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
     }
 
     //======== Signup Methods ===========//
@@ -101,40 +108,11 @@ public class UserUiController {
             }
 
             case TENANT -> {
+                model.addAttribute("tickets", ticketService.getTicketByTenant(user.getUserId()));
+                model.addAttribute("tenantUnit", unitService.getUnitByTenant(user.getUserId()));
             }
         }
-        //ADD TENANT DASH ATTRIBUTES
 
         return "dashboard";
-    }
-
-    //================= landlord view all tickets =============//
-
-    @GetMapping("/tickets")
-    public String viewAllTickets(Authentication auth,Model model){
-        User user = userService.getUserByEmail(auth.getName());
-        model.addAttribute("user", user);
-        model.addAttribute("role", user.getRole().name());
-
-        switch (user.getRole()) {
-            case LANDLORD -> {
-                List<Ticket> tickets = new ArrayList<>();
-                Property property = propertyService.getPropertyByLandlord(user.getUserId());
-                
-                tickets.addAll(ticketService.getTicketByProperty(property.getPropertyId(), user.getUserId()));
-                model.addAttribute("tickets", tickets);
-            }
-            case MAINTENANCE -> {
-                List<Ticket> assignedTicket = ticketService.getTicketByStaff(user.getUserId());
-                for (Ticket ticket : assignedTicket) {
-                    ticket.getUnit().getUnitAddress();
-                }
-                model.addAttribute("tickets", assignedTicket);
-            }
-            case TENANT -> {
-            }
-        }
-
-        return "ticket/list";
     }
 }

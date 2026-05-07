@@ -114,7 +114,7 @@ public class MessageService {
                 }
             }
 
-attachment.setFileType(contentType);
+            attachment.setFileType(contentType);
             messageAttachmentRepository.save(attachment);
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to upload file.");

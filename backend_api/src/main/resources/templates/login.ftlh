@@ -22,7 +22,7 @@
             <p id="loginError" class="error ">You have been logged out </p>
         </#if>
 
-        <form id="loginForm" action="/ui/login" method="post">
+        <form id="loginForm" action="/login" method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 
             <label for="email">Email</label>
@@ -33,7 +33,7 @@
 
             <button type="submit" form="loginForm">Log In</button>
         </form>
-        <p>Need a landlord account? <a href="/ui/signup">Register now!</a></p>
+        <p>Need a landlord account? <a href="/signup">Register now!</a></p>
     </div>
     
 </body>

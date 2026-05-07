@@ -116,17 +116,7 @@ public class UserService implements UserDetailsService{
                 .password(user.getPasswordHash())
                 .roles(user.getRole().name())
                 .build();
-// Get by Email
-    public User getUserByEmail(String email) {
-        User user = userRepository.findByEmailIgnoreCase(email);
-        if (user == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
-        }
-        return user;
     }
-        
-
-
 
 // This next part is for use for tenant log in testing. It can be removed later if we decide to implement a different log in system.
 // AUTHENTICATE USER (for login)

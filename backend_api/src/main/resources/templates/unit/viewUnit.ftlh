@@ -1,6 +1,6 @@
 <#import "/defaultlayout.ftlh" as layout>
 <@layout.page title="Unit Details">
-    <a href="/ui/properties/${unit.property.propertyId}">Back to Property</a>
+    <a href="/properties/${unit.property.propertyId}">Back to Property</a>
     <div>
         <#if unit.unitNum == "SINGLE">
             <h1>${unit.unitAddress}</h1>
@@ -18,23 +18,27 @@
         <h3>Tenant</h3>
         <#if unit.tenant??>
             <p>${unit.tenant.firstName} ${unit.tenant.lastName} - ${unit.tenant.email}</p>
-            <form action="/ui/units/${unit.unitId}/tenant/remove" method="post" style="display:inline;">
+            <form action="/units/${unit.unitId}/tenant/remove" method="post" style="display:inline;">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                 <button type="submit">Remove Tenant</button>
             </form>
         <#else>
             <p>No tenant assigned</p>
-            <a href="/ui/units/${unit.unitId}/tenant/new">Assign Tenant</a>
+            <a href="/units/${unit.unitId}/tenant/new">Assign Tenant</a>
         </#if>
     </div>
 
     <div>
         <h3>Fixtures</h3>
+        <form action="/units/${unit.unitId}/fixtures/${fixture.fixtureId}/remove" method="post" style="display:inline;">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                        <button type="submit">Remove</button>
+                    </form>
         <#if unit.fixtures??>
             <#list unit.fixtures as fixture>
                 <div>
                     <span>${fixture.title} - ${fixture.description}</span>
-                    <form action="/ui/units/${unit.unitId}/fixtures/${fixture.fixtureId}/remove" method="post" style="display:inline;">
+                    <form action="/units/${unit.unitId}/fixtures/${fixture.fixtureId}/remove" method="post" style="display:inline;">
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                         <button type="submit">Remove</button>
                     </form>
@@ -42,6 +46,18 @@
             <#else>
                 <p>No fixtures assigned</p>
             </#list>
+        </#if>
+        <#if allFixtures?? && (allFixtures?size > 0)>
+            <form action="/ui/units/${unit.unitId}/fixtures/add" method="post" style="display:inline;">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                <select name="fixtureId" required>
+                    <option value="">Select fixture</option>
+                    <#list allFixtures as fixture>
+                        <option value="${fixture.fixtureId}">${fixture.title}</option>
+                    </#list>
+                </select>
+                <button type="submit">Add Fixture</button>
+            </form>
         </#if>
     </div>
 
@@ -60,7 +76,7 @@
                 <tbody>
                     <#list unit.tickets as ticket>
                         <tr>
-                            <td><a href="/ui/tickets/${ticket.ticketId}">${ticket.title}</a></td>
+                            <td><a href="/tickets/${ticket.ticketId}">${ticket.title}</a></td>
                             <td>${ticket.status!"—"}</td>
                             <td>${ticket.priority!"—"}</td>
                             <td>${ticket.createdAt!"—"}</td>
@@ -71,7 +87,7 @@
                 </tbody>
             </table>
         </#if>
-        <a href="/ui/tickets/new?unitId=${unit.unitId}">Create Ticket</a>
+        <a href="/tickets/new?unitId=${unit.unitId}">Create Ticket</a>
     </div>
 
     

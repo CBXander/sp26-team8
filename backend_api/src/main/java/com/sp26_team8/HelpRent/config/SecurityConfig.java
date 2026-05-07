@@ -18,25 +18,25 @@ public class SecurityConfig {
         this.userService = userService;
     }
  
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .userDetailsService(userService)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/ui/login", "/ui/signup", "/css/**", "/js/**").permitAll()
+                .requestMatchers("/login", "/signup", "/css/**", "/js/**").permitAll()
                 .requestMatchers("/api/**").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/ui/login")
-                .failureUrl("/ui/login?error")
-                .defaultSuccessUrl("/ui/dashboard", true)
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .failureUrl("/login?error")
+                .defaultSuccessUrl("/dashboard", true)
                 .permitAll()
             )
             .logout(logout -> logout
-                .logoutUrl("/ui/logout")
-                .logoutSuccessUrl("/ui/login")
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
             );
 
         return http.build();

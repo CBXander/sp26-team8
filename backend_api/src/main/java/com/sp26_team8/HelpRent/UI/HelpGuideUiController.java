@@ -19,29 +19,45 @@ import com.sp26_team8.HelpRent.entity.*;
 import com.sp26_team8.HelpRent.service.*;
 
 @Controller
-@RequestMapping("/ui/helpGuides")
+@RequestMapping("/helpGuides")
 public class HelpGuideUiController {
     private final HelpGuideService helpGuideService;
     private final UserService userService;
     private final FixtureService fixtureService;
     private final PropertyService propertyService;
-
+    private final UnitService unitService;
     public HelpGuideUiController(HelpGuideService helpGuideService, UserService userService,
-                                FixtureService fixtureService, PropertyService propertyService){
+                                FixtureService fixtureService, PropertyService propertyService, UnitService unitService){
         this.helpGuideService=helpGuideService;
         this.userService=userService;
         this.fixtureService=fixtureService;
         this.propertyService=propertyService;
+        this.unitService=unitService;
     }
 
     //==================View HelpGuides=====================//
     @GetMapping("")
     public String viewAllHelpGuides(Authentication auth, Model model){
         User user = userService.getUserByEmail(auth.getName());
-        Property property = propertyService.getPropertyByLandlord(user.getUserId());
-        
         model.addAttribute("role", user.getRole().name());
-        model.addAttribute("helpGuides", property.getHelpGuides());
+
+        switch (user.getRole()) {
+            case LANDLORD:
+                Property property = propertyService.getPropertyByLandlord(user.getUserId());
+                
+                model.addAttribute("helpGuides", property.getHelpGuides());
+                break;
+        
+            case MAINTENANCE:
+                break;
+
+            case TENANT:
+                Unit unit = unitService.getUnitByTenant(user.getUserId());
+
+                model.addAttribute("fixtures", unit.getFixtures());
+                break;
+        }
+        
         
         return "helpGuide/all";
     }
@@ -94,10 +110,10 @@ public class HelpGuideUiController {
         
         HelpGuide saved = helpGuideService.createHelpGuide(newGuide, fixtureId, user.getUserId());
         
-        return "redirect:/ui/helpGuides/" + saved.getHelpGuideId();
+        return "redirect:/helpGuides/" + saved.getHelpGuideId();
     }
 
-    //====================Edit Existing HelpGuide=================//
+    //==================== Edit Existing HelpGuide =================//
     @GetMapping("/{helpGuideId}/edit")
     public String editHelpGuideForm(Authentication auth, @PathVariable Long helpGuideId, Model model){
         User user = userService.getUserByEmail(auth.getName());
@@ -124,7 +140,7 @@ public class HelpGuideUiController {
 
         HelpGuide saved = helpGuideService.createHelpGuide(guide, fixtureId, user.getUserId());
 
-        return "redirect:/ui/helpGuides/" + saved.getHelpGuideId();
+        return "redirect:/helpGuides/" + saved.getHelpGuideId();
     }
 
     @PostMapping("/{helpGuideId}/delete")
@@ -132,7 +148,7 @@ public class HelpGuideUiController {
         User user = userService.getUserByEmail(auth.getName());
         helpGuideService.deleteHelpGuide(helpGuideId, user.getUserId());
 
-        return "redirect:/ui/helpGuides";
+        return "redirect:/helpGuides";
     }
     
 }

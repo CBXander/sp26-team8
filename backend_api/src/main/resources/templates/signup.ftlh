@@ -18,7 +18,7 @@
             <p class="error">${error}</p>
         </#if>
 
-        <form id="signupForm" action="/ui/signup" method="post">
+        <form id="signupForm" action="/signup" method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 
             <label for="email">Email</label>
@@ -36,7 +36,7 @@
             <button type="submit">Register</button>
         </form>
 
-        <p>Already have an account? <a href="/ui/login">Log in</a></p>
+        <p>Already have an account? <a href="/login">Log in</a></p>
     </div>
 
 </body>

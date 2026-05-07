@@ -1,4 +1,4 @@
-package com.sp26_team8.HelpRent.controller.UI;
+package com.sp26_team8.HelpRent.UI;
 
 import com.sp26_team8.HelpRent.entity.Ticket;
 import com.sp26_team8.HelpRent.entity.TicketPriority;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.sp26_team8.HelpRent.service.MessageService;
 import org.springframework.web.multipart.MultipartFile;
+
 @Controller
 public class TenantUIController {
 
@@ -49,7 +50,7 @@ public class TenantUIController {
         return "tenant/dashboard";
     }
 
-    @GetMapping("/tenant/request")
+    @GetMapping("/request")
     public String requestPage(Authentication authentication,
                               Model model,
                               @RequestParam(required = false) String cancelled) {

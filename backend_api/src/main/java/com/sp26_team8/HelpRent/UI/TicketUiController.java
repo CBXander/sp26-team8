@@ -1,5 +1,8 @@
 package com.sp26_team8.HelpRent.UI;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,26 +11,59 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sp26_team8.HelpRent.service.*;
 import com.sp26_team8.HelpRent.entity.*;
 
 @Controller
-@RequestMapping("/ui/tickets")
+@RequestMapping("/tickets")
 public class TicketUiController {
 
     private final TicketService ticketService;
     private final UserService userService;
     private final UnitService unitService;
     private final PropertyService propertyService;
+    private final MessageService messageService;
 
-    public TicketUiController(TicketService ticketService, UserService userService, UnitService unitService, PropertyService propertyService){
+    public TicketUiController(TicketService ticketService, UserService userService, UnitService unitService, PropertyService propertyService, MessageService messageService){
         this.ticketService = ticketService;
         this.userService = userService;
         this.unitService = unitService;
         this.propertyService = propertyService;
+        this.messageService = messageService;
     }
 
+    //============ View ALL Tickets =========//
+    @GetMapping("")
+    public String viewAllTickets(Authentication auth,Model model){
+        User user = userService.getUserByEmail(auth.getName());
+        model.addAttribute("user", user);
+        model.addAttribute("role", user.getRole().name());
+
+        switch (user.getRole()) {
+            case LANDLORD -> {
+                Property property = propertyService.getPropertyByLandlord(user.getUserId());
+                List<Ticket> tickets = ticketService.getTicketByProperty(property.getPropertyId(), user.getUserId());
+
+                model.addAttribute("tickets", tickets);
+            }
+            case MAINTENANCE -> {
+                List<Ticket> assignedTicket = ticketService.getTicketByStaff(user.getUserId());
+                for (Ticket ticket : assignedTicket) {
+                    ticket.getUnit().getUnitAddress();
+                }
+                model.addAttribute("tickets", assignedTicket);
+            }
+            case TENANT -> {
+                model.addAttribute("tickets", ticketService.getTicketByTenant(user.getUserId()));
+                //return "ticket/request";
+            }
+        }
+
+        return "ticket/list";
+    }
     //========= View Ticket =========//
     @GetMapping("/{ticketId}")
     public String viewTicket(Authentication auth, @PathVariable Long ticketId, Model model){
@@ -72,42 +108,42 @@ public class TicketUiController {
 
         Ticket created = ticketService.createTicket(ticket, unitId, fixtureId, user.getUserId());
         
-        return "redirect:/ui/tickets/" + created.getTicketId();
+        return "redirect:/tickets/" + created.getTicketId();
     }
 
     @PostMapping("/{ticketId}/assign")
     public String assignTicket(Authentication auth, @PathVariable Long ticketId, @RequestParam Long staffId) {
         User user = userService.getUserByEmail(auth.getName());
         ticketService.assignTicket(ticketId, staffId, user.getUserId());
-        return "redirect:/ui/tickets/" + ticketId;
+        return "redirect:/tickets/" + ticketId;
     }
 
     @PostMapping("/{ticketId}/priority")
     public String setPriority(Authentication auth, @PathVariable Long ticketId, @RequestParam TicketPriority priority) {
         User user = userService.getUserByEmail(auth.getName());
         ticketService.setTicketPriority(ticketId, priority, user.getUserId());
-        return "redirect:/ui/tickets/" + ticketId;
+        return "redirect:/tickets/" + ticketId;
     }
 
     @PostMapping("/{ticketId}/status")
     public String advanceStatus(Authentication auth, @PathVariable Long ticketId) {
         User user = userService.getUserByEmail(auth.getName());
         ticketService.setTicketStatus(ticketId, user.getUserId());
-        return "redirect:/ui/tickets/" + ticketId;
+        return "redirect:/tickets/" + ticketId;
     }
 
     @PostMapping("/{ticketId}/complete")
     public String completeTicket(Authentication auth, @PathVariable Long ticketId) {
         User user = userService.getUserByEmail(auth.getName());
         ticketService.completeTicket(ticketId, user.getUserId());
-        return "redirect:/ui/tickets/" + ticketId;
+        return "redirect:/tickets/" + ticketId;
     }
 
     @PostMapping("/{ticketId}/cancel")
     public String cancelTicket(Authentication auth, @PathVariable Long ticketId) {
         User user = userService.getUserByEmail(auth.getName());
         ticketService.cancelTicket(ticketId, user.getUserId());
-        return "redirect:/ui/tickets/" + ticketId;
+        return "redirect:/tickets/" + ticketId;
     }
 
     //==================Filtered Ticket Views For Maintenance==================//
@@ -126,4 +162,58 @@ public class TicketUiController {
         model.addAttribute("tickets", ticketService.getTicketsByFixture(fixtureId));
         return "ticket/list";
     }
+
+    //========== Tenant Request Methods ==================//
+    @GetMapping("/request")
+    public String requestPage(Authentication authentication,
+                              Model model,
+                              @RequestParam(required = false) String cancelled) {
+        String email = authentication.getName();
+        User user = userService.getUserByEmail(email);
+
+        model.addAttribute("tickets", ticketService.getTicketByTenant(user.getUserId()));
+        model.addAttribute("tenant", user);
+        model.addAttribute("role", user.getRole().name());
+
+        if (cancelled != null) {
+            model.addAttribute("cancelled", true);
+        }
+
+        return "ticket/request";
+    }
+
+    @PostMapping("/request")
+    public String submitRequest(Authentication authentication,
+                                @RequestParam String title,
+                                @RequestParam String category,
+                                @RequestParam String priority,
+                                @RequestParam String description) {
+        String email = authentication.getName();
+        User user = userService.getUserByEmail(email);
+
+        Ticket ticket = new Ticket();
+        ticket.setTitle(title);
+        ticket.setCategory(category);
+        ticket.setDescription(description);
+        ticket.setPriority(TicketPriority.valueOf(priority));
+
+        ticketService.createTicket(ticket, null, null, user.getUserId());
+
+        return "redirect:/tickets/request";
+    }
+
+    @PostMapping("/tenant/request/{ticketId}/cancel")
+    public String cancelRequest(Authentication authentication,
+                                @PathVariable Long ticketId,
+                                RedirectAttributes redirectAttributes) {
+        String email = authentication.getName();
+        User user = userService.getUserByEmail(email);
+
+        ticketService.cancelTicket(ticketId, user.getUserId());
+
+        redirectAttributes.addFlashAttribute("cancelled", true);
+        return "redirect:/tickets/request";
+    }
+    
+    
 }

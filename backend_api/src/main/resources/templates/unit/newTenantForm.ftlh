@@ -2,7 +2,7 @@
 <@layout.page title="New Tenant">
     <h1>Create New Tenant</h1>
 
-    <form action="/ui/units/${unitId}/tenant/new" method="post" class="request-form">
+    <form action="/units/${unitId}/tenant/new" method="post" class="request-form">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 
         <label for="firstName">First Name</label>
@@ -20,5 +20,5 @@
         <button type="submit" class="submit-btn">Create Tenant</button>
     </form>
 
-    <a href="/ui/units/${unitId}">Back</a>
+    <a href="/units/${unitId}">Back</a>
 </@layout.page>

@@ -13,7 +13,7 @@
                     <th>Unit address</th>
                     <th>Tenant name</th>
                     <th>Status</th>
-                    <th><a href="/ui/properties/${propertyId}/units/new">Add Unit</a></th>
+                    <th><a href="/properties/${propertyId}/units/new">Add Unit</a></th>
                 </tr>
             </thead>
             <tbody>
@@ -31,8 +31,8 @@
                             </td>
                             <td>${unit.unitStatus}</td>
                             <td>
-                                <a href="/ui/units/${unit.unitId}">view</a>
-                                <form action="/ui/properties/${property.propertyId}/units/${unit.unitId}/remove" method="post" style="display:inline;">
+                                <a href="/units/${unit.unitId}">view</a>
+                                <form action="/properties/${property.propertyId}/units/${unit.unitId}/remove" method="post" style="display:inline;">
                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                                     <button type="submit">Remove</button>
                                 </form>
@@ -52,7 +52,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
-                    <th><a href="/ui/properties/${property.propertyId}/staff/new">Add new staff memember</a></th>
+                    <th><a href="/properties/${property.propertyId}/staff/new">Add new staff memember</a></th>
                 </tr>
             </thead>
             <tbody>
@@ -62,7 +62,7 @@
                             <td>${staff.firstName} ${staff.lastName}</td>
                             <td>${staff.email}</td>
                             <td>
-                                <form action="/ui/properties/${property.propertyId}/staff/${staff.userId}/remove" method="post" style="display:inline;">
+                                <form action="/properties/${property.propertyId}/staff/${staff.userId}/remove" method="post" style="display:inline;">
                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                                     <button type="submit">Remove</button>
                                 </form>

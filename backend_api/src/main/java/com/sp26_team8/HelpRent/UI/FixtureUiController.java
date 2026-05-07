@@ -14,20 +14,26 @@ import com.sp26_team8.HelpRent.entity.Fixture;
 import com.sp26_team8.HelpRent.entity.Property;
 import com.sp26_team8.HelpRent.entity.User;
 import com.sp26_team8.HelpRent.service.FixtureService;
+import com.sp26_team8.HelpRent.service.HelpGuideService;
 import com.sp26_team8.HelpRent.service.PropertyService;
+import com.sp26_team8.HelpRent.service.UnitService;
 import com.sp26_team8.HelpRent.service.UserService;
 
 @Controller
-@RequestMapping("/ui/fixtures")
+@RequestMapping("/fixtures")
 public class FixtureUiController {
     private final FixtureService fixtureService;
     private final UserService userService;
     private final PropertyService propertyService;
+    private final UnitService unitService;
+    private final HelpGuideService helpGuideService;
 
-    public FixtureUiController(FixtureService fixtureService, UserService userService, PropertyService propertyService){
+    public FixtureUiController(FixtureService fixtureService, UserService userService, PropertyService propertyService, UnitService unitService, HelpGuideService helpGuideService){
         this.fixtureService = fixtureService;
         this.userService = userService;
         this.propertyService = propertyService;
+        this.unitService = unitService;
+        this.helpGuideService = helpGuideService;
     }
 
     //==============View all Fixtures=================//
@@ -65,7 +71,7 @@ public class FixtureUiController {
 
         // propertyService.addFixtureToProperty(property.getPropertyId(), newfixture.getFixtureId(), user.getUserId());
 
-        return "redirect:/ui/fixtures/" + newfixture.getFixtureId();
+        return "redirect:/fixtures/" + newfixture.getFixtureId();
     }
 
     //=================Fixture Details====================//
@@ -73,10 +79,12 @@ public class FixtureUiController {
     public String viewFixture(Authentication auth, Model model, @PathVariable Long fixtureId){
         User user = userService.getUserByEmail(auth.getName());
         Fixture fixture = fixtureService.getFixtureById(fixtureId);
+        Property property = propertyService.getPropertyByLandlord(user.getUserId());
 
         model.addAttribute("role", user.getRole().name());
         model.addAttribute("fixture", fixture);
-        
+        model.addAttribute("units", property.getUnits());
+        model.addAttribute("allGuides", property.getHelpGuides());
         return "fixture/view";
     }
 
@@ -91,6 +99,20 @@ public class FixtureUiController {
         return "fixture/form";
     }
 
+    @PostMapping("/{fixtureId}/guides/add")
+    public String addGuideToFixture(Authentication auth, @PathVariable Long fixtureId, @RequestParam Long helpGuideId) {
+        User user = userService.getUserByEmail(auth.getName());
+        helpGuideService.changeHelpGuideFixture(helpGuideId, fixtureId, user.getUserId());
+        return "redirect:/ui/fixtures/" + fixtureId;
+    }
+
+    @PostMapping("/{fixtureId}/guides/{helpGuideId}/remove")
+    public String removeGuideFromFixture(Authentication auth, @PathVariable Long fixtureId, @PathVariable Long helpGuideId) {
+        User user = userService.getUserByEmail(auth.getName());
+        helpGuideService.changeHelpGuideFixture(helpGuideId, null, user.getUserId());
+        return "redirect:/ui/fixtures/" + fixtureId;
+    }
+
     @PostMapping("/{fixtureId}/edit")
     public String updateFixture(Authentication auth, Model model, @PathVariable Long fixtureId, @RequestParam String title, @RequestParam String description){
         User user = userService.getUserByEmail(auth.getName());
@@ -101,7 +123,7 @@ public class FixtureUiController {
 
         fixtureService.updateFixture(fixtureId, fixture, user.getUserId());
 
-        return "redirect:/ui/fixtures/" + fixtureId;
+        return "redirect:/fixtures/" + fixtureId;
     }
 
     @PostMapping("/{fixtureId}/delete")
@@ -112,8 +134,15 @@ public class FixtureUiController {
         Fixture fixture = fixtureService.getFixtureById(fixtureId);
         propertyService.removeFixtureFromProperty(property.getPropertyId(), fixture, user.getUserId());
 
-        //fixtureService.deleteFixture(fixtureId, user.getUserId());
-        
-        return "redirect:/ui/fixtures";
+        return "redirect:/fixtures";
     }
+    //=========== Adding Fixture to Units =================//
+    @PostMapping("/{fixtureId}/assign")
+    public String assignFixtureToUnit(Authentication auth, @PathVariable Long fixtureId, @RequestParam Long unitId) {
+        User user = userService.getUserByEmail(auth.getName());
+        unitService.addFixtureToUnit(unitId, fixtureId, user.getUserId());
+        return "redirect:/ui/fixtures/" + fixtureId;
+    }
+
+    
 }

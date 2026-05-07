@@ -3,11 +3,11 @@
     <section>
         <div>
             <h1>${guide.title}</h3>
-            <form action="/ui/helpGuides/${guide.helpGuideId}/edit" method="get">
+            <form action="/helpGuides/${guide.helpGuideId}/edit" method="get">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                 <button type="submit">Edit</button>
             </form>
-            <form action="/ui/helpGuides/${guide.helpGuideId}/delete" method="post">
+            <form action="/helpGuides/${guide.helpGuideId}/delete" method="post">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                 <button type="submit">X</button>
             </form>
@@ -24,7 +24,7 @@
             </#if>
             <#if guide.fixture??>
                 <div>
-                    <h3><a href="/ui/fixtures/${guide.fixture.fixtureId}">${guide.fixture.title}</a></h3>
+                    <h3><a href="/fixtures/${guide.fixture.fixtureId}">${guide.fixture.title}</a></h3>
                     <p>${guide.fixture.description}</p>
                 </div>
             </#if>

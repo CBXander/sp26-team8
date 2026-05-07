@@ -15,7 +15,7 @@ import com.sp26_team8.HelpRent.entity.*;;
 
 
 @Controller
-@RequestMapping("/ui/properties")
+@RequestMapping("/properties")
 public class PropertyUiController {
     private final PropertyService propertyService;
     private final UserService userService;
@@ -46,7 +46,7 @@ public class PropertyUiController {
         
         Property created = propertyService.createProperty(property, user.getUserId());
 
-        return "redirect:/ui/properties/" + created.getPropertyId();
+        return "redirect:/properties/" + created.getPropertyId();
     }
 
     //======== New Staff Methods ===========//
@@ -76,7 +76,7 @@ public class PropertyUiController {
         User created = userService.createUser(staff);
         propertyService.addStaffToProperty(propertyId, created.getUserId(), landlord.getUserId());
 
-        return "redirect:/ui/properties/" + propertyId;
+        return "redirect:/properties/" + propertyId;
     }
     //======== Remove Staff ===========//
     @PostMapping("/{propertyId}/staff/{staffId}/remove")
@@ -86,7 +86,7 @@ public class PropertyUiController {
 
         propertyService.removeStaffFromProperty(propertyId, staffId, user.getUserId());
 
-        return "redirect:/ui/properties/" + propertyId;
+        return "redirect:/properties/" + propertyId;
     }
 
     //======== New Unit Methods ===========//
@@ -112,7 +112,7 @@ public class PropertyUiController {
         unit.setUnitStatus(UnitStatus.VACANT);
 
         unitService.createUnit(unit,landlord.getUserId(),propertyId);
-        return "redirect:/ui/properties/" + propertyId;
+        return "redirect:/properties/" + propertyId;
     }
     //======== Remove Unit ===========//
     @PostMapping("/{propertyId}/units/{unitId}/remove")
@@ -121,7 +121,7 @@ public class PropertyUiController {
         propertyService.verifyLandlordOwnership(propertyId, user.getUserId());
 
         unitService.deleteUnit(unitId, user.getUserId());
-        return "redirect:/ui/properties/" + propertyId;
+        return "redirect:/properties/" + propertyId;
     }
     //======== View Property ===========//
     @GetMapping("/{propertyId}")

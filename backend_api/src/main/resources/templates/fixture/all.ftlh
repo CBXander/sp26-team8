@@ -2,7 +2,7 @@
 <@layout.page title="Fixtures">
     <section>
         <h1>Fixtures</h1>
-        <form action="/ui/fixtures/new" method="get">
+        <form action="/fixtures/new" method="get">
             <button type="submit">Create</button>
         </form>
     </section>
@@ -11,8 +11,8 @@
         <#if fixtures??>
             <#list fixtures as fixture>
             <div class="card">
-                <h3><a href="/ui/fixtures/${fixture.fixtureId}">${fixture.title}</a></h3>
-                <form action="/ui/fixtures/${fixture.fixtureId}/delete" method="post">
+                <h3><a href="/fixtures/${fixture.fixtureId}">${fixture.title}</a></h3>
+                <form action="/fixtures/${fixture.fixtureId}/delete" method="post">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                     <button type="submit">X</button>
                 </form>

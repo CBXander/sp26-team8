@@ -2,7 +2,11 @@
 <@layout.page title="Tickets">
     <section>
         <h1>Tickets</h1>
-
+        <#if role == "TENANT">
+            <form action="/tickets/request" method="get">
+                <button type="submit">Create a maintenance request</button>
+            </form>
+        </#if>
         <table>
             <thead>
                 <tr>
@@ -18,7 +22,7 @@
                 <#if tickets??>
                     <#list tickets as ticket>
                         <tr>
-                            <td><a href="/ui/tickets/${ticket.ticketId}">${ticket.title}</a></td>
+                            <td><a href="/tickets/${ticket.ticketId}">${ticket.title}</a></td>
                             <td>${ticket.unit.unitAddress!"—"} ${ticket.unit.unitNum!"—"}</td>
                             <td>${ticket.status!"—"}</td>
                             <td>${ticket.priority!"—"}</td>
