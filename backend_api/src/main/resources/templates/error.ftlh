@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Error ${status!"500"}</title>
-    <link rel="stylesheet" href="/css/wireframe.css">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
     <section>

@@ -103,14 +103,14 @@ public class FixtureUiController {
     public String addGuideToFixture(Authentication auth, @PathVariable Long fixtureId, @RequestParam Long helpGuideId) {
         User user = userService.getUserByEmail(auth.getName());
         helpGuideService.changeHelpGuideFixture(helpGuideId, fixtureId, user.getUserId());
-        return "redirect:/ui/fixtures/" + fixtureId;
+        return "redirect:/fixtures/" + fixtureId;
     }
 
     @PostMapping("/{fixtureId}/guides/{helpGuideId}/remove")
     public String removeGuideFromFixture(Authentication auth, @PathVariable Long fixtureId, @PathVariable Long helpGuideId) {
         User user = userService.getUserByEmail(auth.getName());
         helpGuideService.changeHelpGuideFixture(helpGuideId, null, user.getUserId());
-        return "redirect:/ui/fixtures/" + fixtureId;
+        return "redirect:/fixtures/" + fixtureId;
     }
 
     @PostMapping("/{fixtureId}/edit")
@@ -141,7 +141,7 @@ public class FixtureUiController {
     public String assignFixtureToUnit(Authentication auth, @PathVariable Long fixtureId, @RequestParam Long unitId) {
         User user = userService.getUserByEmail(auth.getName());
         unitService.addFixtureToUnit(unitId, fixtureId, user.getUserId());
-        return "redirect:/ui/fixtures/" + fixtureId;
+        return "redirect:/fixtures/" + fixtureId;
     }
 
     

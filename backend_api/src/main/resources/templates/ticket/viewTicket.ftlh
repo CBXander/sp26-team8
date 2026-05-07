@@ -7,7 +7,9 @@
         <a href="/dashboard">back</a>
     </#if>
         <div class="request-card">
+            <div class="page-header">
             <h1>${ticket.title}</h1>
+            </div>
             <p>${ticket.description}</p>
             <p>Category: ${ticket.category!" "}</p>
             <p>Status: ${ticket.status}</p>
@@ -27,8 +29,9 @@
         </div>
 
     <div class="actions">
+        <div class="page-header">
         <h3>Actions</h3>
-
+        </div>
         <#if role == "LANDLORD">
             <#if ticket.status == "OPEN" || ticket.status == "IN_PROGRESS">
                 <form action="/tickets/${ticket.ticketId}/assign" method="post" style="display:inline;">

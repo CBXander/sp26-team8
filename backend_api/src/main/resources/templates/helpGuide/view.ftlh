@@ -1,8 +1,8 @@
 <#import "/defaultlayout.ftlh" as layout>
 <@layout.page title="HelpGuides">
     <section>
-        <div>
-            <h1>${guide.title}</h3>
+        <div class="page-header">
+            <h1>${guide.title}</h1>
             <form action="/helpGuides/${guide.helpGuideId}/edit" method="get">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                 <button type="submit">Edit</button>

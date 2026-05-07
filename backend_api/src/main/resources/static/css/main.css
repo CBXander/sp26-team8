@@ -1,0 +1,825 @@
+/* ----------BASE ---------- */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* monochrome palette */
+    --black:    #0a0a0a;
+    --gray-950: #141414;
+    --gray-900: #1a1a1a;
+    --gray-800: #262626;
+    --gray-700: #333333;
+    --gray-600: #4a4a4a;
+    --gray-500: #6b6b6b;
+    --gray-400: #8a8a8a;
+    --gray-300: #ababab;
+    --gray-200: #d4d4d4;
+    --gray-100: #e8e8e8;
+    --gray-50:  #f3f3f3;
+    --white:    #fafafa;
+
+    --accent:       #9ca3af;   
+    --accent-light: #d1d5db;
+
+    /* typography */
+    --font-body:  'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --font-mono:  'JetBrains Mono', 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+
+    /* spacing scale */
+    --sp-xs:  0.25rem;
+    --sp-sm:  0.5rem;
+    --sp-md:  1rem;
+    --sp-lg:  1.5rem;
+    --sp-xl:  2rem;
+    --sp-2xl: 3rem;
+    --sp-3xl: 4rem;
+
+    /* borders */
+    --border:       1px solid var(--gray-200);
+    --border-heavy: 2px solid var(--gray-800);
+    --radius:       3px;
+}
+
+
+/* ---------- FONT STUFF ---------- */
+html {
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--gray-900);
+    background: var(--white);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    color: var(--black);
+}
+
+h1 { font-size: 1.75rem; margin-bottom: var(--sp-md); }
+h2 { font-size: 1.35rem; margin-bottom: var(--sp-sm); }
+h3 { font-size: 1.1rem;  margin-bottom: var(--sp-sm); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.85rem; }
+
+p {
+    margin-bottom: var(--sp-sm);
+    color: var(--gray-700);
+}
+
+a {
+    color: var(--gray-900);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gray-300);
+    padding: 0.2rem 0.1rem;
+    transition: border-color 0.15s ease;
+}
+
+a:hover {
+    border-bottom-color: var(--black);
+}
+
+strong { font-weight: 600; color: var(--gray-800); }
+
+
+/* ---------- LAYOUT — NAV ---------- */
+nav {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-lg);
+    padding: var(--sp-md) var(--sp-xl);
+    background: var(--gray-900);
+    border-bottom: var(--border-heavy);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav a {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray-300);
+    border-bottom: 2px solid transparent;
+    padding-bottom: 2px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: var(--white);
+    border-bottom-color: var(--white);
+}
+
+.logout-btn {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray-400);
+    background: transparent;
+    border: 1px solid var(--gray-600);
+    padding: var(--sp-xs) var(--sp-md);
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: all 0.15s ease;
+}
+
+.logout-btn:hover {
+    color: var(--white);
+    border-color: var(--white);
+}
+
+/* push logout to right */
+nav form {
+    margin-left: auto;
+}
+
+
+/* ---------- LAYOUT — MAIN ---------- */
+main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: var(--sp-2xl) var(--sp-xl);
+}
+
+/* default div behavior */
+main div,
+main form,
+main p,
+main section {
+    display: block;
+}
+
+/* standalone back/nav links at top of pages */
+main > a {
+    display: inline-block;
+    margin-bottom: var(--sp-lg);
+    padding: var(--sp-xs) 0.15rem;
+}
+
+/* content divs need spacing for some of the other styling*/
+main > div,
+main > section > div {
+    margin-bottom: var(--sp-lg);
+}
+
+section {
+    margin-bottom: var(--sp-2xl);
+}
+
+/* heading + inline rows (title + edit/delete/create buttons) */
+.page-header {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-sm);
+    margin-bottom: var(--sp-md);
+}
+
+.page-header h1,
+.page-header h2,
+.page-header h3,
+.page-header span {
+    margin-bottom: 0;
+    margin-right: auto;
+}
+
+/* inline forms inside page-header should not go full-width block */
+.page-header form {
+    display: inline-flex !important;
+    align-items: center;
+    gap: var(--sp-xs);
+}
+
+/* inline forms (style="display:inline") should stay inline but not
+   force their parent to be horizontal */
+form[style*="display:inline"] {
+    display: inline-flex !important;
+    align-items: center;
+    gap: var(--sp-xs);
+}
+
+/* selects inside inline forms should not stretch full width */
+form[style*="display:inline"] select,
+.page-header form select {
+    width: auto;
+    min-width: 140px;
+}
+
+
+/* ---------- LOGIN / SIGNUP PAGES ---------- */
+.login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: var(--gray-950);
+}
+
+.login-container {
+    width: 100%;
+    max-width: 380px;
+    padding: var(--sp-2xl);
+    background: var(--white);
+    border: var(--border-heavy);
+    border-radius: var(--radius);
+}
+
+.login-container h1 {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: var(--sp-xs);
+}
+
+.login-container .subtitle {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--gray-500);
+    margin-bottom: var(--sp-xl);
+}
+
+.login-container p {
+    font-size: 0.85rem;
+    text-align: center;
+    margin-top: var(--sp-md);
+}
+
+
+/* ---------- ERROR PAGE ---------- */
+body > section {
+    /* error.ftlh uses bare <section> in <body> */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    text-align: center;
+}
+
+
+/* ---------- FORMS ---------- */
+label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gray-600);
+    margin-bottom: var(--sp-xs);
+    margin-top: var(--sp-md);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="file"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--gray-900);
+    background: var(--white);
+    border: var(--border);
+    border-radius: var(--radius);
+    transition: border-color 0.15s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--gray-800);
+    box-shadow: 0 0 0 2px var(--gray-100);
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+input[type="file"] {
+    padding: var(--sp-sm);
+    font-size: 0.8rem;
+    background: var(--gray-50);
+    cursor: pointer;
+}
+
+/* .request-form — used on several form pages */
+.request-form {
+    max-width: 540px;
+}
+
+
+/* ---------- BUTTONS ---------- */
+button {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.6rem 1.4rem;
+    color: var(--white);
+    background: var(--gray-900);
+    border: 2px solid var(--gray-900);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+button:hover {
+    background: var(--black);
+    border-color: var(--black);
+}
+
+/* secondary / inline buttons (remove, cancel, etc.) */
+form[style*="display:inline"] button,
+table button {
+    font-size: 0.7rem;
+    padding: 0.35rem 0.85rem;
+    color: var(--gray-600);
+    background: transparent;
+    border: 1px solid var(--gray-300);
+}
+
+form[style*="display:inline"] button:hover,
+table button:hover {
+    color: var(--gray-900);
+    border-color: var(--gray-700);
+    background: var(--gray-50);
+}
+
+/* .submit-btn — primary action */
+.submit-btn {
+    margin-top: var(--sp-lg);
+    width: 100%;
+    padding: 0.7rem;
+}
+
+
+/* ---------- TABLES ---------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--sp-lg);
+    font-size: 0.88rem;
+}
+
+thead {
+    border-bottom: var(--border-heavy);
+}
+
+th {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray-500);
+    text-align: left;
+    padding: var(--sp-sm) var(--sp-md);
+    font-weight: 600;
+}
+
+td {
+    padding: var(--sp-sm) var(--sp-md);
+    border-bottom: 1px solid var(--gray-100);
+    color: var(--gray-700);
+    vertical-align: middle;
+}
+
+tbody tr:hover {
+    background: var(--gray-50);
+}
+
+td a {
+    font-weight: 500;
+}
+
+th a {
+    color: var(--gray-500);
+    border-bottom: 1px dashed var(--gray-400);
+    font-size: inherit;
+    text-transform: inherit;
+    letter-spacing: inherit;
+}
+
+th a:hover {
+    color: var(--gray-900);
+    border-bottom-color: var(--gray-900);
+}
+
+
+/* ---------- CARDS ---------- */
+.card {
+    padding: var(--sp-lg);
+    border: var(--border);
+    border-left: 3px solid var(--gray-800);
+    border-radius: var(--radius);
+    margin-bottom: var(--sp-md);
+    background: var(--white);
+    transition: border-left-color 0.15s ease;
+}
+
+.card:hover {
+    border-left-color: var(--black);
+    background: var(--gray-50);
+}
+
+.card h3 {
+    text-transform: none;
+    letter-spacing: -0.01em;
+    font-size: 1rem;
+}
+
+.card p {
+    font-size: 0.85rem;
+    margin-bottom: var(--sp-xs);
+}
+
+.card img {
+    border: var(--border);
+    border-radius: var(--radius);
+    margin-top: var(--sp-sm);
+}
+
+
+/* ---------- REQUEST CARD ---------- */
+.request-card {
+    padding: var(--sp-lg);
+    border: var(--border);
+    border-left: 3px solid var(--gray-700);
+    border-radius: var(--radius);
+    margin-bottom: var(--sp-md);
+    background: var(--white);
+}
+
+.request-card h1 {
+    font-size: 1.35rem;
+    margin-bottom: var(--sp-sm);
+}
+
+.request-card h3 {
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 1rem;
+    margin-bottom: var(--sp-xs);
+}
+
+.request-card p {
+    font-size: 0.85rem;
+    margin-bottom: var(--sp-xs);
+}
+
+.request-card a {
+    display: inline-block;
+    margin-top: var(--sp-sm);
+    margin-right: var(--sp-md);
+    padding: var(--sp-xs) 0.15rem;
+}
+
+.request-card.completed {
+    border-left-color: var(--gray-300);
+    opacity: 0.7;
+}
+
+.request-card.cancelled {
+    border-left-color: var(--gray-200);
+    opacity: 0.5;
+}
+
+
+/* ---------- ACTIONS SECTION (viewTicket) ---------- */
+.actions {
+    margin-top: var(--sp-xl);
+    padding: var(--sp-lg);
+    border: var(--border);
+    border-radius: var(--radius);
+    background: var(--gray-50);
+}
+
+.actions h3 {
+    margin-bottom: var(--sp-md);
+}
+
+.actions form {
+    margin-right: var(--sp-sm);
+    margin-bottom: var(--sp-sm);
+}
+
+.actions select {
+    width: auto;
+    display: inline-block;
+    min-width: 150px;
+    margin-right: var(--sp-xs);
+}
+
+.actions a {
+    display: inline-block;
+    margin-top: var(--sp-md);
+    padding: var(--sp-xs) 0.15rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+
+/* ---------- TABS (request.ftlh) ---------- */
+.tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: var(--sp-lg);
+    border-bottom: var(--border-heavy);
+}
+
+.tabs button {
+    background: transparent;
+    color: var(--gray-500);
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    padding: var(--sp-sm) var(--sp-lg);
+    font-size: 0.75rem;
+}
+
+.tabs button:hover {
+    color: var(--gray-900);
+    background: transparent;
+    border-bottom-color: var(--gray-900);
+}
+
+.tab-content {
+    min-height: 100px;
+}
+
+
+/* ---------- STATUS BADGES ---------- */
+.status {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    border: 1px solid var(--gray-300);
+    background: var(--gray-50);
+    color: var(--gray-600);
+}
+
+.status.pending {
+    border-color: var(--gray-400);
+    color: var(--gray-700);
+}
+
+
+/* ---------- OVERVIEW SECTION ---------- */
+.overview {
+    margin-bottom: var(--sp-xl);
+}
+
+
+/* ---------- ERROR MESSAGES ---------- */
+.error {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--gray-900);
+    background: var(--gray-100);
+    border: 1px solid var(--gray-700);
+    border-left: 3px solid var(--gray-900);
+    padding: var(--sp-sm) var(--sp-md);
+    margin-bottom: var(--sp-md);
+    border-radius: var(--radius);
+}
+
+.error-message {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--gray-900);
+    background: var(--gray-100);
+    border: 1px solid var(--gray-700);
+    border-left: 3px solid var(--gray-900);
+    padding: var(--sp-sm) var(--sp-md);
+    margin-bottom: var(--sp-md);
+    border-radius: var(--radius);
+}
+
+
+/* ---------- CHAT ---------- */
+.chat-container {
+    border: var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-top: var(--sp-md);
+}
+
+.chat-window {
+    height: 450px;
+    overflow-y: auto;
+    padding: var(--sp-lg);
+    background: var(--gray-50);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+}
+
+.message {
+    max-width: 75%;
+    padding: var(--sp-sm) var(--sp-md);
+    border-radius: var(--radius);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    border: var(--border);
+}
+
+.message.tenant {
+    align-self: flex-end;
+    background: var(--gray-900);
+    color: var(--gray-100);
+    border-color: var(--gray-800);
+}
+
+.message.tenant p {
+    color: var(--gray-100);
+}
+
+.message.maintenance {
+    align-self: flex-start;
+    background: var(--white);
+    color: var(--gray-800);
+}
+
+.chat-input {
+    display: flex;
+    gap: var(--sp-sm);
+    padding: var(--sp-md);
+    border-top: var(--border);
+    background: var(--white);
+    align-items: center;
+}
+
+.chat-input input[type="text"] {
+    flex: 1;
+}
+
+.chat-input input[type="file"] {
+    width: auto;
+    flex: 0 0 auto;
+    font-size: 0.75rem;
+    padding: var(--sp-xs) var(--sp-sm);
+}
+
+.chat-input button {
+    flex-shrink: 0;
+}
+
+/* media previews in chat */
+.chat-media-preview {
+    margin-top: var(--sp-xs);
+}
+
+.chat-image-thumb {
+    max-width: 200px;
+    max-height: 160px;
+    border: var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+}
+
+.chat-image-thumb:hover {
+    opacity: 0.85;
+}
+
+.chat-video-thumb {
+    max-width: 260px;
+    border: var(--border);
+    border-radius: var(--radius);
+}
+
+
+/* ---------- IMAGE OVERLAY ---------- */
+.image-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(10, 10, 10, 0.88);
+    align-items: center;
+    justify-content: center;
+}
+
+.image-overlay.active {
+    display: flex;
+}
+
+body.overlay-open {
+    overflow: hidden;
+}
+
+.image-overlay-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+.image-overlay-img {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border: 2px solid var(--gray-700);
+    border-radius: var(--radius);
+}
+
+.image-overlay-close {
+    position: absolute;
+    top: -2rem;
+    right: 0;
+    background: transparent;
+    color: var(--gray-300);
+    border: none;
+    font-size: 1.25rem;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+}
+
+.image-overlay-close:hover {
+    color: var(--white);
+    background: transparent;
+}
+
+
+/* ---------- EMBEDDED PDF ---------- */
+embed {
+    border: var(--border);
+    border-radius: var(--radius);
+    margin-top: var(--sp-md);
+}
+
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 640px) {
+    html { font-size: 14px; }
+
+    nav {
+        flex-wrap: wrap;
+        gap: var(--sp-sm);
+        padding: var(--sp-sm) var(--sp-md);
+    }
+
+    main {
+        padding: var(--sp-lg) var(--sp-md);
+    }
+
+    table {
+        font-size: 0.8rem;
+    }
+
+    th, td {
+        padding: var(--sp-xs) var(--sp-sm);
+    }
+
+    .chat-window {
+        height: 320px;
+    }
+
+    .message {
+        max-width: 90%;
+    }
+
+    .chat-input {
+        flex-wrap: wrap;
+    }
+
+    .login-container {
+        margin: var(--sp-md);
+        padding: var(--sp-lg);
+    }
+
+    .actions form {
+        display: block;
+        margin-bottom: var(--sp-sm);
+    }
+
+    .actions select {
+        width: 100%;
+        margin-bottom: var(--sp-xs);
+    }
+}

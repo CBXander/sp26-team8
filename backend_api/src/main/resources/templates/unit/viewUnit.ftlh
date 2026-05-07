@@ -30,13 +30,9 @@
 
     <div>
         <h3>Fixtures</h3>
-        <form action="/units/${unit.unitId}/fixtures/${fixture.fixtureId}/remove" method="post" style="display:inline;">
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-                        <button type="submit">Remove</button>
-                    </form>
         <#if unit.fixtures??>
             <#list unit.fixtures as fixture>
-                <div>
+                <div class="page-header">
                     <span>${fixture.title} - ${fixture.description}</span>
                     <form action="/units/${unit.unitId}/fixtures/${fixture.fixtureId}/remove" method="post" style="display:inline;">
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">

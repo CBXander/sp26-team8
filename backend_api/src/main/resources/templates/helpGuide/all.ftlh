@@ -1,12 +1,13 @@
 <#import "/defaultlayout.ftlh" as layout>
 <@layout.page title="HelpGuides">
     <section>
-        <h1>HelpGuides</h1>
-        <!--LANDLORD-->
         <#if role == "LANDLORD">
-            <form action="/helpGuides/new" method="get">
-                <button type="submit">Create</button>
-            </form>
+            <div class="page-header">
+                <h1>HelpGuides</h1>
+                <form action="/helpGuides/new" method="get">
+                    <button type="submit">Create</button>
+                </form>
+            </div>
             <#if helpGuides??>
                 <#list helpGuides as guide>
                 <div class="card">
@@ -27,6 +28,7 @@
                 </#list>
             </#if>
         <#elseif role == "TENANT">
+            <h1>HelpGuides</h1>
             <#if fixtures??>
                 <#list fixtures as fixture>
                     <div>

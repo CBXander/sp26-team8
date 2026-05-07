@@ -1,12 +1,14 @@
 <#import "/defaultlayout.ftlh" as layout>
 <@layout.page title="Tickets">
     <section>
-        <h1>Tickets</h1>
-        <#if role == "TENANT">
-            <form action="/tickets/request" method="get">
-                <button type="submit">Create a maintenance request</button>
-            </form>
-        </#if>
+        <div class="page-header">
+            <h1>Tickets</h1>
+            <#if role == "TENANT">
+                <form action="/tickets/request" method="get">
+                    <button type="submit">Create a maintenance request</button>
+                </form>
+            </#if>
+        </div>
         <table>
             <thead>
                 <tr>
