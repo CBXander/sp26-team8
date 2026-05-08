@@ -63,7 +63,6 @@
   Scenario: Tenant receives status update notification
     Given the tenant has submitted a maintenance request
     When  the status of the request changes
-    Then  the ticket moves to
   ```
 
 - **US‑TENA‑003 — Cancel Request**  
@@ -125,7 +124,7 @@
     When  the tenant accesses the dashboard
     Then  the system displays the tenant's maintenance information
   ```
-- **US‑TENA-008 — Communication with management**  
+- **US‑TENA-009 — Communication with management**  
   _Story:_ As a tenant, I want to chat with maintenance, so that I can communitcate issues. 
   _Acceptance:_
   ```gherkin
